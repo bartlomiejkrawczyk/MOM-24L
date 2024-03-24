@@ -169,7 +169,7 @@ flowchart LR
 
 ### Zbiory
 
-- $V = {s, A, B, C, D, E, F, G, H, t}$ - zbiór wszystkich węzłów sieci przepływowej,
+- $V = \{s, A, B, C, D, E, F, G, H, t\}$ - zbiór wszystkich węzłów sieci przepływowej,
 - $U = V \setminus \{s, t\}$ - zbiór węzłów sieci przepływowej z wyłączeniem źródła $s$ i ujścia $t$,
 - $E \subset V \times V$ - zbiór łuków dostępnych w danej sieci przepływowej.
 
@@ -269,15 +269,16 @@ Softwarehouse posiada portfel projektów oznaczonych 1-6 oraz zespoły programis
 oznaczone A-F. Poniża tabela przedstawia kompetencje zespołów, gdzie „-„ oznacza brak
 kompetencji zespołu do realizacji danego projektu.
 
+Kompetencje zespołów:
 
-projekty \ zespoły | A | B | C | D | E | F
--------------------|---|---|---|---|---|--
-1                  | X | - | X | X | - | X
-2                  | - | X | X | - | X | -
-3                  | X | X | - | X | - | -
-4                  | - | X | X | - | X | -
-5                  | X | - | X | X | - | X
-6                  | X | - | - | - | X | X
+projekt \ zespół | A | B | C | D | E | F
+-----------------|---|---|---|---|---|--
+1                | X | - | X | X | - | X
+2                | - | X | X | - | X | -
+3                | X | X | - | X | - | -
+4                | - | X | X | - | X | -
+5                | X | - | X | X | - | X
+6                | X | - | - | - | X | X
 
 Należy dokonać przydziału zespołów programistycznych do poszczególnych projektów, przy
 założeniu, że jeden zespół może realizować tylko jeden projekt, a jeden projekt może być
@@ -383,14 +384,14 @@ Problem do rozwiązania w tym zadaniu to zadanie maksymalnego skojarzenia (przyd
 
 Rozwiązanie znalezione ręcznie:
 
-projekty \ zespoły | A | B | C | D | E | F
--------------------|---|---|---|---|---|--
-1                  | X | - | - | - | - | -
-2                  | - | - | X | - | - | -
-3                  | - | X | - | - | - | -
-4                  | - | - | - | - | X | -
-5                  | - | - | - | X | - | -
-6                  | - | - | - | - | - | X
+projekt \ zespół | A | B | C | D | E | F
+-----------------|---|---|---|---|---|--
+1                | X | - | - | - | - | -
+2                | - | - | X | - | - | -
+3                | - | X | - | - | - | -
+4                | - | - | - | - | X | -
+5                | - | - | - | X | - | -
+6                | - | - | - | - | - | X
 
 
 ```mermaid
@@ -472,3 +473,142 @@ projekt | zespół
 5       | D
 6       | F
 
+2. Minimalizacja kosztów realizacji projektów
+
+Zakładamy, że firma wynajmuje zespoły do realizacji projektów. Koszty wynajmu są podane w
+poniższej tabeli.
+
+Koszty wykonywania projektów przez poszczególne zespoły:
+
+projekt \ zespół | A  | B  | C  | D  | E  | F
+-----------------|----|----|----|----|----|---
+1                | 15 | -  | 14 | 9  | -  | 12
+2                | -  | 12 | 16 | -  | 10 | -
+3                | 11 | 14 | -  | 12 | -  | -
+4                | -  | 16 | 11 | -  | 12 | -
+5                | 13 | -  | 17 | 13 | -  | 15
+6                | 11 | -  | -  | -  | 16 | 18
+
+Należy dokonać przydziału zespołów programistycznych do projektów tak, aby
+minimalizować koszty najmu zespołów. Ograniczenia dotyczące jednego zespołu i jednego
+projektu pkt. 2.1 dalej obowiązują. W tym celu:
+- narysować model sieciowy problemu
+- określić jaki problem należy rozwiązać na tym modelu sieciowym
+- spróbować znaleźć jak najlepsze rozwiązanie
+
+> narysować model sieciowy problemu
+
+```mermaid
+%%{init:{'theme':'forest', 'flowchart': {'curve':'monotoneX'}}}%%
+%% basis, bumpX, linear, monotoneX
+%% basis, bumpX, bumpY, cardinal, catmullRom, linear, monotoneX, monotoneY, natural, step, stepAfter, stepBefore
+flowchart LR
+    s((s))
+
+    1((1))
+    2((2))
+    3((3))
+    4((4))
+    5((5))
+    6((6))
+
+    A((A))
+    B((B))
+    C((C))
+    D((D))
+    E((E))
+    F((F))
+
+    t((t))
+
+    s --0--> 1
+    s --0--> 2
+    s --0--> 3
+    s --0--> 4
+    s --0--> 5
+    s --0--> 6
+
+    1 --15----> A
+    1 --14----> C
+    1 --9----> D
+    1 --12----> F
+
+    linkStyle 6,7,8,9 stroke:#e81416 ;
+    style 1 fill:#e81416,stroke:#000 ;
+
+    2 --12----> B
+    2 --16----> C
+    2 --10----> E
+
+    linkStyle 10,11,12 stroke:#ffa500 ;
+    style 2 fill:#ffa500,stroke:#000 ;
+
+    3 --11----> A
+    3 --14----> B
+    3 --12----> D
+
+    linkStyle 13,14,15 stroke:#faeb36 ;
+    style 3 fill:#faeb36,stroke:#000 ;
+
+    4 --16----> B
+    4 --11----> C
+    4 --12----> E
+
+    linkStyle 16,17,18 stroke:#79c314 ;
+    style 4 fill:#79c314,stroke:#000 ;
+
+    5 --13----> A
+    5 --17----> C
+    5 --13----> D
+    5 --15----> F
+
+    linkStyle 19,20,21,22 stroke:#487de7 ;
+    style 5 fill:#487de7,stroke:#000 ;
+
+    6 --11----> A
+    6 --16----> E
+    6 --18----> F
+
+    linkStyle 23,24,25 stroke:#4b369d ;
+    style 6 fill:#4b369d,stroke:#000 ;
+
+    A --0--> t
+    B --0--> t
+    C --0--> t
+    D --0--> t
+    E --0--> t
+    F --0--> t
+```
+
+Każdy łuk ma maksymalną przepustowość równą **1**.
+
+> określić jaki problem należy rozwiązać na tym modelu sieciowym
+
+Problemem do rozwiązania jest **zadanie najtańszego skojarzenia**.
+
+- Przydzielamy projekty do zespołów
+- Każdy projekt wymaga jednego z zespołów
+- Każdy zespół może realizować tylko jeden projekt
+- Trzeba zrealizować wszystkie projekty
+- Każdy zespół realizujący projekt ma ustaloną cenę za realizację tego projektu
+
+> spróbować znaleźć jak najlepsze rozwiązanie
+
+Najlepszym znalezionym algorytmicznie rozwiązaniem jest przydział o koszcie całkowitym **70**:
+
+: | A  | B  | C  | D | E  | F
+--|----|----|----|---|----|---
+1 | -  | -  | -  | 9 | -  | -
+2 | -  | -  | -  | - | 10 | -
+3 | -  | 14 | -  | - | -  | -
+4 | -  | -  | 11 | - | -  | -
+5 | -  | -  | -  | - | -  | 15
+6 | 11 | -  | -  | - | -  | -
+
+3. Minimalizacja terminu realizacji puli projektów
+
+Załóżmy teraz, że dane podane w tabeli 2 to czasy (w miesiącach) realizacji projektów przez
+poszczególne zespoły. Ograniczenia dotyczące jednego zespołu i jednego projektu pkt. 2.1
+dalej obowiązują. Zaproponować model programowania liniowego minimalizujący termin
+realizacji całego portfela projektów (jest to termin zdeterminowany przez najdłużej
+wykonywany projekt).
