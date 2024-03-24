@@ -381,4 +381,94 @@ Problem do rozwiązania w tym zadaniu to zadanie maksymalnego skojarzenia (przyd
 - Każdy projekt wymaga jednego zespołu
 - Każdy zespół może realizować maksymalnie jeden projekt
 
+Rozwiązanie znalezione ręcznie:
+
+projekty \ zespoły | A | B | C | D | E | F
+-------------------|---|---|---|---|---|--
+1                  | X | - | - | - | - | -
+2                  | - | - | X | - | - | -
+3                  | - | X | - | - | - | -
+4                  | - | - | - | - | X | -
+5                  | - | - | - | X | - | -
+6                  | - | - | - | - | - | X
+
+
+```mermaid
+%%{init:{'theme':'forest', 'flowchart': {'curve':'monotoneX'}}}%%
+%% basis, bumpX, linear, monotoneX
+%% basis, bumpX, bumpY, cardinal, catmullRom, linear, monotoneX, monotoneY, natural, step, stepAfter, stepBefore
+flowchart LR
+    s((s))
+
+    1((1))
+    2((2))
+    3((3))
+    4((4))
+    5((5))
+    6((6))
+
+    A((A))
+    B((B))
+    C((C))
+    D((D))
+    E((E))
+    F((F))
+
+    t((t))
+
+    s --> 1
+    s --> 2
+    s --> 3
+    s --> 4
+    s --> 5
+    s --> 6
+
+    1 ----> A
+
+    linkStyle 6 stroke:#e81416 ;
+    style 1 fill:#e81416,stroke:#000 ;
+
+    2 ----> C
+
+    linkStyle 7 stroke:#ffa500 ;
+    style 2 fill:#ffa500,stroke:#000 ;
+
+    3 ----> B
+
+    linkStyle 8 stroke:#faeb36 ;
+    style 3 fill:#faeb36,stroke:#000 ;
+
+    4 ----> E
+
+    linkStyle 9 stroke:#79c314 ;
+    style 4 fill:#79c314,stroke:#000 ;
+
+    5 ----> D
+
+    linkStyle 10 stroke:#487de7 ;
+    style 5 fill:#487de7,stroke:#000 ;
+
+    6 ----> F
+
+    linkStyle 11 stroke:#4b369d ;
+    style 6 fill:#4b369d,stroke:#000 ;
+
+    A --> t
+    B --> t
+    C --> t
+    D --> t
+    E --> t
+    F --> t
+```
+
 > na podstawie rozwiązania modelu sieciowego określić przydział zespołów do projektów
+
+projekt | zespół
+--------|-------
+1       | A
+2       | C
+3       | B
+4       | E
+5       | D
+6       | F
+
