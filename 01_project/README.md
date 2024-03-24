@@ -286,3 +286,99 @@ realizowany przez tylko jeden zespół. W tym celu:
 - narysować model sieciowy problemu
 - określić jaki problem należy rozwiązać i znaleźć ręcznie rozwiązanie
 - na podstawie rozwiązania modelu sieciowego określić przydział zespołów do projektów
+
+> narysować model sieciowy problemu
+
+```mermaid
+%%{init:{'theme':'forest', 'flowchart': {'curve':'monotoneX'}}}%%
+%% basis, bumpX, linear, monotoneX
+%% basis, bumpX, bumpY, cardinal, catmullRom, linear, monotoneX, monotoneY, natural, step, stepAfter, stepBefore
+flowchart LR
+    s((s))
+
+    1((1))
+    2((2))
+    3((3))
+    4((4))
+    5((5))
+    6((6))
+
+    A((A))
+    B((B))
+    C((C))
+    D((D))
+    E((E))
+    F((F))
+
+    t((t))
+
+    s --> 1
+    s --> 2
+    s --> 3
+    s --> 4
+    s --> 5
+    s --> 6
+
+    1 ----> A
+    1 ----> C
+    1 ----> D
+    1 ----> F
+
+    linkStyle 6,7,8,9 stroke:#e81416 ;
+    style 1 fill:#e81416,stroke:#000 ;
+
+    2 ----> B
+    2 ----> C
+    2 ----> E
+
+    linkStyle 10,11,12 stroke:#ffa500 ;
+    style 2 fill:#ffa500,stroke:#000 ;
+
+    3 ----> A
+    3 ----> B
+    3 ----> D
+
+    linkStyle 13,14,15 stroke:#faeb36 ;
+    style 3 fill:#faeb36,stroke:#000 ;
+
+    4 ----> B
+    4 ----> C
+    4 ----> E
+
+    linkStyle 16,17,18 stroke:#79c314 ;
+    style 4 fill:#79c314,stroke:#000 ;
+
+    5 ----> A
+    5 ----> C
+    5 ----> D
+    5 ----> F
+
+    linkStyle 19,20,21,22 stroke:#487de7 ;
+    style 5 fill:#487de7,stroke:#000 ;
+
+    6 ----> A
+    6 ----> E
+    6 ----> F
+
+    linkStyle 23,24,25 stroke:#4b369d ;
+    style 6 fill:#4b369d,stroke:#000 ;
+
+    A --> t
+    B --> t
+    C --> t
+    D --> t
+    E --> t
+    F --> t
+```
+
+Każdy łuk ma maksymalną przepustowość równą **1**.
+
+> określić jaki problem należy rozwiązać i znaleźć ręcznie rozwiązanie
+
+Problem do rozwiązania w tym zadaniu to zadanie maksymalnego skojarzenia (przydziału).
+
+- Przydzielamy projekty do zespołów
+- Każdy projekt wymaga jednego zespołu
+- Każdy zespół może realizować maksymalnie jeden projekt
+
+> na podstawie rozwiązania modelu sieciowego określić przydział zespołów do projektów
