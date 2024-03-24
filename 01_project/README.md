@@ -228,7 +228,7 @@ $$
 
 - Przepływ nie może być negatywny:
 $$
-f_{uv} \ge 0
+\forall{(u, v) \in E} : f_{uv} \ge 0
 $$
 
 - Całkowity koszt jest sumą kosztu wszystkich przepływów:
@@ -612,3 +612,117 @@ poszczególne zespoły. Ograniczenia dotyczące jednego zespołu i jednego proje
 dalej obowiązują. Zaproponować model programowania liniowego minimalizujący termin
 realizacji całego portfela projektów (jest to termin zdeterminowany przez najdłużej
 wykonywany projekt).
+
+### Zbiory
+
+- $V = \{s, 1, 2, 3, 4, 5, 6, A, B, C, D, E, F, t\}$ - zbiór wszystkich węzłów sieci przepływowej,
+- $U = V \setminus \{s, t\}$ - zbiór węzłów sieci przepływowej z wyłączeniem źródła $s$ i ujścia $t$,
+- $E \subset V \times V$ - zbiór łuków dostępnych w danej sieci przepływowej.
+
+$$
+V = \{s, 1, 2, 3, 4, 5, 6, A, B, C, D, E, F, t\}
+$$
+$$
+U = \{1, 2, 3, 4, 5, 6, A, B, C, D, E, F\}
+$$
+$$
+E = \{
+    (s, 1), (s, 2), (s, 3), (s, 4), (s, 5), (s, 6), \\
+    (1, A), (1, C), (1, D), (1, F), \\
+    (2, B), (2, C), (2, E), \\
+    (3, A), (3, B), (3, D), \\
+    (4, B), (4, C), (4, E), \\
+    (5, A), (5, C), (5, D), (5, F), \\
+    (6, A), (6, E), (6, F), \\
+    (A, t), (B, t), (C, t), (D, t), (E, t), (F, t), 
+\}
+$$
+
+### Parametry
+
+- $F_{zadane} = 6$ - ilość projektów - każdy musi być zrealizowany.
+- $c_{uv} = 1\ dla (u, v) \in E$ - przepustowość ustalona dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $c_{uv} = 0$,
+- $d_{uv}\ dla (u, v) \in E$ - czas realizacji (w miesiącach) ustalony dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $d_{uv} = 0$.
+
+$$
+c_{s1} = 1, c_{s2} = 1, c_{s3} = 1, c_{s4} = 1, c_{s5} = 1, c_{s6} = 1, \\
+c_{1A} = 1, c_{1C} = 1, c_{1D} = 1, c_{1F} = 1, \\
+c_{2B} = 1, c_{2C} = 1, c_{2E} = 1, \\
+c_{3A} = 1, c_{3B} = 1, c_{3D} = 1, \\
+c_{4B} = 1, c_{4C} = 1, c_{4E} = 1, \\
+c_{5A} = 1, c_{5C} = 1, c_{5D} = 1, c_{5F} = 1, \\
+c_{6A} = 1, c_{6E} = 1, c_{6F} = 1, \\
+c_{At} = 1, c_{Bt} = 1, c_{Ct} = 1, c_{Dt} = 1, c_{Et} = 1, c_{Ft} = 1
+$$
+
+$$
+d_{s1} = 0, d_{s2} = 0, d_{s3} = 0, d_{s4} = 0, d_{s5} = 0, d_{s6} = 0, \\
+d_{1A} = 15, d_{1C} = 14, d_{1D} = 9, d_{1F} = 12, \\
+d_{2B} = 12, d_{2C} = 16, d_{2E} = 10, \\
+d_{3A} = 11, d_{3B} = 14, d_{3D} = 12, \\
+d_{4B} = 16, d_{4C} = 11, d_{4E} = 12, \\
+d_{5A} = 13, d_{5C} = 17, d_{5D} = 13, d_{5F} = 15, \\
+d_{6A} = 11, d_{6E} = 16, d_{6F} = 18, \\
+d_{At} = 0, d_{Bt} = 0, d_{Ct} = 0, d_{Dt} = 0, d_{Et} = 0, d_{Ft} = 0, 
+$$
+
+### Zmienne decyzyjne
+
+- $f_{uv}\ dla (u, v) \in E$ - przepływ przez łuk rozpoczynający się w węźle $u$ i kończącego się w węźle $v$,
+- $D$ - zmienna pomocnicza - całkowity czas realizacji.
+
+### Funkcja oceny
+
+- $min(D)$ - minimalizujemy całkowity całkowity czas realizacji.
+
+### Ograniczenia
+
+- Projekt w całości może być realizowany tylko przez jeden zespół - przepływ jest liczbą całkowitą z przedziału [0; 1]:
+$$
+\forall{(u, v) \in E} : f_{uv} \in {0, 1}
+$$
+
+- Całkowity czas realizacji jest większy lub równy poszczególnym czasom realizacji projektów:
+$$
+\forall{(u, v) \in E} : D \ge d_{uv} f_{uv}
+$$
+
+- Zespoły muszą zrealizować $F_{zadane}$ projektów - ze źródła $s$ wypływa $F_{zadane}$ jednostek:
+$$
+\sum_{z \in V} f_{sz} = F_{zadane}
+$$
+
+- Suma wpływających jednostek i wypływających z danego węzła powinna być równa (wyjątkiem jest źródło $s$ i ujście $t$):
+$$
+\forall{v \in U} : \sum_{z \in V} f_{vz} = \sum_{u \in V} f_{uv}
+$$
+
+- Przepływ przez dany łuk nie może przekroczyć maksymalnego przepływu:
+
+$$
+\forall{(u, v) \in E} : f_{uv} \le c_{uv}
+$$
+
+### Wynik
+
+TODO
+
+projekt / zespół | A | B | C | D | E | F
+-----------------|---|---|---|---|---|--
+1                | 0 | 0 | 0 | 0 | 0 | X
+2                | 0 | 0 | 0 | 0 | X | 0
+3                | 0 | X | 0 | 0 | 0 | 0
+4                | 0 | 0 | X | 0 | 0 | 0
+5                | 0 | 0 | 0 | X | 0 | 0
+6                | X | 0 | 0 | 0 | 0 | 0
+
+total_time = 14
+
+projekt | zespół | czas realizacji
+--------|--------|----------------
+1       | F      | 12
+2       | E      | 10
+3       | B      | 14
+4       | C      | 11
+5       | D      | 13
+6       | A      | 11
