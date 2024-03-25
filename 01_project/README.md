@@ -705,18 +705,16 @@ $$
 
 ### Wynik
 
-TODO
+Rozwiązaniem algorytmicznym otrzymujemy przydział prowadzący do realizacji w przeciągu **14** miesięcy:
 
 projekt / zespół | A | B | C | D | E | F
 -----------------|---|---|---|---|---|--
-1                | 0 | 0 | 0 | 0 | 0 | X
-2                | 0 | 0 | 0 | 0 | X | 0
-3                | 0 | X | 0 | 0 | 0 | 0
-4                | 0 | 0 | X | 0 | 0 | 0
-5                | 0 | 0 | 0 | X | 0 | 0
-6                | X | 0 | 0 | 0 | 0 | 0
-
-total_time = 14
+1                | - | - | - | - | - | X
+2                | - | - | - | - | X | -
+3                | - | X | - | - | - | -
+4                | - | - | X | - | - | -
+5                | - | - | - | X | - | -
+6                | X | - | - | - | - | -
 
 projekt | zespół | czas realizacji
 --------|--------|----------------
