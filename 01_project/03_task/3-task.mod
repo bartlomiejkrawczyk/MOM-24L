@@ -20,7 +20,7 @@ var max_deviation >= 0;
 #############################################################################
 
 subject to deviation_constraint{p in POINTS}:
-    plan_deviation[p] = BASE_PLAN[p] - plan[p];
+    plan_deviation[p] = plan[p] - BASE_PLAN[p];
 
 subject to plan_deviation_constraint{p in POINTS}:
 	plan_deviation[p] = deviation[p, 1] - deviation[p, -1];

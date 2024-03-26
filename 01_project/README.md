@@ -1,6 +1,6 @@
 ---
 title: "Modelowanie Matematyczne - Projekt 1"
-author: Bartłomiej Krawczyk
+author: Bartłomiej Krawczyk, 310774
 geometry: margin=2cm
 header-includes:
     - \usepackage{float}
@@ -751,7 +751,7 @@ $$
 
 - Projekt w całości może być realizowany tylko przez jeden zespół - przepływ jest liczbą całkowitą z przedziału [0; 1]:
 $$
-\forall{(u, v) \in E} : f_{uv} \in {0, 1}
+\forall{(u, v) \in E} : f_{uv} \in \{0, 1\}
 $$
 
 - Całkowity czas realizacji jest większy lub równy poszczególnym czasom realizacji projektów:
@@ -863,10 +863,10 @@ $$
 \forall{p \in P} : x_{p} \ge 0
 $$
 
-- Odchylenie od planowanej ilości bazowej to różnica ilości bazowej i planowanej:
+- Odchylenie od planowanej ilości bazowej to różnica ilości planowanej i bazowej:
 
 $$
-\forall{p \in P} : y_{p} = b_p - x_p
+\forall{p \in P} : y_{p} = x_p - b_p
 $$
 
 - Odchyłka dodatnia nie może być ujemna:
@@ -896,7 +896,7 @@ $$
 - Suma względnych odchyleń jest równa sumie wartości bezwględnych każdego z odchyleń:
 
 $$
-y_{sum} = \sum{p \in P} y_{p}^+ + y_{p}^-
+y_{sum} = \sum_{p \in P} y_{p}^+ + y_{p}^-
 $$
 
 - Suma towaru dostarczonego do punktów $1, 3, 8$ ma być przynajmniej o $12\%$ większa niż w planie bazowym:
@@ -927,7 +927,7 @@ punkt       | 1     | 2   | 3      | 4   | 5     | 6   | 7      | 8
 ------------|-------|-----|--------|-----|-------|-----|--------|------
 bazowy plan | 240   | 385 | 138    | 224 | 144   | 460 | 198    | 200
 plan        | 269.7 | 385 | 147.96 | 224 | 114.3 | 460 | 184.95 | 229.7
-odchylenie  | -29.7 | 0   | -9.96  | 0   | 29.7  | 0   | 13.05  | -29.7
+odchylenie  | 29.7  | 0   | 9.96   | 0   | -29.7 | 0   | -13.05 | 29.7
 
 Dla przyjętego $c_1 = 0.001, c_2 = 1$ - preferujemy minimalizację sumy względnych odchyleń nad minimalizacją maksymalnego względnego odchylenia. Otrzymujemy w rezultacie plan o maksymalnym odchyleniu $y_{max} = 40.14$ i sumie odchyleń równej $y_{sum} = 109.5$.
 
@@ -935,4 +935,4 @@ punkt       | 1      | 2   | 3     | 4   | 5      | 6   | 7   | 8
 ------------|--------|-----|-------|-----|--------|-----|-----|-------
 bazowy plan | 240    | 385 | 138   | 224 | 144    | 460 | 198 | 200
 plan        | 248.82 | 385 | 158.4 | 224 | 103.86 | 460 | 198 | 240.14
-odchylenie  | -8.82  | 0   | -20.4 | 0   | 40.14  | 0   | 0   | -40.14
+odchylenie  | 8.82   | 0   | 20.4  | 0   | -40.14 | 0   | 0   | 40.14
