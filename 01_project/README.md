@@ -799,3 +799,29 @@ projekt | zespół | czas realizacji
 
 ## Zadanie 3
 
+Pewna firma FMCG planuje sprzedaż jednego produktu. Produkt jest dostarczany do 8 punktów
+sprzedaży. Na podstawie danych historycznych (lub prognozowanych) utworzony tzw. plan bazowy
+dostaw opisujący ilości produktu, które były (powinny być) dostarczane do każdego punktu. Jest on
+następujący:
+
+punkt | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8
+------|-----|-----|-----|-----|-----|-----|-----|----
+ilość | 240 | 385 | 138 | 224 | 144 | 460 | 198 | 200
+
+Jednak ze względu na akcje marketingowe oraz różnego rodzaju umowy/ustalenia z handlowcami tego
+produktu wprowadzono różnego rodzaju modyfikacje ww. planu bazowego w formie zagregowanych
+ograniczeń eksperckich:
+1. Suma towaru dostarczonego do punktów 1, 3, 8 ma być przynajmniej o 12% większa niż planie bazowym.
+2. Suma towaru dostarczonego do punktów 3, 5 ma być przynajmniej o 7% mniejsza niż w planie bazowym.
+3. Ilość towaru dostarczonego do punktu 3 ma stanowić przynajmniej 80% towaru
+dostarczonego do punktu 7.
+
+Zakładając, że sumaryczna wielkość sprzedaży produktu we wszystkich punktach nie może zostać
+zmieniona, należy zaplanować wielkość sprzedaży w poszczególnych punktach minimalizującą
+względne odchylenie (upewnij się, że dobrze rozumiesz „względne odchylenie”) od planu bazowego
+(a dokładnie - wartość bezwzględną względnego odchylenia). Ponieważ jest 8 względnych odchyleń
+(kryteriów), należy sformułować własną funkcję celu, która jest sumą ważoną dwóch składników: 1)
+maksymalnego względnego odchylenia pośród 8 odchyleń, 2) sumy wszystkich względnych odchyleń.
+
+### Należy zamodelować powyższy problem w postaci zadania programowania liniowego.
+
