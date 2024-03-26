@@ -43,7 +43,7 @@ subject to 3_7_constraint:
 #############################################################################
 
 minimize weighted_average_deviation:
-   max_deviation + 0.00001 * total_deviation;
+   max_deviation + 0.001 * total_deviation;
 
 #############################################################################
 
