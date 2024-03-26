@@ -9,7 +9,7 @@ data 3-parameters.dat;
 
 #############################################################################
 
-var plan{p in POINTS} >= 0;
+var plan{p in POINTS} integer >= 0;
 var deviation{p in POINTS, d in DEVIATION_MULTIPLIERS} >= 0;
 
 var plan_deviation{p in POINTS};
@@ -39,6 +39,9 @@ subject to 3_5_sum_constraint:
 
 subject to 3_7_constraint:
     plan[3] >= 0.8 * plan[7];
+    
+subject to sum_constraint:
+	sum{p in POINTS} plan[p] = sum{p in POINTS} BASE_PLAN[p];
 
 #############################################################################
 

@@ -827,7 +827,8 @@ maksymalnego względnego odchylenia pośród 8 odchyleń, 2) sumy wszystkich wzg
 
 ### Zbiory
 
-- $P = \{1, 2, 3, 4, 5, 6, 7, 8\}$ - zbiór wszystkich punktów sprzedaży.
+- $P = \{1, 2, 3, 4, 5, 6, 7, 8\}$ - zbiór wszystkich punktów sprzedaży,
+- $\mathbb{N}$ - zbiór liczb naturalnych.
 
 ### Parametry
 
@@ -861,6 +862,12 @@ $$
 
 $$
 \forall{p \in P} : x_{p} \ge 0
+$$
+
+- Produkty są nie podzielne:
+
+$$
+\forall{p \in P} : x_{p} \in \mathbb{N}
 $$
 
 - Odchylenie od planowanej ilości bazowej to różnica ilości planowanej i bazowej:
@@ -917,22 +924,28 @@ $$
 x_3 \ge 0.8 x_7
 $$
 
+- Sumaryczna wielkość sprzedaży produktu we wszystkich punktach nie może zostać zmieniona:
+
+$$
+\sum_{p \in P} x_p = \sum_{p \in P} b_p
+$$
+
 ### Wyniki
 
-Wyniki dla podanego zadania zależą od przyjętych wag w funkcji oceny.
+Wyniki dla podanego zadania prawie nie zależą od przyjętych wag w funkcji oceny.
 
-Dla przyjętego $c_1 = 1, c_2 = 0.001$ - preferujemy  minimalizację maksymalnego względnego odchylenia nad minimalizacją sumy odchyleń. Otrzymujemy w rezultacie plan o maksymalnym odchyleniu $y_{max} = 29.7$ i sumie odchyleń równej $y_{sum} = 112.11$.
+Dla przyjętego $c_1 = 1, c_2 = 0.001$ - preferujemy  minimalizację maksymalnego względnego odchylenia nad minimalizacją sumy odchyleń. Otrzymujemy w rezultacie plan o maksymalnym odchyleniu $y_{max} = 30$ i sumie odchyleń równej $y_{sum} = 140$.
 
-punkt       | 1     | 2   | 3      | 4   | 5     | 6   | 7      | 8
-------------|-------|-----|--------|-----|-------|-----|--------|------
-bazowy plan | 240   | 385 | 138    | 224 | 144   | 460 | 198    | 200
-plan        | 269.7 | 385 | 147.96 | 224 | 114.3 | 460 | 184.95 | 229.7
-odchylenie  | 29.7  | 0   | 9.96   | 0   | -29.7 | 0   | -13.05 | 29.7
+punkt       | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8
+------------|-----|-----|-----|-----|-----|-----|-----|----
+bazowy plan | 240 | 385 | 138 | 224 | 144 | 460 | 198 | 200
+plan        | 270 | 358 | 148 | 224 | 114 | 460 | 185 | 230
+odchylenie  | 30  | -27 | 10  | 0   | -30 | 0   | -13 | 30
 
-Dla przyjętego $c_1 = 0.001, c_2 = 1$ - preferujemy minimalizację sumy względnych odchyleń nad minimalizacją maksymalnego względnego odchylenia. Otrzymujemy w rezultacie plan o maksymalnym odchyleniu $y_{max} = 40.14$ i sumie odchyleń równej $y_{sum} = 109.5$.
+Dla przyjętego $c_1 = 0.001, c_2 = 1$ - preferujemy minimalizację sumy względnych odchyleń nad minimalizacją maksymalnego względnego odchylenia. Otrzymujemy w rezultacie taki sam plan - o maksymalnym odchyleniu $y_{max} = 30$ i sumie odchyleń równej $y_{sum} = 140$.
 
-punkt       | 1      | 2   | 3     | 4   | 5      | 6   | 7   | 8
-------------|--------|-----|-------|-----|--------|-----|-----|-------
-bazowy plan | 240    | 385 | 138   | 224 | 144    | 460 | 198 | 200
-plan        | 248.82 | 385 | 158.4 | 224 | 103.86 | 460 | 198 | 240.14
-odchylenie  | 8.82   | 0   | 20.4  | 0   | -40.14 | 0   | 0   | 40.14
+punkt       | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8
+------------|-----|-----|-----|-----|-----|-----|-----|----
+bazowy plan | 240 | 385 | 138 | 224 | 144 | 460 | 198 | 200
+plan        | 270 | 358 | 148 | 224 | 114 | 460 | 185 | 230
+odchylenie  | 30  | -27 | 10  | 0   | -30 | 0   | -13 | 30
