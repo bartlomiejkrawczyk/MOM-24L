@@ -12,7 +12,7 @@ data 3-parameters.dat;
 var plan{p in POINTS} >= 0;
 var deviation{p in POINTS, d in DEVIATION_MULTIPLIERS} >= 0;
 
-var deviation_display{p in POINTS};
+var plan_deviation{p in POINTS};
 
 var total_deviation >= 0;
 var max_deviation >= 0;
@@ -20,10 +20,13 @@ var max_deviation >= 0;
 #############################################################################
 
 subject to deviation_constraint{p in POINTS}:
-    deviation[p, 1] - deviation[p, -1] = BASE_PLAN[p] - plan[p];
+    plan_deviation[p] = BASE_PLAN[p] - plan[p];
+
+subject to plan_deviation_constraint{p in POINTS}:
+	plan_deviation[p] = deviation[p, 1] - deviation[p, -1];
 
 subject to max_deviation_constraint{p in POINTS, d in DEVIATION_MULTIPLIERS}:
-    max_deviation >= deviation[p, d];
+    max_deviation >= deviation[p, -1] + deviation[p, 1];
 
 subject to total_deviation_constraint:
     sum{p in POINTS, d in DEVIATION_MULTIPLIERS} deviation[p, d] = total_deviation;
@@ -36,16 +39,11 @@ subject to 3_5_sum_constraint:
 
 subject to 3_7_constraint:
     plan[3] >= 0.8 * plan[7];
-    
-#############################################################################
-
-subject to deviation_display_constraint{p in POINTS}:
-	deviation_display[p] = deviation[p, 1] - deviation[p, -1];
 
 #############################################################################
 
 minimize weighted_average_deviation:
-    max_deviation + 0.1 * total_deviation;
+   max_deviation + 0.00001 * total_deviation;
 
 #############################################################################
 
@@ -54,6 +52,6 @@ solve;
 
 display plan;
 display deviation;
-display deviation_display;
+display plan_deviation;
 display total_deviation;
 display max_deviation;

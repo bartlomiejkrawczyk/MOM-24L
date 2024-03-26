@@ -825,3 +825,90 @@ maksymalnego względnego odchylenia pośród 8 odchyleń, 2) sumy wszystkich wzg
 
 ### Należy zamodelować powyższy problem w postaci zadania programowania liniowego.
 
+### Zbiory
+
+- $P = \{1, 2, 3, 4, 5, 6, 7, 8\}$ - zbiór wszystkich punktów sprzedaży.
+
+### Parametry
+
+- $b_{p}\ dla p \in P$ - plan bazowy dostaw opisujący ilość, która powinna być dostarczana do punktu $p$,
+- $c_1$ - waga maksymalnego względnego odchylenia pośród 8 odchyleń,
+- $c_2$ - waga sumy wszystkich względnych odchyleń.
+
+$$
+b_1 = 240, b_2 = 385, b_3 = 138, b_4 = 224,
+$$
+$$
+b_5 = 144, b_6 = 460, b_7 = 198, b_8 = 200
+$$
+
+### Zmienne decyzyjne
+
+- $x_{p}\ dla\ p \in P$ - planowana ilość do dostarczenia do punktu $p$,
+- $y_{p}\ dla\ p \in P$ - odchylenie planowanej wartości od bazowej, która powinna być dostarczona do punktu $p$,
+- $y_{p}^+\ dla\ p \in P$ - zmienna pomocnicza. Reprezentuje dodatnią część zmiennej $y_{p}$. Dla $y_{p} < 0$ $y_{p}^+ = 0$,
+- $y_{p}^-\ dla\ p \in P$ - zmienna pomocnicza. Reprezentuje ujemną część zmiennej $y_{p}$. Dla $y_{p} > 0$ $y_{p}^- = 0$, 
+- $y_{max}$ - zmienna pomocnicza. Wartość większa lub równa od wartości bezwzględnych odchyłek $|y_{p}|$ każdego z punktów $p \in P$,
+- $y_{sum}$ - zmienna pomocnicza. Równa jest sumie względnych odchyleń od wszystkich planów bazowych punktów $p \in P$.
+
+### Funkcja oceny
+
+- $min(c_1 y_{max} + c_2 y_{sum})$ - minimalizujemy sumę ważoną dwóch składników: $y_{max}$ i $y_{sum}$.
+
+### Ograniczenia
+
+- Dostarczana ilość produktów nie może być ujemna:
+
+$$
+\forall{p \in P} : x_{p} \ge 0
+$$
+
+- Odchylenie od planowanej ilości bazowej to różnica ilości bazowej i planowanej:
+
+$$
+\forall{p \in P} : y_{p} = b_p - x_p
+$$
+
+- Odchyłka dodatnia nie może być ujemna:
+
+$$
+\forall{p \in P} : y_{p}^+ \ge 0
+$$
+
+- Odchyłka ujemna nie może być ujemna:
+
+$$
+\forall{p \in P} : y_{p}^- \ge 0
+$$
+
+- Odchylenie możemy zapisać jako różnicę odchyłek:
+
+$$
+\forall{p \in P} : y_{p} = y_{p}^+ - y_{p}^-
+$$
+
+- Maksymalne odchylenie jest większe równe wartości bezwzględnej każdego z odchyleń:
+
+$$
+\forall{p \in P} : y_{max} \ge y_{p}^+ + y_{p}^-
+$$
+
+- Suma towaru dostarczonego do punktów $1, 3, 8$ ma być przynajmniej o $12\%$ większa niż w planie bazowym:
+
+$$
+p_1 + p_3 + p_8 \ge 1.2 (b_1 + b_3 + b_8)
+$$
+
+- Suma towaru dostarczonego do punktów $3, 5$ ma być przynajmniej o $7\%$ mniejsza niż w planie bazowym:
+
+$$
+p_3 + p_5 \le 0.93 (b_3 + b_5)
+$$
+
+- Ilość towaru dostarczonego do punktu $3$ ma stanowić przynajmniej $80\%$ towaru dostarczonego do punktu $7$:
+
+$$
+p_3 \ge 0.8 p_7
+$$
+
+### Wyniki
