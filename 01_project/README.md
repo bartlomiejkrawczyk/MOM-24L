@@ -896,19 +896,19 @@ $$
 - Suma towaru dostarczonego do punktów $1, 3, 8$ ma być przynajmniej o $12\%$ większa niż w planie bazowym:
 
 $$
-p_1 + p_3 + p_8 \ge 1.2 (b_1 + b_3 + b_8)
+x_1 + x_3 + x_8 \ge 1.2 (b_1 + b_3 + b_8)
 $$
 
 - Suma towaru dostarczonego do punktów $3, 5$ ma być przynajmniej o $7\%$ mniejsza niż w planie bazowym:
 
 $$
-p_3 + p_5 \le 0.93 (b_3 + b_5)
+x_3 + x_5 \le 0.93 (b_3 + b_5)
 $$
 
 - Ilość towaru dostarczonego do punktu $3$ ma stanowić przynajmniej $80\%$ towaru dostarczonego do punktu $7$:
 
 $$
-p_3 \ge 0.8 p_7
+x_3 \ge 0.8 x_7
 $$
 
 ### Wyniki
