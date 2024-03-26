@@ -1,8 +1,11 @@
-# Modelowanie Matematyczne - Projekt 1
-
-```
-Bartłomiej Krawczyk, 310774
-```
+---
+title: "Modelowanie Matematyczne - Projekt 1"
+author: Bartłomiej Krawczyk
+geometry: margin=2cm
+header-includes:
+    - \usepackage{float}
+    - \floatplacement{figure}{H}
+---
 
 ## Zadanie 1 - Sieć przepływowa
 
@@ -46,9 +49,9 @@ ograniczenie w przypadku zwiększonego zapotrzebowania ze strony elektrowni (kos
 należy pominąć). W tym celu należy znaleźć przekrój o jak najmniejszej przepustowości; jaką
 informację niesie przepustowość wybranego przekroju?
 
----
+\newpage
 
-> Sformułować i narysować model sieciowy (sieć przepływową); Określić jaki problem na tej sieci należy rozwiązać
+### Sformułować i narysować model sieciowy (sieć przepływową); Określić jaki problem na tej sieci należy rozwiązać
 
 Problemem, który należy rozwiązać jest **problem najtańszego przepływu**.
 
@@ -56,7 +59,7 @@ Zapotrzebowanie dobowe wszystkich elektrowni wynosi $F_{zadane} = Z_F + Z_G + Z_
 
 Należy znaleźć przepływ ze źródła $s$ do ujścia $t$ o zadanej wielkości $F_{zadane}$ i minimalnym sumarycznym koszcie.
 
-```mermaid
+```{.mermaid scale=2 caption="TODO"}
 %%{init:{'theme':'forest', 'flowchart': {'curve':'monotoneX'}}}%%
 %% basis, bumpX, linear, monotoneX
 %% basis, bumpX, bumpY, cardinal, catmullRom, linear, monotoneX, monotoneY, natural, step, stepAfter, stepBefore
@@ -102,7 +105,7 @@ flowchart LR
     H --[10] 0--> t
 ```
 
-> Znaleźć jak najlepsze rozwiązanie.
+### Znaleźć jak najlepsze rozwiązanie.
 
 Najlepsze rozwiązanie znalezione algorytmicznie prowadzi do kosztu równego **296**.
 
@@ -119,7 +122,7 @@ G         | 0 | 0 | 0  | 0  | 0  | 0 | 0 | 0 | 0 | 10
 H         | 0 | 0 | 0  | 0  | 0  | 0 | 0 | 0 | 0 | 10
 t         | 0 | 0 | 0  | 0  | 0  | 0 | 0 | 0 | 0 | 0
 
-```mermaid
+```{.mermaid scale=2 caption="TODO"}
 %%{init:{'theme':'forest', 'flowchart': {'curve':'monotoneX'}}}%%
 %% basis, bumpX, linear, monotoneX
 %% basis, bumpX, bumpY, cardinal, catmullRom, linear, monotoneX, monotoneY, natural, step, stepAfter, stepBefore
@@ -165,7 +168,7 @@ flowchart LR
     H --[10/10] 0--> t
 ```
 
-> Zapisać odpowiadające zadanie programowania liniowego.
+### Zapisać odpowiadające zadanie programowania liniowego.
 
 ### Zbiory
 
@@ -181,37 +184,63 @@ U = \{A, B, C, D, E, F, G, H\}
 $$
 $$
 E = \{
-    (A, D), (A, E), \\
-    (B, D), (B, E), \\
-    (C, D), (C, E), \\
-    (D, E), (D, F), (D, G), (D, H), \\
+    (A, D), (A, E), 
+$$
+$$
+    (B, D), (B, E), 
+$$
+$$
+    (C, D), (C, E), 
+$$
+$$
+    (D, E), (D, F), (D, G), (D, H), 
+$$
+$$
     (E, F), (E, G), (E, H)
 \}
 $$
 
 ### Parametry
 
-- $F_{zadane} = 35$ - całkowite zapotrzebowanie dobowe węgla.
+- $F_{zadane} = 35$ - całkowite zapotrzebowanie dobowe węgla (w tys. ton).
 - $c_{uv}\ dla (u, v) \in E$ - przepustowość ustalona dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $c_{uv} = 0$,
 - $d_{uv}\ dla (u, v) \in E$ - koszt ustalony dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $d_{uv} = 0$.
 
 $$
-c_{AD} = 8, c_{AE} = 10 \\
-c_{BD} = 10, c_{BE} = 13 \\
-c_{CD} = 10, c_{CE} = 8 \\
-c_{DE} = 20, c_{DF} = 16, c_{DG} = 6, c_{DH} = 10 \\
+c_{AD} = 8, c_{AE} = 10 
+$$
+$$
+c_{BD} = 10, c_{BE} = 13 
+$$
+$$
+c_{CD} = 10, c_{CE} = 8 
+$$
+$$
+c_{DE} = 20, c_{DF} = 16, c_{DG} = 6, c_{DH} = 10 
+$$
+$$
 c_{EF} = 7, c_{EG} = 4, c_{EH} = 2
 $$
 $$
-c_{sA} = 10, c_{sB} = 13, c_{sC} = 22 \\
+c_{sA} = 10, c_{sB} = 13, c_{sC} = 22 
+$$
+$$
 c_{Ft} = 15, c_{Gt} = 10, c_{Ht} = 10
 $$
 
 $$
-d_{AD} = 3, d_{AE} = 6 \\
-d_{BD} = 6, d_{BE} = 3 \\
-d_{CD} = 4, d_{CE} = 5 \\
-d_{DE} = 2, d_{DF} = 5, d_{DG} = 7, d_{DH} = 3 \\
+d_{AD} = 3, d_{AE} = 6 
+$$
+$$
+d_{BD} = 6, d_{BE} = 3 
+$$
+$$
+d_{CD} = 4, d_{CE} = 5 
+$$
+$$
+d_{DE} = 2, d_{DF} = 5, d_{DG} = 7, d_{DH} = 3 
+$$
+$$
 d_{EF} = 5, d_{EG} = 4, d_{EH} = 2
 $$
 
@@ -252,10 +281,7 @@ $$
 \forall{(u, v) \in E} : f_{uv} \le c_{uv}
 $$
 
-> Ponadto, należy sprawdzić, gdzie w sieci transportowej występuje wąskie gardło, które stanowiłoby
-ograniczenie w przypadku zwiększonego zapotrzebowania ze strony elektrowni (koszty transportu
-należy pominąć). W tym celu należy znaleźć przekrój o jak najmniejszej przepustowości; jaką
-informację niesie przepustowość wybranego przekroju?
+### Ponadto, należy sprawdzić, gdzie w sieci transportowej występuje wąskie gardło, które stanowiłoby ograniczenie w przypadku zwiększonego zapotrzebowania ze strony elektrowni (koszty transportu należy pominąć). W tym celu należy znaleźć przekrój o jak najmniejszej przepustowości; jaką informację niesie przepustowość wybranego przekroju?
 
 TODO
 
@@ -288,9 +314,9 @@ realizowany przez tylko jeden zespół. W tym celu:
 - określić jaki problem należy rozwiązać i znaleźć ręcznie rozwiązanie
 - na podstawie rozwiązania modelu sieciowego określić przydział zespołów do projektów
 
-> narysować model sieciowy problemu
+### Narysować model sieciowy problemu
 
-```mermaid
+```{.mermaid scale=2 caption="TODO"}
 %%{init:{'theme':'forest', 'flowchart': {'curve':'monotoneX'}}}%%
 %% basis, bumpX, linear, monotoneX
 %% basis, bumpX, bumpY, cardinal, catmullRom, linear, monotoneX, monotoneY, natural, step, stepAfter, stepBefore
@@ -374,7 +400,7 @@ flowchart LR
 
 Każdy łuk ma maksymalną przepustowość równą **1**.
 
-> określić jaki problem należy rozwiązać i znaleźć ręcznie rozwiązanie
+### Określić jaki problem należy rozwiązać i znaleźć ręcznie rozwiązanie
 
 Problem do rozwiązania w tym zadaniu to zadanie maksymalnego skojarzenia (przydziału).
 
@@ -394,7 +420,7 @@ projekt \ zespół | A | B | C | D | E | F
 6                | - | - | - | - | - | X
 
 
-```mermaid
+```{.mermaid scale=2 caption="TODO"}
 %%{init:{'theme':'forest', 'flowchart': {'curve':'monotoneX'}}}%%
 %% basis, bumpX, linear, monotoneX
 %% basis, bumpX, bumpY, cardinal, catmullRom, linear, monotoneX, monotoneY, natural, step, stepAfter, stepBefore
@@ -462,7 +488,7 @@ flowchart LR
     F --> t
 ```
 
-> na podstawie rozwiązania modelu sieciowego określić przydział zespołów do projektów
+### Na podstawie rozwiązania modelu sieciowego określić przydział zespołów do projektów
 
 projekt | zespół
 --------|-------
@@ -472,6 +498,8 @@ projekt | zespół
 4       | E
 5       | D
 6       | F
+
+---
 
 2. Minimalizacja kosztów realizacji projektów
 
@@ -496,9 +524,9 @@ projektu pkt. 2.1 dalej obowiązują. W tym celu:
 - określić jaki problem należy rozwiązać na tym modelu sieciowym
 - spróbować znaleźć jak najlepsze rozwiązanie
 
-> narysować model sieciowy problemu
+### Narysować model sieciowy problemu
 
-```mermaid
+```{.mermaid scale=2 caption="TODO"}
 %%{init:{'theme':'forest', 'flowchart': {'curve':'monotoneX'}}}%%
 %% basis, bumpX, linear, monotoneX
 %% basis, bumpX, bumpY, cardinal, catmullRom, linear, monotoneX, monotoneY, natural, step, stepAfter, stepBefore
@@ -582,7 +610,7 @@ flowchart LR
 
 Każdy łuk ma maksymalną przepustowość równą **1**.
 
-> określić jaki problem należy rozwiązać na tym modelu sieciowym
+### Określić jaki problem należy rozwiązać na tym modelu sieciowym
 
 Problemem do rozwiązania jest **zadanie najtańszego skojarzenia**.
 
@@ -592,7 +620,7 @@ Problemem do rozwiązania jest **zadanie najtańszego skojarzenia**.
 - Trzeba zrealizować wszystkie projekty
 - Każdy zespół realizujący projekt ma ustaloną cenę za realizację tego projektu
 
-> spróbować znaleźć jak najlepsze rozwiązanie
+### Spróbować znaleźć jak najlepsze rozwiązanie
 
 Najlepszym znalezionym algorytmicznie rozwiązaniem jest przydział o koszcie całkowitym **70**:
 
@@ -604,6 +632,8 @@ Najlepszym znalezionym algorytmicznie rozwiązaniem jest przydział o koszcie ca
 4 | -  | -  | 11 | - | -  | -
 5 | -  | -  | -  | - | -  | 15
 6 | 11 | -  | -  | - | -  | -
+
+---
 
 3. Minimalizacja terminu realizacji puli projektów
 
@@ -627,13 +657,27 @@ U = \{1, 2, 3, 4, 5, 6, A, B, C, D, E, F\}
 $$
 $$
 E = \{
-    (s, 1), (s, 2), (s, 3), (s, 4), (s, 5), (s, 6), \\
-    (1, A), (1, C), (1, D), (1, F), \\
-    (2, B), (2, C), (2, E), \\
-    (3, A), (3, B), (3, D), \\
-    (4, B), (4, C), (4, E), \\
-    (5, A), (5, C), (5, D), (5, F), \\
-    (6, A), (6, E), (6, F), \\
+    (s, 1), (s, 2), (s, 3), (s, 4), (s, 5), (s, 6), 
+$$
+$$
+    (1, A), (1, C), (1, D), (1, F), 
+$$
+$$
+    (2, B), (2, C), (2, E), 
+$$
+$$
+    (3, A), (3, B), (3, D), 
+$$
+$$
+    (4, B), (4, C), (4, E), 
+$$
+$$
+    (5, A), (5, C), (5, D), (5, F), 
+$$
+$$
+    (6, A), (6, E), (6, F), 
+$$
+$$
     (A, t), (B, t), (C, t), (D, t), (E, t), (F, t), 
 \}
 $$
@@ -645,24 +689,52 @@ $$
 - $d_{uv}\ dla (u, v) \in E$ - czas realizacji (w miesiącach) ustalony dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $d_{uv} = 0$.
 
 $$
-c_{s1} = 1, c_{s2} = 1, c_{s3} = 1, c_{s4} = 1, c_{s5} = 1, c_{s6} = 1, \\
-c_{1A} = 1, c_{1C} = 1, c_{1D} = 1, c_{1F} = 1, \\
-c_{2B} = 1, c_{2C} = 1, c_{2E} = 1, \\
-c_{3A} = 1, c_{3B} = 1, c_{3D} = 1, \\
-c_{4B} = 1, c_{4C} = 1, c_{4E} = 1, \\
-c_{5A} = 1, c_{5C} = 1, c_{5D} = 1, c_{5F} = 1, \\
-c_{6A} = 1, c_{6E} = 1, c_{6F} = 1, \\
+c_{s1} = 1, c_{s2} = 1, c_{s3} = 1, c_{s4} = 1, c_{s5} = 1, c_{s6} = 1, 
+$$
+$$
+c_{1A} = 1, c_{1C} = 1, c_{1D} = 1, c_{1F} = 1, 
+$$
+$$
+c_{2B} = 1, c_{2C} = 1, c_{2E} = 1, 
+$$
+$$
+c_{3A} = 1, c_{3B} = 1, c_{3D} = 1, 
+$$
+$$
+c_{4B} = 1, c_{4C} = 1, c_{4E} = 1, 
+$$
+$$
+c_{5A} = 1, c_{5C} = 1, c_{5D} = 1, c_{5F} = 1, 
+$$
+$$
+c_{6A} = 1, c_{6E} = 1, c_{6F} = 1, 
+$$
+$$
 c_{At} = 1, c_{Bt} = 1, c_{Ct} = 1, c_{Dt} = 1, c_{Et} = 1, c_{Ft} = 1
 $$
 
 $$
-d_{s1} = 0, d_{s2} = 0, d_{s3} = 0, d_{s4} = 0, d_{s5} = 0, d_{s6} = 0, \\
-d_{1A} = 15, d_{1C} = 14, d_{1D} = 9, d_{1F} = 12, \\
-d_{2B} = 12, d_{2C} = 16, d_{2E} = 10, \\
-d_{3A} = 11, d_{3B} = 14, d_{3D} = 12, \\
-d_{4B} = 16, d_{4C} = 11, d_{4E} = 12, \\
-d_{5A} = 13, d_{5C} = 17, d_{5D} = 13, d_{5F} = 15, \\
-d_{6A} = 11, d_{6E} = 16, d_{6F} = 18, \\
+d_{s1} = 0, d_{s2} = 0, d_{s3} = 0, d_{s4} = 0, d_{s5} = 0, d_{s6} = 0, 
+$$
+$$
+d_{1A} = 15, d_{1C} = 14, d_{1D} = 9, d_{1F} = 12, 
+$$
+$$
+d_{2B} = 12, d_{2C} = 16, d_{2E} = 10, 
+$$
+$$
+d_{3A} = 11, d_{3B} = 14, d_{3D} = 12, 
+$$
+$$
+d_{4B} = 16, d_{4C} = 11, d_{4E} = 12, 
+$$
+$$
+d_{5A} = 13, d_{5C} = 17, d_{5D} = 13, d_{5F} = 15, 
+$$
+$$
+d_{6A} = 11, d_{6E} = 16, d_{6F} = 18, 
+$$
+$$
 d_{At} = 0, d_{Bt} = 0, d_{Ct} = 0, d_{Dt} = 0, d_{Et} = 0, d_{Ft} = 0, 
 $$
 
@@ -724,3 +796,6 @@ projekt | zespół | czas realizacji
 4       | C      | 11
 5       | D      | 13
 6       | A      | 11
+
+## Zadanie 3
+
