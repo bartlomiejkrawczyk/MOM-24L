@@ -283,7 +283,104 @@ $$
 
 ### Ponadto, należy sprawdzić, gdzie w sieci transportowej występuje wąskie gardło, które stanowiłoby ograniczenie w przypadku zwiększonego zapotrzebowania ze strony elektrowni (koszty transportu należy pominąć). W tym celu należy znaleźć przekrój o jak najmniejszej przepustowości; jaką informację niesie przepustowość wybranego przekroju?
 
-TODO
+### Zbiory
+
+- $V = \{s, A, B, C, D, E, F, G, H, t\}$ - zbiór wszystkich węzłów sieci przepływowej,
+- $U = V \setminus \{s, t\}$ - zbiór węzłów sieci przepływowej z wyłączeniem źródła $s$ i ujścia $t$,
+- $E \subset V \times V$ - zbiór łuków dostępnych w danej sieci przepływowej.
+
+### Parametry
+
+- $c_{uv}\ dla (u, v) \in E$ - przepustowość ustalona dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $c_{uv} = 0$. Przepustowość ma te same wartości co w poprzednim zadaniu z wyjątkiem przepustowości:
+
+$$
+c_{Ft} = \infin, c_{Gt} = \infin, c_{Ht} = \infin
+$$
+
+### Zmienne decyzyjne
+
+Dzielimy wierzchołki na dwa rozłączne zbiory $S$ i $T$. Zakładamy, że $s \in S$ i $t \in T$.
+
+- $d_{uv}\ dla (u, v) \in E$ - zmienna oznaczająca przynależność łuku do przekroju. Równa $1$ gdy $u \in S$ i $v \in T$ (łuk należy do przekroju), w przeciwnym wypadku $0$.
+- $z_{uv}\ dla v \in V$ - zmienna oznaczająca przynależność wierzchołka do zbioru $S$. Równa $1$ gdy $v \in S$, a $0$ w przeciwnym przypadku.
+
+### Funkcja oceny
+
+- $min(\sum_{(u, v) \in E} c_{uv}d_{uv})$ - minimalizujemy całkowitą przepustowość łuków należących do przekroju.
+
+### Ograniczenia
+
+- Zmienna pomocnicza $d_{uv}$ nie może być negatywna:
+$$
+\forall{(u, v) \in E} : d_{uv} \ge 0
+$$
+
+- Wierzchołek $s$ z definicji należy do $S$:
+$$
+z_s = 1
+$$
+
+- Wierzchołek $t$ z definicji należy do $T$, więc nie należy do $S$:
+$$
+z_t = 0
+$$
+
+- Dla każdego nie terminalnego węzła $u, v$, jeśli $u$ należy do podziału $S$ i $v$ należy do podziału $T$, to łuk $(u, v)$ jest liczony do przekroju $(d_{uv} \ge 1)$:
+
+$$
+\forall{(u, v) \in E, u \ne s, v \ne t} : d_{uv} - z_u + z_v \ge 0
+$$
+
+### Wynik
+
+Maksymalna wyliczona algorytmicznie przepustowość sieci jest równa $41$. Przekrojem o najmniejszej przepustowości jest przekrój: $\{(s, A), (s, B), (C, D), (C, E)\}$.
+
+```{.mermaid scale=2 caption="TODO"}
+%%{init:{'theme':'forest', 'flowchart': {'curve':'monotoneX'}}}%%
+flowchart LR
+    s((s))
+    C((C))
+
+    A((A))
+    B((B))
+    D((D))
+    E((E))
+    F((F))
+    G((G))
+    H((H))
+    t((t))
+
+    %% Zdolności wydobywcze
+    s x--[10/10]--x A
+    s x--[13/13]--x B
+    s --[18/22]--> C
+    
+    linkStyle 0,1 stroke:#e81416 ;
+    
+    A --[8/8]--> D
+    A --[2/10]--> E
+
+    B --[10/10]--> D
+    B --[3/13]--> E
+
+    C x--[10/10]--x D
+    C x--[8/8]--x E
+    
+    linkStyle 7,8 stroke:#e81416 ;
+
+    D --[0/20]--> E
+    D --[16/16]--> F
+    D --[6/6]--> G
+    D --[6/10]--> H
+
+    E --[7/7]--> F
+    E --[4/4]--> G
+    E --[2/2]--> H
+
+    F --[23/inf]--> t
+    G --[10/inf]--> t
+    H --[8/inf]--> t
+```
 
 --- 
 
