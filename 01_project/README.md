@@ -294,7 +294,7 @@ $$
 - $c_{uv}\ dla (u, v) \in E$ - przepustowość ustalona dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $c_{uv} = 0$. Przepustowość ma te same wartości co w poprzednim zadaniu z wyjątkiem przepustowości:
 
 $$
-c_{Ft} = \infin, c_{Gt} = \infin, c_{Ht} = \infin
+c_{Ft} = \infty, c_{Gt} = \infty, c_{Ht} = \infty
 $$
 
 ### Zmienne decyzyjne
@@ -333,22 +333,29 @@ $$
 
 ### Wynik
 
-Maksymalna wyliczona algorytmicznie przepustowość sieci jest równa $41$. Przekrojem o najmniejszej przepustowości jest przekrój: $\{(s, A), (s, B), (C, D), (C, E)\}$.
+Maksymalna wyliczona algorytmicznie przepustowość sieci jest równa $41$ (tys. ton). Przekrojem o najmniejszej przepustowości jest przekrój: $\{(s, A), (s, B), (C, D), (C, E)\}$.
+
+Pomimo możliwości wydobywczej wszystkich kopalń równej $45$ tysięcy ton, przez sieci kolejowe nie jesteśmy w stanie dostarczyć więcej niż maksymalna przepustowość ($41$ tysięcy ton).
 
 ```{.mermaid scale=2 caption="TODO"}
-%%{init:{'theme':'forest', 'flowchart': {'curve':'monotoneX'}}}%%
+%%{init:{'theme':'neutral', 'flowchart': {'curve':'monotoneX'}}}%%
 flowchart LR
-    s((s))
-    C((C))
 
-    A((A))
-    B((B))
-    D((D))
-    E((E))
-    F((F))
-    G((G))
-    H((H))
-    t((t))
+    subgraph S
+        s((s))
+        C((C))
+    end
+
+    subgraph T
+        A((A))
+        B((B))
+        D((D))
+        E((E))
+        F((F))
+        G((G))
+        H((H))
+        t((t))
+    end
 
     %% Zdolności wydobywcze
     s x--[10/10]--x A
