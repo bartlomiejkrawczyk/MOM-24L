@@ -5,6 +5,7 @@ geometry: margin=2cm
 header-includes:
     - \usepackage{float}
     - \floatplacement{figure}{H}
+    - \renewcommand{\figurename}{Rysunek}
 ---
 
 ## Zadanie 1 - Sieć przepływowa
@@ -59,7 +60,7 @@ Zapotrzebowanie dobowe wszystkich elektrowni wynosi $F_{zadane} = Z_F + Z_G + Z_
 
 Należy znaleźć przepływ ze źródła $s$ do ujścia $t$ o zadanej wielkości $F_{zadane}$ i minimalnym sumarycznym koszcie.
 
-```{.mermaid scale=2 caption="TODO"}
+```{.mermaid scale=2 caption="Sieć przepływowa"}
 %%{init:{'theme':'forest', 'flowchart': {'curve':'monotoneX'}}}%%
 %% basis, bumpX, linear, monotoneX
 %% basis, bumpX, bumpY, cardinal, catmullRom, linear, monotoneX, monotoneY, natural, step, stepAfter, stepBefore
@@ -105,6 +106,8 @@ flowchart LR
     H --[10] 0--> t
 ```
 
+\newpage
+
 ### Znaleźć jak najlepsze rozwiązanie.
 
 Najlepsze rozwiązanie znalezione algorytmicznie prowadzi do kosztu równego **296**.
@@ -122,7 +125,7 @@ G       | 0 | 0 | 0  | 0  | 0  | 0 | 0 | 0 | 0 | 10
 H       | 0 | 0 | 0  | 0  | 0  | 0 | 0 | 0 | 0 | 10
 t       | 0 | 0 | 0  | 0  | 0  | 0 | 0 | 0 | 0 | 0
 
-```{.mermaid scale=2 caption="TODO"}
+```{.mermaid scale=2 caption="Najlepsze rozwiązanie przedstawione na sieci przepływowej"}
 %%{init:{'theme':'forest', 'flowchart': {'curve':'monotoneX'}}}%%
 %% basis, bumpX, linear, monotoneX
 %% basis, bumpX, bumpY, cardinal, catmullRom, linear, monotoneX, monotoneY, natural, step, stepAfter, stepBefore
@@ -167,6 +170,8 @@ flowchart LR
     G --[10/10] 0--> t
     H --[10/10] 0--> t
 ```
+
+\newpage
 
 ### Zapisać odpowiadające zadanie programowania liniowego.
 
@@ -302,7 +307,7 @@ $$
 Dzielimy wierzchołki na dwa rozłączne zbiory $S$ i $T$. Zakładamy, że $s \in S$ i $t \in T$.
 
 - $d_{uv}\ dla (u, v) \in E$ - zmienna oznaczająca przynależność łuku do przekroju. Równa $1$ gdy $u \in S$ i $v \in T$ (łuk należy do przekroju), w przeciwnym wypadku $0$.
-- $z_{uv}\ dla v \in V$ - zmienna oznaczająca przynależność wierzchołka do zbioru $S$. Równa $1$ gdy $v \in S$, a $0$ w przeciwnym przypadku.
+- $z_{uv}\ dla\ v \in V$ - zmienna oznaczająca przynależność wierzchołka do zbioru $S$. Równa $1$ gdy $v \in S$, a $0$ w przeciwnym przypadku.
 
 ### Funkcja oceny
 
@@ -328,7 +333,7 @@ $$
 - Dla każdego nie terminalnego węzła $u, v$, jeśli $u$ należy do podziału $S$ i $v$ należy do podziału $T$, to łuk $(u, v)$ jest liczony do przekroju $(d_{uv} \ge 1)$:
 
 $$
-\forall{(u, v) \in E, u \ne s, v \ne t} : d_{uv} - z_u + z_v \ge 0
+\forall{(u, v) \in E} : d_{uv} - z_u + z_v \ge 0
 $$
 
 ### Wynik
@@ -344,7 +349,7 @@ $$
 
 Pomimo możliwości wydobywczej wszystkich kopalń równej $45$ tysięcy ton, przez sieci kolejowe nie jesteśmy w stanie dostarczyć więcej niż maksymalna przepustowość ($41$ tysięcy ton).
 
-```{.mermaid scale=2 caption="TODO"}
+```{.mermaid scale=2 caption="Wąskie gardło - przekrój o najmniejszej przepustowości zaznaczony na czerwono"}
 %%{init:{'theme':'neutral', 'flowchart': {'curve':'monotoneX'}}}%%
 flowchart LR
 
@@ -394,6 +399,8 @@ flowchart LR
     G --[10/inf]--> t
     H --[8/inf]--> t
 ```
+
+\newpage
 
 ## Zadanie 2 - Zadanie przydziału
 
