@@ -8,7 +8,7 @@ header-includes:
     - \renewcommand{\figurename}{Rysunek}
 ---
 
-## Zadanie 1 - Sieć przepływowa
+# Zadanie 1 - Sieć przepływowa
 
 W centrum dyspozytorskim planuje się dostawy węgla z określonych kopalń do elektrowni.
 Rozważana jest możliwość dostaw węgla kamiennego z trzech kopalń A, B, C do trzech elektrowni
@@ -40,6 +40,7 @@ F, G, H za pomocą sieci kolejowej z dwoma stacjami pośrednimi D i E.
 
 Zadanie polega na wyznaczeniu planu codziennych dostaw węgla zaspokajający zapotrzebowania
 elektrowni i minimalizujący sumaryczne koszty transportu. W tym celu należy:
+
 - sformułować i narysować model sieciowy (sieć przepływową); Określić jaki problem na tej
 sieci należy rozwiązać (należy nazwać problem do rozwiązania, nie algorytm)
 - znaleźć jak najlepsze rozwiązanie (dowolną metodą ręcznie lub algorytmicznie)
@@ -54,7 +55,7 @@ informację niesie przepustowość wybranego przekroju?
 
 ### Sformułować i narysować model sieciowy (sieć przepływową); Określić jaki problem na tej sieci należy rozwiązać
 
-Problemem, który należy rozwiązać jest **problem najtańszego przepływu**.
+Problemem, który należy rozwiązać, jest **problem najtańszego przepływu**.
 
 Zapotrzebowanie dobowe wszystkich elektrowni wynosi $F_{zadane} = Z_F + Z_G + Z_H = 35$, zatem zadany przepływ to $35$ jednostek (tys. ton).
 
@@ -208,8 +209,8 @@ $$
 ### Parametry
 
 - $F_{zadane} = 35$ - całkowite zapotrzebowanie dobowe węgla (w tys. ton).
-- $c_{uv}\ dla (u, v) \in E$ - przepustowość ustalona dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $c_{uv} = 0$,
-- $d_{uv}\ dla (u, v) \in E$ - koszt ustalony dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $d_{uv} = 0$.
+- $c_{uv}\ dla\ (u, v) \in E$ - przepustowość ustalona dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $c_{uv} = 0$,
+- $d_{uv}\ dla\ (u, v) \in E$ - koszt ustalony dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $d_{uv} = 0$.
 
 $$
 c_{AD} = 8, c_{AE} = 10 
@@ -251,7 +252,7 @@ $$
 
 ### Zmienne decyzyjne
 
-- $f_{uv}\ dla (u, v) \in E$ - przepływ przez łuk rozpoczynający się w węźle $u$ i kończącego się w węźle $v$,
+- $f_{uv}\ dla\ (u, v) \in E$ - przepływ przez łuk rozpoczynający się w węźle $u$ i kończącego się w węźle $v$,
 - $D$ - zmienna pomocnicza - całkowity koszt wszystkich przepływów.
 
 ### Funkcja oceny
@@ -296,7 +297,7 @@ $$
 
 ### Parametry
 
-- $c_{uv}\ dla (u, v) \in E$ - przepustowość ustalona dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $c_{uv} = 0$. Przepustowość ma te same wartości co w poprzednim zadaniu z wyjątkiem przepustowości:
+- $c_{uv}\ dla\ (u, v) \in E$ - przepustowość ustalona dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $c_{uv} = 0$. Przepustowość ma te same wartości co w poprzednim zadaniu z wyjątkiem przepustowości:
 
 $$
 c_{Ft} = \infty, c_{Gt} = \infty, c_{Ht} = \infty
@@ -306,7 +307,7 @@ $$
 
 Dzielimy wierzchołki na dwa rozłączne zbiory $S$ i $T$. Zakładamy, że $s \in S$ i $t \in T$.
 
-- $d_{uv}\ dla (u, v) \in E$ - zmienna oznaczająca przynależność łuku do przekroju. Równa $1$ gdy $u \in S$ i $v \in T$ (łuk należy do przekroju), w przeciwnym wypadku $0$.
+- $d_{uv}\ dla\ (u, v) \in E$ - zmienna oznaczająca przynależność łuku do przekroju. Równa $1$ gdy $u \in S$ i $v \in T$ (łuk należy do przekroju), w przeciwnym wypadku $0$.
 - $z_{uv}\ dla\ v \in V$ - zmienna oznaczająca przynależność wierzchołka do zbioru $S$. Równa $1$ gdy $v \in S$, a $0$ w przeciwnym przypadku.
 
 ### Funkcja oceny
@@ -402,9 +403,9 @@ flowchart LR
 
 \newpage
 
-## Zadanie 2 - Zadanie przydziału
+# Zadanie 2 - Zadanie przydziału
 
-1. Planowanie realizacji portfela przy ograniczonych kompetencjach
+## 1. Planowanie realizacji portfela przy ograniczonych kompetencjach
 
 Softwarehouse posiada portfel projektów oznaczonych 1-6 oraz zespoły programistyczne
 oznaczone A-F. Poniża tabela przedstawia kompetencje zespołów, gdzie „-„ oznacza brak
@@ -431,7 +432,7 @@ realizowany przez tylko jeden zespół. W tym celu:
 
 ### Narysować model sieciowy problemu
 
-```{.mermaid scale=2 caption="TODO"}
+```{.mermaid scale=2 caption="Model sieciowy problemu z zadania 2.1"}
 %%{init:{'theme':'forest', 'flowchart': {'curve':'monotoneX'}}}%%
 %% basis, bumpX, linear, monotoneX
 %% basis, bumpX, bumpY, cardinal, catmullRom, linear, monotoneX, monotoneY, natural, step, stepAfter, stepBefore
@@ -454,12 +455,12 @@ flowchart LR
 
     t((t))
 
-    s --> 1
-    s --> 2
-    s --> 3
-    s --> 4
-    s --> 5
-    s --> 6
+    s ----> 1
+    s ----> 2
+    s ----> 3
+    s ----> 4
+    s ----> 5
+    s ----> 6
 
     1 ----> A
     1 ----> C
@@ -505,15 +506,17 @@ flowchart LR
     linkStyle 23,24,25 stroke:#4b369d ;
     style 6 fill:#4b369d,stroke:#000 ;
 
-    A --> t
-    B --> t
-    C --> t
-    D --> t
-    E --> t
-    F --> t
+    A ----> t
+    B ----> t
+    C ----> t
+    D ----> t
+    E ----> t
+    F ----> t
 ```
 
 Każdy łuk ma maksymalną przepustowość równą **1**.
+
+\newpage
 
 ### Określić jaki problem należy rozwiązać i znaleźć ręcznie rozwiązanie
 
@@ -535,7 +538,7 @@ projekt \\ zespół | A | B | C | D | E | F
 6                 | - | - | - | - | - | X
 
 
-```{.mermaid scale=2 caption="TODO"}
+```{.mermaid scale=2 caption="Przydział zadań do zespołów"}
 %%{init:{'theme':'forest', 'flowchart': {'curve':'monotoneX'}}}%%
 %% basis, bumpX, linear, monotoneX
 %% basis, bumpX, bumpY, cardinal, catmullRom, linear, monotoneX, monotoneY, natural, step, stepAfter, stepBefore
@@ -558,12 +561,12 @@ flowchart LR
 
     t((t))
 
-    s --> 1
-    s --> 2
-    s --> 3
-    s --> 4
-    s --> 5
-    s --> 6
+    s ----> 1
+    s ----> 2
+    s ----> 3
+    s ----> 4
+    s ----> 5
+    s ----> 6
 
     1 ----> A
 
@@ -595,13 +598,15 @@ flowchart LR
     linkStyle 11 stroke:#4b369d ;
     style 6 fill:#4b369d,stroke:#000 ;
 
-    A --> t
-    B --> t
-    C --> t
-    D --> t
-    E --> t
-    F --> t
+    A ----> t
+    B ----> t
+    C ----> t
+    D ----> t
+    E ----> t
+    F ----> t
 ```
+
+\newpage
 
 ### Na podstawie rozwiązania modelu sieciowego określić przydział zespołów do projektów
 
@@ -614,9 +619,7 @@ projekt | zespół
 5       | D
 6       | F
 
----
-
-2. Minimalizacja kosztów realizacji projektów
+## 2. Minimalizacja kosztów realizacji projektów
 
 Zakładamy, że firma wynajmuje zespoły do realizacji projektów. Koszty wynajmu są podane w
 poniższej tabeli.
@@ -635,17 +638,18 @@ projekt \\ zespół | A  | B  | C  | D  | E  | F
 Należy dokonać przydziału zespołów programistycznych do projektów tak, aby
 minimalizować koszty najmu zespołów. Ograniczenia dotyczące jednego zespołu i jednego
 projektu pkt. 2.1 dalej obowiązują. W tym celu:
+
 - narysować model sieciowy problemu
 - określić jaki problem należy rozwiązać na tym modelu sieciowym
 - spróbować znaleźć jak najlepsze rozwiązanie
 
 ### Narysować model sieciowy problemu
 
-```{.mermaid scale=2 caption="TODO"}
-%%{init:{'theme':'forest', 'flowchart': {'curve':'monotoneX'}}}%%
+```{.mermaid scale=2 caption="Model sieciowy problemu z zadania 2.2 - uwzględniający koszty przepływów"}
+%%{init:{'theme':'forest', 'flowchart': {'curve':'monotoneY'}}}%%
 %% basis, bumpX, linear, monotoneX
 %% basis, bumpX, bumpY, cardinal, catmullRom, linear, monotoneX, monotoneY, natural, step, stepAfter, stepBefore
-flowchart LR
+flowchart TB
     s((s))
 
     1((1))
@@ -748,9 +752,9 @@ projekt \\ zespół | A  | B  | C  | D | E  | F
 5                 | -  | -  | -  | - | -  | 15
 6                 | 11 | -  | -  | - | -  | -
 
----
+\newpage
 
-3. Minimalizacja terminu realizacji puli projektów
+## 3. Minimalizacja terminu realizacji puli projektów
 
 Załóżmy teraz, że dane podane w tabeli 2 to czasy (w miesiącach) realizacji projektów przez
 poszczególne zespoły. Ograniczenia dotyczące jednego zespołu i jednego projektu pkt. 2.1
@@ -799,9 +803,9 @@ $$
 
 ### Parametry
 
-- $F_{zadane} = 6$ - ilość projektów - każdy musi być zrealizowany.
-- $c_{uv} = 1\ dla (u, v) \in E$ - przepustowość ustalona dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $c_{uv} = 0$,
-- $d_{uv}\ dla (u, v) \in E$ - czas realizacji (w miesiącach) ustalony dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $d_{uv} = 0$.
+- $F_{zadane} = 6$ - ilość projektów - każdy musi być zrealizowany,
+- $c_{uv} = 1\ dla\ (u, v) \in E$ - przepustowość ustalona dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $c_{uv} = 0$,
+- $d_{uv}\ dla\ (u, v) \in E$ - czas realizacji (w miesiącach) ustalony dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $d_{uv} = 0$.
 
 $$
 c_{s1} = 1, c_{s2} = 1, c_{s3} = 1, c_{s4} = 1, c_{s5} = 1, c_{s6} = 1, 
@@ -850,12 +854,12 @@ $$
 d_{6A} = 11, d_{6E} = 16, d_{6F} = 18, 
 $$
 $$
-d_{At} = 0, d_{Bt} = 0, d_{Ct} = 0, d_{Dt} = 0, d_{Et} = 0, d_{Ft} = 0, 
+d_{At} = 0, d_{Bt} = 0, d_{Ct} = 0, d_{Dt} = 0, d_{Et} = 0, d_{Ft} = 0
 $$
 
 ### Zmienne decyzyjne
 
-- $f_{uv}\ dla (u, v) \in E$ - przepływ przez łuk rozpoczynający się w węźle $u$ i kończącego się w węźle $v$,
+- $f_{uv}\ dla\ (u, v) \in E$ - przepływ przez łuk rozpoczynający się w węźle $u$ i kończącego się w węźle $v$,
 - $D$ - zmienna pomocnicza - całkowity czas realizacji.
 
 ### Funkcja oceny
@@ -892,7 +896,7 @@ $$
 
 ### Wynik
 
-Rozwiązaniem algorytmicznym otrzymujemy przydział prowadzący do realizacji w przeciągu **14** miesięcy:
+Rozwiązaniem znalezionym algorytmicznie jest przydział projektów prowadzący do realizacji w przeciągu **14** miesięcy:
 
 projekt \\ zespół | A | B | C | D | E | F
 ------------------|---|---|---|---|---|--
@@ -912,7 +916,7 @@ projekt | zespół | czas realizacji
 5       | D      | 13
 6       | A      | 11
 
-## Zadanie 3
+# Zadanie 3
 
 Pewna firma FMCG planuje sprzedaż jednego produktu. Produkt jest dostarczany do 8 punktów
 sprzedaży. Na podstawie danych historycznych (lub prognozowanych) utworzony tzw. plan bazowy
