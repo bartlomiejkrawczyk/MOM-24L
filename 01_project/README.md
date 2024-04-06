@@ -109,18 +109,18 @@ flowchart LR
 
 Najlepsze rozwiązanie znalezione algorytmicznie prowadzi do kosztu równego **296**.
 
-from \ to | s | A | B  | C  | D  | E | F | G | H | t
-----------|---|---|----|----|----|---|---|---|---|---
-s         | 0 | 8 | 13 | 14 | 0  | 0 | 0 | 0 | 0 | 0
-A         | 0 | 0 | 0  | 0  | 8  | 0 | 0 | 0 | 0 | 0
-B         | 0 | 0 | 0  | 0  | 4  | 9 | 0 | 0 | 0 | 0
-C         | 0 | 0 | 0  | 0  | 10 | 4 | 0 | 0 | 0 | 0
-D         | 0 | 0 | 0  | 0  | 0  | 0 | 8 | 6 | 8 | 0
-E         | 0 | 0 | 0  | 0  | 0  | 0 | 7 | 4 | 2 | 0
-F         | 0 | 0 | 0  | 0  | 0  | 0 | 0 | 0 | 0 | 15
-G         | 0 | 0 | 0  | 0  | 0  | 0 | 0 | 0 | 0 | 10
-H         | 0 | 0 | 0  | 0  | 0  | 0 | 0 | 0 | 0 | 10
-t         | 0 | 0 | 0  | 0  | 0  | 0 | 0 | 0 | 0 | 0
+z \\ do | s | A | B  | C  | D  | E | F | G | H | t
+--------|---|---|----|----|----|---|---|---|---|---
+s       | 0 | 8 | 13 | 14 | 0  | 0 | 0 | 0 | 0 | 0
+A       | 0 | 0 | 0  | 0  | 8  | 0 | 0 | 0 | 0 | 0
+B       | 0 | 0 | 0  | 0  | 4  | 9 | 0 | 0 | 0 | 0
+C       | 0 | 0 | 0  | 0  | 10 | 4 | 0 | 0 | 0 | 0
+D       | 0 | 0 | 0  | 0  | 0  | 0 | 8 | 6 | 8 | 0
+E       | 0 | 0 | 0  | 0  | 0  | 0 | 7 | 4 | 2 | 0
+F       | 0 | 0 | 0  | 0  | 0  | 0 | 0 | 0 | 0 | 15
+G       | 0 | 0 | 0  | 0  | 0  | 0 | 0 | 0 | 0 | 10
+H       | 0 | 0 | 0  | 0  | 0  | 0 | 0 | 0 | 0 | 10
+t       | 0 | 0 | 0  | 0  | 0  | 0 | 0 | 0 | 0 | 0
 
 ```{.mermaid scale=2 caption="TODO"}
 %%{init:{'theme':'forest', 'flowchart': {'curve':'monotoneX'}}}%%
@@ -335,27 +335,33 @@ $$
 
 Maksymalna wyliczona algorytmicznie przepustowość sieci jest równa $41$ (tys. ton). Przekrojem o najmniejszej przepustowości jest przekrój: $\{(s, A), (s, B), (C, D), (C, E)\}$.
 
+$$
+S = \{s, C\}
+$$
+$$
+T = \{A, B, D, E, F, G, H, t\}
+$$
+
 Pomimo możliwości wydobywczej wszystkich kopalń równej $45$ tysięcy ton, przez sieci kolejowe nie jesteśmy w stanie dostarczyć więcej niż maksymalna przepustowość ($41$ tysięcy ton).
 
 ```{.mermaid scale=2 caption="TODO"}
 %%{init:{'theme':'neutral', 'flowchart': {'curve':'monotoneX'}}}%%
 flowchart LR
 
-    subgraph S
-        s((s))
-        C((C))
-    end
+    classDef setS fill:#606060FF,stroke:#000,color:#FFF ;
+    classDef setT fill:#D6ED17FF,stroke:#000 ;
 
-    subgraph T
-        A((A))
-        B((B))
-        D((D))
-        E((E))
-        F((F))
-        G((G))
-        H((H))
-        t((t))
-    end
+    s((s)):::setS
+    C((C)):::setS
+
+    A((A)):::setT
+    B((B)):::setT
+    D((D)):::setT
+    E((E)):::setT
+    F((F)):::setT
+    G((G)):::setT
+    H((H)):::setT
+    t((t)):::setT
 
     %% Zdolności wydobywcze
     s x--[10/10]--x A
@@ -389,8 +395,6 @@ flowchart LR
     H --[8/inf]--> t
 ```
 
---- 
-
 ## Zadanie 2 - Zadanie przydziału
 
 1. Planowanie realizacji portfela przy ograniczonych kompetencjach
@@ -401,14 +405,14 @@ kompetencji zespołu do realizacji danego projektu.
 
 Kompetencje zespołów:
 
-projekt \ zespół | A | B | C | D | E | F
------------------|---|---|---|---|---|--
-1                | X | - | X | X | - | X
-2                | - | X | X | - | X | -
-3                | X | X | - | X | - | -
-4                | - | X | X | - | X | -
-5                | X | - | X | X | - | X
-6                | X | - | - | - | X | X
+projekt \\ zespół | A | B | C | D | E | F
+------------------|---|---|---|---|---|--
+1                 | X | - | X | X | - | X
+2                 | - | X | X | - | X | -
+3                 | X | X | - | X | - | -
+4                 | - | X | X | - | X | -
+5                 | X | - | X | X | - | X
+6                 | X | - | - | - | X | X
 
 Należy dokonać przydziału zespołów programistycznych do poszczególnych projektów, przy
 założeniu, że jeden zespół może realizować tylko jeden projekt, a jeden projekt może być
@@ -514,14 +518,14 @@ Problem do rozwiązania w tym zadaniu to zadanie maksymalnego skojarzenia (przyd
 
 Rozwiązanie znalezione ręcznie:
 
-projekt \ zespół | A | B | C | D | E | F
------------------|---|---|---|---|---|--
-1                | X | - | - | - | - | -
-2                | - | - | X | - | - | -
-3                | - | X | - | - | - | -
-4                | - | - | - | - | X | -
-5                | - | - | - | X | - | -
-6                | - | - | - | - | - | X
+projekt \\ zespół | A | B | C | D | E | F
+------------------|---|---|---|---|---|--
+1                 | X | - | - | - | - | -
+2                 | - | - | X | - | - | -
+3                 | - | X | - | - | - | -
+4                 | - | - | - | - | X | -
+5                 | - | - | - | X | - | -
+6                 | - | - | - | - | - | X
 
 
 ```{.mermaid scale=2 caption="TODO"}
@@ -612,14 +616,14 @@ poniższej tabeli.
 
 Koszty wykonywania projektów przez poszczególne zespoły:
 
-projekt \ zespół | A  | B  | C  | D  | E  | F
------------------|----|----|----|----|----|---
-1                | 15 | -  | 14 | 9  | -  | 12
-2                | -  | 12 | 16 | -  | 10 | -
-3                | 11 | 14 | -  | 12 | -  | -
-4                | -  | 16 | 11 | -  | 12 | -
-5                | 13 | -  | 17 | 13 | -  | 15
-6                | 11 | -  | -  | -  | 16 | 18
+projekt \\ zespół | A  | B  | C  | D  | E  | F
+------------------|----|----|----|----|----|---
+1                 | 15 | -  | 14 | 9  | -  | 12
+2                 | -  | 12 | 16 | -  | 10 | -
+3                 | 11 | 14 | -  | 12 | -  | -
+4                 | -  | 16 | 11 | -  | 12 | -
+5                 | 13 | -  | 17 | 13 | -  | 15
+6                 | 11 | -  | -  | -  | 16 | 18
 
 Należy dokonać przydziału zespołów programistycznych do projektów tak, aby
 minimalizować koszty najmu zespołów. Ograniczenia dotyczące jednego zespołu i jednego
@@ -728,14 +732,14 @@ Problemem do rozwiązania jest **zadanie najtańszego skojarzenia**.
 
 Najlepszym znalezionym algorytmicznie rozwiązaniem jest przydział o koszcie całkowitym **70**:
 
-: | A  | B  | C  | D | E  | F
---|----|----|----|---|----|---
-1 | -  | -  | -  | 9 | -  | -
-2 | -  | -  | -  | - | 10 | -
-3 | -  | 14 | -  | - | -  | -
-4 | -  | -  | 11 | - | -  | -
-5 | -  | -  | -  | - | -  | 15
-6 | 11 | -  | -  | - | -  | -
+projekt \\ zespół | A  | B  | C  | D | E  | F
+------------------|----|----|----|---|----|---
+1                 | -  | -  | -  | 9 | -  | -
+2                 | -  | -  | -  | - | 10 | -
+3                 | -  | 14 | -  | - | -  | -
+4                 | -  | -  | 11 | - | -  | -
+5                 | -  | -  | -  | - | -  | 15
+6                 | 11 | -  | -  | - | -  | -
 
 ---
 
@@ -883,14 +887,14 @@ $$
 
 Rozwiązaniem algorytmicznym otrzymujemy przydział prowadzący do realizacji w przeciągu **14** miesięcy:
 
-projekt / zespół | A | B | C | D | E | F
------------------|---|---|---|---|---|--
-1                | - | - | - | - | - | X
-2                | - | - | - | - | X | -
-3                | - | X | - | - | - | -
-4                | - | - | X | - | - | -
-5                | - | - | - | X | - | -
-6                | X | - | - | - | - | -
+projekt \\ zespół | A | B | C | D | E | F
+------------------|---|---|---|---|---|--
+1                 | - | - | - | - | - | X
+2                 | - | - | - | - | X | -
+3                 | - | X | - | - | - | -
+4                 | - | - | X | - | - | -
+5                 | - | - | - | X | - | -
+6                 | X | - | - | - | - | -
 
 projekt | zespół | czas realizacji
 --------|--------|----------------
