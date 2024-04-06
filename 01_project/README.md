@@ -210,7 +210,7 @@ $$
 
 - $F_{zadane} = 35$ - całkowite zapotrzebowanie dobowe węgla (w tys. ton).
 - $c_{uv}\ dla\ (u, v) \in E$ - przepustowość ustalona dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $c_{uv} = 0$,
-- $d_{uv}\ dla\ (u, v) \in E$ - koszt ustalony dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $d_{uv} = 0$.
+- $d_{uv}\ dla\ (u, v) \in E$ - koszt jednostkowy ustalony dla każdego łuku rozpoczynającego się w węźle $u$ i kończącego się w węźle $v$. W przypadku $(u, v) \notin E$ przyjmujemy $d_{uv} = 0$.
 
 $$
 c_{AD} = 8, c_{AE} = 10 
@@ -266,7 +266,7 @@ $$
 \forall{(u, v) \in E} : f_{uv} \ge 0
 $$
 
-- Całkowity koszt jest sumą kosztu wszystkich przepływów:
+- Całkowity koszt jest sumą kosztów wszystkich przepływów:
 $$
 D = \sum_{(u, v) \in E} d_{uv} f_{uv}
 $$
@@ -930,6 +930,7 @@ ilość | 240 | 385 | 138 | 224 | 144 | 460 | 198 | 200
 Jednak ze względu na akcje marketingowe oraz różnego rodzaju umowy/ustalenia z handlowcami tego
 produktu wprowadzono różnego rodzaju modyfikacje ww. planu bazowego w formie zagregowanych
 ograniczeń eksperckich:
+
 1. Suma towaru dostarczonego do punktów 1, 3, 8 ma być przynajmniej o 12% większa niż planie bazowym.
 2. Suma towaru dostarczonego do punktów 3, 5 ma być przynajmniej o 7% mniejsza niż w planie bazowym.
 3. Ilość towaru dostarczonego do punktu 3 ma stanowić przynajmniej 80% towaru
@@ -939,8 +940,10 @@ Zakładając, że sumaryczna wielkość sprzedaży produktu we wszystkich punkta
 zmieniona, należy zaplanować wielkość sprzedaży w poszczególnych punktach minimalizującą
 względne odchylenie (upewnij się, że dobrze rozumiesz „względne odchylenie”) od planu bazowego
 (a dokładnie - wartość bezwzględną względnego odchylenia). Ponieważ jest 8 względnych odchyleń
-(kryteriów), należy sformułować własną funkcję celu, która jest sumą ważoną dwóch składników: 1)
-maksymalnego względnego odchylenia pośród 8 odchyleń, 2) sumy wszystkich względnych odchyleń.
+(kryteriów), należy sformułować własną funkcję celu, która jest sumą ważoną dwóch składników: 
+
+1. maksymalnego względnego odchylenia pośród 8 odchyleń, 
+2. sumy wszystkich względnych odchyleń.
 
 ### Należy zamodelować powyższy problem w postaci zadania programowania liniowego.
 
@@ -951,9 +954,9 @@ maksymalnego względnego odchylenia pośród 8 odchyleń, 2) sumy wszystkich wzg
 
 ### Parametry
 
-- $b_{p}\ dla p \in P$ - plan bazowy dostaw opisujący ilość, która powinna być dostarczana do punktu $p$,
-- $c_1$ - waga maksymalnego względnego odchylenia pośród 8 odchyleń,
-- $c_2$ - waga sumy wszystkich względnych odchyleń.
+- $b_{p}\ dla\ p \in P$ - plan bazowy dostaw opisujący ilość, która powinna być dostarczana do punktu $p$,
+- $c_1$ - waga maksymalnego względnego odchylenia pośród 8 odchyleń w funkcji oceny,
+- $c_2$ - waga sumy wszystkich względnych odchyleń w funkcji oceny.
 
 $$
 b_1 = 240, b_2 = 385, b_3 = 138, b_4 = 224,
@@ -966,10 +969,10 @@ $$
 
 - $x_{p}\ dla\ p \in P$ - planowana ilość do dostarczenia do punktu $p$,
 - $y_{p}\ dla\ p \in P$ - odchylenie planowanej wartości od bazowej, która powinna być dostarczona do punktu $p$,
-- $y_{p}^+\ dla\ p \in P$ - zmienna pomocnicza. Reprezentuje dodatnią część zmiennej $y_{p}$. Dla $y_{p} < 0$ $y_{p}^+ = 0$,
-- $y_{p}^-\ dla\ p \in P$ - zmienna pomocnicza. Reprezentuje ujemną część zmiennej $y_{p}$. Dla $y_{p} > 0$ $y_{p}^- = 0$, 
-- $y_{max}$ - zmienna pomocnicza. Wartość większa lub równa od wartości bezwzględnych odchyłek $|y_{p}|$ każdego z punktów $p \in P$,
-- $y_{sum}$ - zmienna pomocnicza. Równa jest sumie względnych odchyleń od wszystkich planów bazowych punktów $p \in P$.
+- $y_{p}^+\ dla\ p \in P$ - reprezentuje dodatnią część zmiennej $y_{p}$. Dla $y_{p} < 0$ część dodatnia będzie równa $y_{p}^+ = 0$,
+- $y_{p}^-\ dla\ p \in P$ - reprezentuje ujemną część zmiennej $y_{p}$. Dla $y_{p} > 0$ część ujemna będzie równa $y_{p}^- = 0$, 
+- $y_{max}$ - wartość większa lub równa od wartości bezwzględnych odchyłek $|y_{p}|$ każdego z punktów $p \in P$,
+- $y_{sum}$ - suma względnych odchyleń od wszystkich planów bazowych punktów $p \in P$.
 
 ### Funkcja oceny
 
@@ -1001,7 +1004,7 @@ $$
 \forall{p \in P} : y_{p}^+ \ge 0
 $$
 
-- Odchyłka ujemna nie może być ujemna:
+- Zmienna reprezentująca odchyłkę ujemną nie może być ujemna:
 
 $$
 \forall{p \in P} : y_{p}^- \ge 0
@@ -1028,7 +1031,7 @@ $$
 - Suma towaru dostarczonego do punktów $1, 3, 8$ ma być przynajmniej o $12\%$ większa niż w planie bazowym:
 
 $$
-x_1 + x_3 + x_8 \ge 1.2 (b_1 + b_3 + b_8)
+x_1 + x_3 + x_8 \ge 1.12 (b_1 + b_3 + b_8)
 $$
 
 - Suma towaru dostarczonego do punktów $3, 5$ ma być przynajmniej o $7\%$ mniejsza niż w planie bazowym:
@@ -1051,9 +1054,7 @@ $$
 
 ### Wyniki
 
-Wyniki dla podanego zadania prawie nie zależą od przyjętych wag w funkcji oceny.
-
-Dla przyjętego $c_1 = 1, c_2 = 0.001$ - preferujemy  minimalizację maksymalnego względnego odchylenia nad minimalizacją sumy odchyleń. Otrzymujemy w rezultacie plan o maksymalnym odchyleniu $y_{max} = 30$ i sumie odchyleń równej $y_{sum} = 140$.
+Dla przyjętych wag $c_1 = 1, c_2 = 0.001$ - preferujemy  minimalizację maksymalnego względnego odchylenia nad minimalizacją sumy odchyleń. Otrzymujemy w rezultacie plan o maksymalnym odchyleniu $y_{max} = 30$ i sumie odchyleń równej $y_{sum} = 140$.
 
 punkt       | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8
 ------------|-----|-----|-----|-----|-----|-----|-----|----
@@ -1061,7 +1062,7 @@ bazowy plan | 240 | 385 | 138 | 224 | 144 | 460 | 198 | 200
 plan        | 270 | 358 | 148 | 224 | 114 | 460 | 185 | 230
 odchylenie  | 30  | -27 | 10  | 0   | -30 | 0   | -13 | 30
 
-Dla przyjętego $c_1 = 0.001, c_2 = 1$ - preferujemy minimalizację sumy względnych odchyleń nad minimalizacją maksymalnego względnego odchylenia. Otrzymujemy w rezultacie taki sam plan - o maksymalnym odchyleniu $y_{max} = 30$ i sumie odchyleń równej $y_{sum} = 140$.
+Dla przyjętych wag $c_1 = 0.001, c_2 = 1$ - preferujemy minimalizację sumy względnych odchyleń nad minimalizacją maksymalnego względnego odchylenia. Otrzymujemy w rezultacie taki sam plan - o maksymalnym odchyleniu $y_{max} = 30$ i sumie odchyleń równej $y_{sum} = 140$.
 
 punkt       | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8
 ------------|-----|-----|-----|-----|-----|-----|-----|----
