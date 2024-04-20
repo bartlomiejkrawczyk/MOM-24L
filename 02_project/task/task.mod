@@ -19,9 +19,9 @@ param LARGE_TRUCK_CAPACITY;
 param SMALL_TRUCK_BASE_COST;
 param SMALL_TRUCK_CAPACITY;
 
-param FACTORY_WAREHOUSE_TRANSPORT_COST{f in FACTORY, w in WAREHOUSE};
+param FACTORY_WAREHOUSE_UNITARY_TRANSPORT_COST{f in FACTORY, w in WAREHOUSE};
 
-param WAREHOUSE_RETAIL_OUTLET_TRANSPORT_COST{w in WAREHOUSE, r in RETAIL_OUTLET};
+param WAREHOUSE_RETAIL_OUTLET_UNITARY_TRANSPORT_COST{w in WAREHOUSE, r in RETAIL_OUTLET};
 
 data parameters.dat;
 
@@ -93,7 +93,7 @@ subject to factory_warehouse_transport_constraint{f in FACTORY, w in WAREHOUSE}:
 
 subject to factory_warehouse_transport_cost_constraint{f in FACTORY, w in WAREHOUSE}:
 	large_truck_count[f, w] * LARGE_TRUCK_BASE_COST
-		+ FACTORY_WAREHOUSE_TRANSPORT_COST[f, w] * sum{p in PRODUCT} factory_warehouse_transport[f, w, p]
+		+ FACTORY_WAREHOUSE_UNITARY_TRANSPORT_COST[f, w] * sum{p in PRODUCT} factory_warehouse_transport[f, w, p]
 		= factory_warehouse_transport_cost[f, w];
 
 # Ca³kowity transport produktów z magazynu do punktu sprzeda¿y detalicznej nie mo¿e przekroczyæ iloœci ciê¿arówek transportuj¹cych na danej trasie:
@@ -105,7 +105,7 @@ subject to warehouse_retail_outlet_transport_constraint{w in WAREHOUSE, r in RET
 
 subject to warehouse_retail_outlet_transport_cost_constraint{w in WAREHOUSE, r in RETAIL_OUTLET}:
 	small_truck_count[w, r] * SMALL_TRUCK_BASE_COST
-		+ WAREHOUSE_RETAIL_OUTLET_TRANSPORT_COST[w, r] * sum{p in PRODUCT} warehouse_retail_outlet_transport[w, r, p] 
+		+ WAREHOUSE_RETAIL_OUTLET_UNITARY_TRANSPORT_COST[w, r] * sum{p in PRODUCT} warehouse_retail_outlet_transport[w, r, p] 
 		= warehouse_retail_outlet_transport_cost[w, r];
 
 # Ca³kowity koszt sk³ada siê z kosztu transportu i magazynowania produktów:
@@ -118,7 +118,7 @@ subject to total_cost_constraint:
 
 #############################################################################
 
-minimize weighted_average_deviation:
+minimize total_cost_minimalization:
    total_cost;
 
 #############################################################################
