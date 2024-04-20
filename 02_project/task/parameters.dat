@@ -1,0 +1,44 @@
+data;
+
+set FACTORY := W1 W2;
+set PRODUCT := P1 P2;
+set WAREHOUSE := M1 M2;
+set WAREHOUSE_TYPE := NONE SMALL LARGE;
+set RETAIL_OUTLET := S1 S2 S3;
+
+param FACTORY_MAX_PRODUCTION 
+	:    P1     P2     :=
+	W1   52     40
+	W2   62     68;
+
+param WAREHOUSE_COST
+	:    NONE   SMALL  LARGE  :=
+	M1   0      160    476
+	M2   0      316    580;
+
+param WAREHOUSE_MAX_CAPACITY
+	:    NONE   SMALL  LARGE  :=
+	M1   0      46     142
+	M2   0      87     156;
+
+param RETAIL_OUTLET_DEMAND
+    :    P1     P2     :=
+    S1   33     31
+    S2   32     24
+    S3   36     25;
+
+param LARGE_TRUCK_BASE_COST := 5000;
+param LARGE_TRUCK_CAPACITY := 21;
+
+param SMALL_TRUCK_BASE_COST := 1800;
+param SMALL_TRUCK_CAPACITY := 10;
+
+param FACTORY_WAREHOUSE_TRANSPORT_COST
+    :    M1     M2     :=
+    W1   9      2
+    W2   6      4;
+
+param WAREHOUSE_RETAIL_OUTLET_TRANSPORT_COST
+    :    S1     S2     S3    :=
+    M1   10     16     7
+    M2   7      14     3;
