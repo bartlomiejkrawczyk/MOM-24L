@@ -319,6 +319,47 @@ $$
 +\ (\sum_{m \in M, s \in S} warehouse\_retail\_outlet\_transport\_cost_{ms})
 $$
 
+Dodatkowo wprowadzone zostały ograniczenia od dolne na wyniki:
+
+- Zakłady wytwórcze nie mogą wytwarzać negatywnej ilości produktów:
+
+$$
+\forall{w \in W, p \in P}: factory\_production_{wp} \ge 0
+$$
+
+- Nie można przesyłać z zakładów wytwórczych do magazynów negatywnej ilości produktów:
+
+$$
+\forall{w \in W, m \in M, p \in P}: factory\_warehouse\_transport_{wmp} \ge 0
+$$
+
+- Na trasie z zakładów wytwórczych do magazynów nie można puścić negatywnej ilości ciężarówek:
+
+$$
+\forall{w \in W, m \in M}: large\_truck\_count_{wm} \ge 0
+$$
+
+- Zmienna binarna oznaczająca budowę danego typu magazynu nie może być negatywna i musi być całkowitoliczbowa:
+
+$$
+\forall{m \in M, t \in T}: warehouse\_type_{mt} \in \mathbb{N}
+$$
+$$
+gdzie\ \mathbb{N} - zbiór\ liczb\ naturalnych
+$$
+
+- Nie można przesyłać z magazynów do punktów sprzedaży detalicznej negatywnej ilości produktów:
+
+$$
+\forall{m \in M, s \in S, p \in P}: warehouse\_retail\_outlet\_transport_{msp} \ge 0
+$$
+
+- Na trasie z magazynów do punktów sprzedaży detalicznej nie można puścić negatywnej ilości ciężarówek:
+
+$$
+\forall{m \in M, s \in S}: small\_truck\_count_{ms} \ge 0
+$$
+
 \newpage
 
 # Implementacja modelu
@@ -466,7 +507,7 @@ solve;
 
 \newpage
 
-Przygotowany plik z danymi numer 8:
+Przygotowany plik z danymi numer 7:
 
 ```py
 data;
