@@ -105,19 +105,78 @@ flowchart LR
 
 ## Zbiory
 
-- $TODO$ - TODO
+- $W = \{W1, W2\}$ - zbiór dostępnych zakładów wytwórczych,
+- $P = \{P1, P2\}$ - zbiór wytwarzanych produktów,
+- $M = \{M1, M2\}$ - zbiór magazynów,
+- $T = \{NONE, SMALL, LARGE\}$ - zbiór możliwych typów magazynów,
+- $S = \{S1, S2, S3\}$ - zbiór dostępnych punktów sprzedaży detalicznej.
 
 ## Parametry
 
-- $TODO$ - TODO
+- $FACTORY\_MAX\_PRODUCTION_{wp}, w \in W, p \in P$ - maksymalna ilość produktu $p$, jaką jest w stanie wyprodukować zakład wytwórczy $w$,
+
+$FACTORY\_MAX\_PRODUCTION_{wp}$ | P1 | P2
+--------------------------------|----|---
+W1                              | 52 | 40
+W2                              | 62 | 68
+
+- $FACTORY\_WAREHOUSE\_UNITARY\_TRANSPORT\_COST_{wm}, w \in W, m \in M$ - jednostkowe koszty transportu produktów z zakładu wytwórczego $w$ do magazynu $m$,
+
+$FACTORY\_WAREHOUSE\_UNITARY\_TRANSPORT\_COST_{wm}$ | M1 | M2
+----------------------------------------------------|----|---
+W1                                                  | 9  | 2
+W2                                                  | 6  | 4
+
+- $WAREHOUSE\_COST_{mt}, m \in M, t \in T$ - dzienny koszt utrzymania magazynu $m$ typu $t$,
+
+$WAREHOUSE\_COST_{mt}$ | NONE | SMALL  | LARGE
+-----------------------|------|--------|-------
+M1                     | 0    | 160000 | 476000
+M2                     | 0    | 316000 | 580000
+
+- $WAREHOUSE\_MAX\_CAPACITY_{mt}, m \in M, t \in T$ - pojemność magazynu $m$ typu $t$,
+
+$WAREHOUSE\_MAX\_CAPACITY_{mt}$ | NONE | SMALL | LARGE
+--------------------------------|------|-------|------
+M1                              | 0    | 46    | 142
+M2                              | 0    | 87    | 156
+
+- $WAREHOUSE\_RETAIL\_OUTLET\_UNITARY\_TRANSPORT\_COST_{ms}, m \in M, s \in S$ - jednostkowe koszty transportu produktów z magazynu $m$ do punktu sprzedaży detalicznej $s$,
+
+$WAREHOUSE\_RETAIL\_OUTLET\_UNITARY\_TRANSPORT\_COST_{ms}$ | S1 | S2 | S3
+-----------------------------------------------------------|----|----|---
+M1                                                         | 10 | 16 | 7
+M2                                                         | 7  | 14 | 3
+
+- $RETAIL\_OUTLET\_DEMAND_{ps}, p \in P, s \in S$ - zapotrzebowanie punktu sprzedaży detalicznej $s$ na produkt $p$,
+
+$RETAIL\_OUTLET\_DEMAND_{ps}$ | S1 | S2 | S3
+------------------------------|----|----|---
+P1                            | 33 | 32 | 36
+P2                            | 31 | 24 | 25
+
+- $LARGE\_TRUCK\_BASE\_COST = 5000$ - bazowy koszt dużej ciężarówki,
+- $LARGE\_TRUCK\_CAPACITY = 21$ - ładowność dużej ciężarówki,
+- $SMALL\_TRUCK\_BASE\_COST = 1800$ - bazowy koszt małej ciężarówki,
+- $SMALL\_TRUCK\_CAPACITY = 10$ - ładowność małej ciężarówki.
+
 
 ## Zmienne decyzyjne
 
-- $TODO$ - TODO
+- $factory\_production_{wp}, w \in W, p \in P$ - ilość produktu $p$ wytwarzana przez zakład wytwórczy $w$,
+- $factory\_warehouse\_transport_{wmp}, w \in W, m \in M, p \in P$ - ilość produktu $p$ transportowana ciężarówkami z zakładu wytwórczego $w$ do magazynu $m$,
+- $large\_truck\_count_{wm}, w \in W, m \in M$ - ilość dużych ciężarówek transportujących produkty z zakładu wytwórczego $w$ do magazynu $m$,
+- $factory\_warehouse\_transport\_cost_{wm}, w \in W, m \in M$ - całkowity koszt transportu produktów dużymi ciężarówkami na trasie z zakładu wytwórczego $w$ do magazynu $m$,
+- $warehouse\_type_{mt}, m \in M, t \in T$ - zmienna binarna reprezentująca wybór typu $t$ magazynu $m$,
+- $warehouse\_cost_{m}, m \in M$ - dzienny koszt wybudowanego magazynu $m$,
+- $warehouse\_retail\_outlet\_transport_{msp}, m \in M, s \in S, p \in P$ - ilość produktu $p$ transportowana ciężarówkami z magazynu $m$ do punktu sprzedaży detalicznej $s$,
+- $small\_truck\_count_{ms}, m \in M, s \in S$ - liczba małych ciężarówek transportujących produkty z magazynu $m$ do punktu sprzedaży detalicznej $s$,
+- $warehouse\_retail\_outlet\_transport\_cost_{ms}, m \in M, s \in S$ - całkowity koszt transportu produktów małymi ciężarówkami na trasie z magazynu $m$ do punktu sprzedaży detalicznej $s$,
+- $total\_cost$ - sumaryczny koszt transportu i magazynowania.
 
 ## Funkcja oceny
 
-- $TODO$ - TODO
+- $min(total\_cost)$ - minimalizujemy całkowity koszt dystrybucji (transportu i magazynowania).
 
 ## Ograniczenia
 
@@ -125,7 +184,7 @@ flowchart LR
 
 # Implementacja modelu
 
-```py
+```{.python caption="TODO"}
 set FACTORY;
 set PRODUCT;
 set WAREHOUSE;
@@ -255,7 +314,7 @@ solve;
 
 Przygotowany plik z danymi numer 8:
 
-```py
+```{.python caption="TODO"}
 data;
 
 set FACTORY := W1 W2;
@@ -312,7 +371,7 @@ ciężarówek, które mają kursować na poszczególnych trasach tak, aby zagwar
 
 ### Minimalny koszt dystrybucji
 
-W wyniku otrzymujemy minimalny koszt dystrybucji (transportu i magazynowania) produktów równy 823115 zł.
+W wyniku otrzymujemy minimalny koszt dystrybucji (transportu i magazynowania) produktów równy 823 115 zł.
 
 ### Ilości produktów transportowanych na trasach od zakładów wytwórczych do magazynów
 
