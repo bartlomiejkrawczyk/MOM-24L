@@ -101,6 +101,8 @@ flowchart LR
     M2 ----> S3
 ```
 
+\newpage
+
 # Model programowania mieszanego liniowo-całkowitoliczbowego
 
 ## Zbiory
@@ -148,6 +150,8 @@ $WAREHOUSE\_RETAIL\_OUTLET\_UNITARY\_TRANSPORT\_COST_{ms}$ | S1 | S2 | S3
 M1                                                         | 10 | 16 | 7
 M2                                                         | 7  | 14 | 3
 
+\newpage
+
 - $RETAIL\_OUTLET\_DEMAND_{ps}, p \in P, s \in S$ - zapotrzebowanie punktu sprzedaży detalicznej $s$ na produkt $p$,
 
 $RETAIL\_OUTLET\_DEMAND_{ps}$ | S1 | S2 | S3
@@ -167,7 +171,7 @@ P2                            | 31 | 24 | 25
 - $factory\_warehouse\_transport_{wmp}, w \in W, m \in M, p \in P$ - ilość produktu $p$ transportowana ciężarówkami z zakładu wytwórczego $w$ do magazynu $m$,
 - $large\_truck\_count_{wm}, w \in W, m \in M$ - ilość dużych ciężarówek transportujących produkty z zakładu wytwórczego $w$ do magazynu $m$,
 - $factory\_warehouse\_transport\_cost_{wm}, w \in W, m \in M$ - całkowity koszt transportu produktów dużymi ciężarówkami na trasie z zakładu wytwórczego $w$ do magazynu $m$,
-- $warehouse\_type_{mt}, m \in M, t \in T$ - zmienna binarna reprezentująca wybór typu $t$ magazynu $m$,
+- $warehouse\_type_{mt} \in \{0, 1\}, m \in M, t \in T$ - zmienna binarna reprezentująca wybór typu $t$ magazynu $m$. Jeden oznacza wybudowanie magazynu, a zero nie budowanie tego typu,
 - $warehouse\_cost_{m}, m \in M$ - dzienny koszt wybudowanego magazynu $m$,
 - $warehouse\_retail\_outlet\_transport_{msp}, m \in M, s \in S, p \in P$ - ilość produktu $p$ transportowana ciężarówkami z magazynu $m$ do punktu sprzedaży detalicznej $s$,
 - $small\_truck\_count_{ms}, m \in M, s \in S$ - liczba małych ciężarówek transportujących produkty z magazynu $m$ do punktu sprzedaży detalicznej $s$,
@@ -180,11 +184,15 @@ P2                            | 31 | 24 | 25
 
 ## Ograniczenia
 
-- $TODO$ - TODO
+- Zakład wytwórczy nie może produkować więcej niż pozwalają na to ustalone ograniczenia:
+
+\newpage
 
 # Implementacja modelu
 
-```{.python caption="TODO"}
+Ograniczenia zostały przeniesione do programu AMPL:
+
+```py
 set FACTORY;
 set PRODUCT;
 set WAREHOUSE;
@@ -210,7 +218,7 @@ param WAREHOUSE_RETAIL_OUTLET_UNITARY_TRANSPORT_COST{w in WAREHOUSE, r in RETAIL
 
 data parameters.dat;
 
-#############################################################################
+#########################################################################################
 
 var factory_production{f in FACTORY, p in PRODUCT} >= 0;
 
@@ -219,7 +227,7 @@ var large_truck_count{f in FACTORY, w in WAREHOUSE} integer >= 0;
 var factory_warehouse_transport_cost{f in FACTORY, w in WAREHOUSE};
 
 var warehouse_type{w in WAREHOUSE, t in WAREHOUSE_TYPE} integer >= 0;
-var warehouse_cost{w in WAREHOUSE} >= 0;
+var warehouse_cost{w in WAREHOUSE};
 
 var warehouse_retail_outlet_transport{w in WAREHOUSE, r in RETAIL_OUTLET, p in PRODUCT} >= 0;
 var small_truck_count{w in WAREHOUSE, r in RETAIL_OUTLET} integer >= 0;
@@ -227,7 +235,7 @@ var warehouse_retail_outlet_transport_cost{w in WAREHOUSE, r in RETAIL_OUTLET};
 
 var total_cost;
 
-#############################################################################
+#########################################################################################
 
 # Zakład wytwórczy nie może produkować więcej niż ustalone ograniczenia:
 
@@ -257,40 +265,51 @@ subject to warehouse_cost_constraint{w in WAREHOUSE}:
 # Każdy magazyn ma określoną pojemność i nie może przyjąć większego transportu:
 
 subject to warehouse_capacity_constraint{w in WAREHOUSE}:
-	sum{f in FACTORY, p in PRODUCT} factory_warehouse_transport[f, w, p] <= sum{t in WAREHOUSE_TYPE} WAREHOUSE_MAX_CAPACITY[w, t] * warehouse_type[w, t];
+	sum{f in FACTORY, p in PRODUCT} factory_warehouse_transport[f, w, p] 
+        <= sum{t in WAREHOUSE_TYPE} WAREHOUSE_MAX_CAPACITY[w, t] * warehouse_type[w, t];
 
 # Ilość produktów dostarczona do magazynu musi być równa ilości wywożonej:
 
 subject to incoming_equal_to_outgoing_constraint{w in WAREHOUSE, p in PRODUCT}:
-	sum{f in FACTORY} factory_warehouse_transport[f, w, p] = sum{r in RETAIL_OUTLET} warehouse_retail_outlet_transport[w, r, p];
+	sum{f in FACTORY} factory_warehouse_transport[f, w, p] 
+        = sum{r in RETAIL_OUTLET} warehouse_retail_outlet_transport[w, r, p];
 
 # Zapotrzebowanie na produkty powinny być spełnione:
 
 subject to retail_outlet_demand_transport_constraint{r in RETAIL_OUTLET, p in PRODUCT}:
-	sum{w in WAREHOUSE} warehouse_retail_outlet_transport[w, r, p] >= RETAIL_OUTLET_DEMAND[r, p];
+	sum{w in WAREHOUSE} warehouse_retail_outlet_transport[w, r, p] 
+        >= RETAIL_OUTLET_DEMAND[r, p];
 
-# Całkowity transport produktów od wytwórcy do magazynu nie może przekroczyć ilości ciężarówek transportujących na danej trasie:
+# Całkowity transport produktów od wytwórcy do magazynu nie może przekroczyć ilości 
+# ciężarówek transportujących na danej trasie:
 
 subject to factory_warehouse_transport_constraint{f in FACTORY, w in WAREHOUSE}:
-	sum{p in PRODUCT} factory_warehouse_transport[f, w, p] <= LARGE_TRUCK_CAPACITY * large_truck_count[f, w];
+	sum{p in PRODUCT} factory_warehouse_transport[f, w, p] 
+        <= LARGE_TRUCK_CAPACITY * large_truck_count[f, w];
 	
-# Koszt transportu od wytwórcy do magazynu składa się z dziennego kosztu utrzymania ciężarówek i jednostkowego kosztu transportu produktów:
+# Koszt transportu od wytwórcy do magazynu składa się z dziennego kosztu utrzymania
+# ciężarówek i jednostkowego kosztu transportu produktów:
 
 subject to factory_warehouse_transport_cost_constraint{f in FACTORY, w in WAREHOUSE}:
 	large_truck_count[f, w] * LARGE_TRUCK_BASE_COST
-		+ FACTORY_WAREHOUSE_UNITARY_TRANSPORT_COST[f, w] * sum{p in PRODUCT} factory_warehouse_transport[f, w, p]
+		+ FACTORY_WAREHOUSE_UNITARY_TRANSPORT_COST[f, w] 
+        * sum{p in PRODUCT} factory_warehouse_transport[f, w, p]
 		= factory_warehouse_transport_cost[f, w];
 
-# Całkowity transport produktów z magazynu do punktu sprzedaży detalicznej nie może przekroczyć ilości ciężarówek transportujących na danej trasie:
+# Całkowity transport produktów z magazynu do punktu sprzedaży detalicznej 
+# nie może przekroczyć ilości ciężarówek transportujących na danej trasie:
 
 subject to warehouse_retail_outlet_transport_constraint{w in WAREHOUSE, r in RETAIL_OUTLET}:
-	sum{p in PRODUCT} warehouse_retail_outlet_transport[w, r, p] <= SMALL_TRUCK_CAPACITY * small_truck_count[w, r];
+	sum{p in PRODUCT} warehouse_retail_outlet_transport[w, r, p] 
+        <= SMALL_TRUCK_CAPACITY * small_truck_count[w, r];
 
-# Koszt transportu od magazynu do punktu sprzedaży detalicznej składa się z dziennego kosztu utrzymania ciężarówek i jednostkowego kosztu transportu produktów:
+# Koszt transportu od magazynu do punktu sprzedaży detalicznej składa się 
+# z dziennego kosztu utrzymania ciężarówek i jednostkowego kosztu transportu produktów:
 
 subject to warehouse_retail_outlet_transport_cost_constraint{w in WAREHOUSE, r in RETAIL_OUTLET}:
 	small_truck_count[w, r] * SMALL_TRUCK_BASE_COST
-		+ WAREHOUSE_RETAIL_OUTLET_UNITARY_TRANSPORT_COST[w, r] * sum{p in PRODUCT} warehouse_retail_outlet_transport[w, r, p] 
+		+ WAREHOUSE_RETAIL_OUTLET_UNITARY_TRANSPORT_COST[w, r] 
+        * sum{p in PRODUCT} warehouse_retail_outlet_transport[w, r, p] 
 		= warehouse_retail_outlet_transport_cost[w, r];
 
 # Całkowity koszt składa się z kosztu transportu i magazynowania produktów:
@@ -301,20 +320,22 @@ subject to total_cost_constraint:
    		+ (sum{w in WAREHOUSE, r in RETAIL_OUTLET} warehouse_retail_outlet_transport_cost[w, r])
    	= total_cost;
 
-#############################################################################
+#########################################################################################
 
 minimize total_cost_minimalization:
    total_cost;
 
-#############################################################################
+#########################################################################################
 
 option solver cplex;
 solve;
 ```
 
+\newpage
+
 Przygotowany plik z danymi numer 8:
 
-```{.python caption="TODO"}
+```py
 data;
 
 set FACTORY := W1 W2;
@@ -362,6 +383,8 @@ param WAREHOUSE_RETAIL_OUTLET_UNITARY_TRANSPORT_COST
 
 end;
 ```
+
+\newpage
 
 # Wyniki
 
