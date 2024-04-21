@@ -34,7 +34,7 @@ var large_truck_count{f in FACTORY, w in WAREHOUSE} integer >= 0;
 var factory_warehouse_transport_cost{f in FACTORY, w in WAREHOUSE};
 
 var warehouse_type{w in WAREHOUSE, t in WAREHOUSE_TYPE} integer >= 0;
-var warehouse_cost{w in WAREHOUSE} >= 0;
+var warehouse_cost{w in WAREHOUSE};
 
 var warehouse_retail_outlet_transport{w in WAREHOUSE, r in RETAIL_OUTLET, p in PRODUCT} >= 0;
 var small_truck_count{w in WAREHOUSE, r in RETAIL_OUTLET} integer >= 0;
@@ -72,19 +72,21 @@ subject to warehouse_cost_constraint{w in WAREHOUSE}:
 # Ka¿dy magazyn ma okreœlon¹ pojemnoœæ i nie mo¿e przyj¹æ wiêkszego transportu:
 
 subject to warehouse_capacity_constraint{w in WAREHOUSE}:
-	sum{f in FACTORY, p in PRODUCT} factory_warehouse_transport[f, w, p] <= sum{t in WAREHOUSE_TYPE} WAREHOUSE_MAX_CAPACITY[w, t] * warehouse_type[w, t];
+	sum{f in FACTORY, p in PRODUCT} factory_warehouse_transport[f, w, p] 
+		<= sum{t in WAREHOUSE_TYPE} WAREHOUSE_MAX_CAPACITY[w, t] * warehouse_type[w, t];
 
 # Iloœæ produktów dostarczona do magazynu musi byæ równa iloœci wywo¿onej:
 
 subject to incoming_equal_to_outgoing_constraint{w in WAREHOUSE, p in PRODUCT}:
-	sum{f in FACTORY} factory_warehouse_transport[f, w, p] = sum{r in RETAIL_OUTLET} warehouse_retail_outlet_transport[w, r, p];
+	sum{f in FACTORY} factory_warehouse_transport[f, w, p] 
+		= sum{r in RETAIL_OUTLET} warehouse_retail_outlet_transport[w, r, p];
 
-# Zapotrzebowanie na produkty powinny byæ spe³nione:
+# Zapotrzebowanie na produkty powinno byæ spe³nione:
 
 subject to retail_outlet_demand_transport_constraint{r in RETAIL_OUTLET, p in PRODUCT}:
 	sum{w in WAREHOUSE} warehouse_retail_outlet_transport[w, r, p] >= RETAIL_OUTLET_DEMAND[r, p];
 
-# Ca³kowity transport produktów od wytwórcy do magazynu nie mo¿e przekroczyæ iloœci ciê¿arówek transportuj¹cych na danej trasie:
+# Ca³kowity transport produktów od wytwórcy do magazynu nie mo¿e przekroczyæ ³adownoœci ciê¿arówek transportuj¹cych na danej trasie:
 
 subject to factory_warehouse_transport_constraint{f in FACTORY, w in WAREHOUSE}:
 	sum{p in PRODUCT} factory_warehouse_transport[f, w, p] <= LARGE_TRUCK_CAPACITY * large_truck_count[f, w];
@@ -93,19 +95,22 @@ subject to factory_warehouse_transport_constraint{f in FACTORY, w in WAREHOUSE}:
 
 subject to factory_warehouse_transport_cost_constraint{f in FACTORY, w in WAREHOUSE}:
 	large_truck_count[f, w] * LARGE_TRUCK_BASE_COST
-		+ FACTORY_WAREHOUSE_UNITARY_TRANSPORT_COST[f, w] * sum{p in PRODUCT} factory_warehouse_transport[f, w, p]
+		+ FACTORY_WAREHOUSE_UNITARY_TRANSPORT_COST[f, w] 
+		* sum{p in PRODUCT} factory_warehouse_transport[f, w, p]
 		= factory_warehouse_transport_cost[f, w];
 
-# Ca³kowity transport produktów z magazynu do punktu sprzeda¿y detalicznej nie mo¿e przekroczyæ iloœci ciê¿arówek transportuj¹cych na danej trasie:
+# Ca³kowity transport produktów z magazynu do punktu sprzeda¿y detalicznej nie mo¿e przekroczyæ ³adownoœci ciê¿arówek transportuj¹cych na danej trasie:
 
 subject to warehouse_retail_outlet_transport_constraint{w in WAREHOUSE, r in RETAIL_OUTLET}:
-	sum{p in PRODUCT} warehouse_retail_outlet_transport[w, r, p] <= SMALL_TRUCK_CAPACITY * small_truck_count[w, r];
+	sum{p in PRODUCT} warehouse_retail_outlet_transport[w, r, p] 
+		<= SMALL_TRUCK_CAPACITY * small_truck_count[w, r];
 
 # Koszt transportu od magazynu do punktu sprzeda¿y detalicznej sk³ada siê z dziennego kosztu utrzymania ciê¿arówek i jednostkowego kosztu transportu produktów:
 
 subject to warehouse_retail_outlet_transport_cost_constraint{w in WAREHOUSE, r in RETAIL_OUTLET}:
 	small_truck_count[w, r] * SMALL_TRUCK_BASE_COST
-		+ WAREHOUSE_RETAIL_OUTLET_UNITARY_TRANSPORT_COST[w, r] * sum{p in PRODUCT} warehouse_retail_outlet_transport[w, r, p] 
+		+ WAREHOUSE_RETAIL_OUTLET_UNITARY_TRANSPORT_COST[w, r] 
+		* sum{p in PRODUCT} warehouse_retail_outlet_transport[w, r, p] 
 		= warehouse_retail_outlet_transport_cost[w, r];
 
 # Ca³kowity koszt sk³ada siê z kosztu transportu i magazynowania produktów:

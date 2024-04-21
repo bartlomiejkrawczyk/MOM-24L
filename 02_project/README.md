@@ -115,35 +115,35 @@ flowchart LR
 
 ## Parametry
 
-- $FACTORY\_MAX\_PRODUCTION_{wp}, w \in W, p \in P$ - maksymalna ilość produktu $p$, jaką jest w stanie wyprodukować zakład wytwórczy $w$,
+- $FACTORY\_MAX\_PRODUCTION_{wp},\ w \in W, p \in P$ - maksymalna ilość produktu $p$, jaką jest w stanie wyprodukować zakład wytwórczy $w$,
 
 $FACTORY\_MAX\_PRODUCTION_{wp}$ | P1 | P2
 --------------------------------|----|---
 W1                              | 52 | 40
 W2                              | 62 | 68
 
-- $FACTORY\_WAREHOUSE\_UNITARY\_TRANSPORT\_COST_{wm}, w \in W, m \in M$ - jednostkowe koszty transportu produktów z zakładu wytwórczego $w$ do magazynu $m$,
+- $FACTORY\_WAREHOUSE\_UNITARY\_TRANSPORT\_COST_{wm},\ w \in W, m \in M$ - jednostkowe koszty transportu produktów z zakładu wytwórczego $w$ do magazynu $m$,
 
 $FACTORY\_WAREHOUSE\_UNITARY\_TRANSPORT\_COST_{wm}$ | M1 | M2
 ----------------------------------------------------|----|---
 W1                                                  | 9  | 2
 W2                                                  | 6  | 4
 
-- $WAREHOUSE\_COST_{mt}, m \in M, t \in T$ - dzienny koszt utrzymania magazynu $m$ typu $t$,
+- $WAREHOUSE\_COST_{mt},\ m \in M, t \in T$ - dzienny koszt utrzymania magazynu $m$ typu $t$,
 
 $WAREHOUSE\_COST_{mt}$ | NONE | SMALL  | LARGE
 -----------------------|------|--------|-------
 M1                     | 0    | 160000 | 476000
 M2                     | 0    | 316000 | 580000
 
-- $WAREHOUSE\_MAX\_CAPACITY_{mt}, m \in M, t \in T$ - pojemność magazynu $m$ typu $t$,
+- $WAREHOUSE\_MAX\_CAPACITY_{mt},\ m \in M, t \in T$ - pojemność magazynu $m$ typu $t$,
 
 $WAREHOUSE\_MAX\_CAPACITY_{mt}$ | NONE | SMALL | LARGE
 --------------------------------|------|-------|------
 M1                              | 0    | 46    | 142
 M2                              | 0    | 87    | 156
 
-- $WAREHOUSE\_RETAIL\_OUTLET\_UNITARY\_TRANSPORT\_COST_{ms}, m \in M, s \in S$ - jednostkowe koszty transportu produktów z magazynu $m$ do punktu sprzedaży detalicznej $s$,
+- $WAREHOUSE\_RETAIL\_OUTLET\_UNITARY\_TRANSPORT\_COST_{ms},\ m \in M, s \in S$ - jednostkowe koszty transportu produktów z magazynu $m$ do punktu sprzedaży detalicznej $s$,
 
 $WAREHOUSE\_RETAIL\_OUTLET\_UNITARY\_TRANSPORT\_COST_{ms}$ | S1 | S2 | S3
 -----------------------------------------------------------|----|----|---
@@ -152,7 +152,7 @@ M2                                                         | 7  | 14 | 3
 
 \newpage
 
-- $RETAIL\_OUTLET\_DEMAND_{ps}, p \in P, s \in S$ - zapotrzebowanie punktu sprzedaży detalicznej $s$ na produkt $p$,
+- $RETAIL\_OUTLET\_DEMAND_{ps},\ p \in P, s \in S$ - zapotrzebowanie punktu sprzedaży detalicznej $s$ na produkt $p$,
 
 $RETAIL\_OUTLET\_DEMAND_{ps}$ | S1 | S2 | S3
 ------------------------------|----|----|---
@@ -167,15 +167,15 @@ P2                            | 31 | 24 | 25
 
 ## Zmienne decyzyjne
 
-- $factory\_production_{wp}, w \in W, p \in P$ - ilość produktu $p$ wytwarzana przez zakład wytwórczy $w$,
-- $factory\_warehouse\_transport_{wmp}, w \in W, m \in M, p \in P$ - ilość produktu $p$ transportowana ciężarówkami z zakładu wytwórczego $w$ do magazynu $m$,
-- $large\_truck\_count_{wm}, w \in W, m \in M$ - ilość dużych ciężarówek transportujących produkty z zakładu wytwórczego $w$ do magazynu $m$,
-- $factory\_warehouse\_transport\_cost_{wm}, w \in W, m \in M$ - całkowity koszt transportu produktów dużymi ciężarówkami na trasie z zakładu wytwórczego $w$ do magazynu $m$,
-- $warehouse\_type_{mt} \in \{0, 1\}, m \in M, t \in T$ - zmienna binarna reprezentująca wybór typu $t$ magazynu $m$. Jeden oznacza wybudowanie magazynu, a zero nie budowanie tego typu,
-- $warehouse\_cost_{m}, m \in M$ - dzienny koszt wybudowanego magazynu $m$,
-- $warehouse\_retail\_outlet\_transport_{msp}, m \in M, s \in S, p \in P$ - ilość produktu $p$ transportowana ciężarówkami z magazynu $m$ do punktu sprzedaży detalicznej $s$,
-- $small\_truck\_count_{ms}, m \in M, s \in S$ - liczba małych ciężarówek transportujących produkty z magazynu $m$ do punktu sprzedaży detalicznej $s$,
-- $warehouse\_retail\_outlet\_transport\_cost_{ms}, m \in M, s \in S$ - całkowity koszt transportu produktów małymi ciężarówkami na trasie z magazynu $m$ do punktu sprzedaży detalicznej $s$,
+- $factory\_production_{wp},\ w \in W, p \in P$ - ilość produktu $p$ wytwarzana przez zakład wytwórczy $w$,
+- $factory\_warehouse\_transport_{wmp},\ w \in W, m \in M, p \in P$ - ilość produktu $p$ transportowana ciężarówkami z zakładu wytwórczego $w$ do magazynu $m$,
+- $large\_truck\_count_{wm},\ w \in W, m \in M$ - ilość dużych ciężarówek transportujących produkty z zakładu wytwórczego $w$ do magazynu $m$,
+- $factory\_warehouse\_transport\_cost_{wm},\ w \in W, m \in M$ - całkowity koszt transportu produktów dużymi ciężarówkami na trasie z zakładu wytwórczego $w$ do magazynu $m$,
+- $warehouse\_type_{mt} \in \{0, 1\},\ m \in M, t \in T$ - zmienna binarna reprezentująca wybór typu $t$ magazynu $m$. Jeden oznacza wybudowanie magazynu, a zero nie budowanie tego typu,
+- $warehouse\_cost_{m},\ m \in M$ - dzienny koszt wybudowanego magazynu $m$,
+- $warehouse\_retail\_outlet\_transport_{msp},\ m \in M, s \in S, p \in P$ - ilość produktu $p$ transportowana ciężarówkami z magazynu $m$ do punktu sprzedaży detalicznej $s$,
+- $small\_truck\_count_{ms},\ m \in M, s \in S$ - liczba małych ciężarówek transportujących produkty z magazynu $m$ do punktu sprzedaży detalicznej $s$,
+- $warehouse\_retail\_outlet\_transport\_cost_{ms},\ m \in M, s \in S$ - całkowity koszt transportu produktów małymi ciężarówkami na trasie z magazynu $m$ do punktu sprzedaży detalicznej $s$,
 - $total\_cost$ - sumaryczny koszt transportu i magazynowania.
 
 ## Funkcja oceny
@@ -185,6 +185,139 @@ P2                            | 31 | 24 | 25
 ## Ograniczenia
 
 - Zakład wytwórczy nie może produkować więcej niż pozwalają na to ustalone ograniczenia:
+
+$$
+\forall{w \in W, p \in P}: factory\_production_{wp} \leq FACTORY\_MAX\_PRODUCTION_{wp}
+$$
+
+- Można transportować tylko tyle produktów ile dana fabryka wyprodukowała:
+
+$$
+\forall{w \in W, p \in P}: \sum_{m \in M} factory\_warehouse\_transport_{wmp} = factory\_production_{wp}
+$$
+
+- Każdy magazyn może być tylko jednego typu:
+
+$$
+\forall{m \in M}: \sum_{t \in T} warehouse\_type_{mt} = 1
+$$
+
+- Pierwszy magazyn już istnieje - nie możemy go zdegradować:
+
+$$
+warehouse\_type_{M1,NONE} = 0
+$$
+
+\newpage
+
+- Koszt magazynu jest zależny od jego wielkości:
+
+$$
+\forall{m \in M}: warehouse\_cost_{m} = \sum_{t \in T} warehouse\_type_{mt} * WAREHOUSE\_COST_{mt}
+$$
+
+- Każdy magazyn ma określoną pojemność i nie może przyjąć większego transportu:
+
+$$
+\forall{m \in M}: 
+$$
+$$
+\sum_{w \in W, p \in P} factory\_warehouse\_transport_{wmp} \leq 
+$$
+$$
+\sum_{t \in T} WAREHOUSE\_MAX\_CAPACITY_{mt} * warehouse\_type_{mt}
+$$
+
+- Ilość produktów dostarczona do magazynu musi być równa ilości wywożonej:
+
+$$
+\forall{m \in M, p \in P}: 
+\sum_{w \in W} factory\_warehouse\_transport_{wmp}
+= \sum_{s \in S} warehouse\_retail\_outlet\_transport_{msp}
+$$
+
+- Zapotrzebowanie na produkty powinno być spełnione:
+
+$$
+\forall{s \in S, p \in P}: \sum_{m \in M} warehouse\_retail\_outlet\_transport_{msp} \ge RETAIL\_OUTLET\_DEMAND_{sp}
+$$
+
+- Całkowity transport produktów od wytwórcy do magazynu nie może przekroczyć ładowności ciężarówek transportujących na danej trasie:
+
+$$
+\forall{w \in W, m \in M}: 
+$$
+$$
+\sum_{p \in P} factory\_warehouse\_transport_{wmp} \le 
+$$
+$$
+LARGE\_TRUCK\_CAPACITY * large\_truck\_count_{wm}
+$$
+
+- Koszt transportu od wytwórcy do magazynu składa się z dziennego kosztu utrzymania ciężarówek i jednostkowego kosztu transportu produktów:
+
+$$
+\forall{w \in W, m \in M}: 
+$$
+$$
+factory\_warehouse\_transport\_cost_{wm} =
+$$
+$$
+large\_truck\_count_{wm} * LARGE\_TRUCK\_BASE\_COST
+$$
+$$
++ FACTORY\_WAREHOUSE\_UNITARY\_TRANSPORT\_COST_{wm} 
+$$
+$$
+* \sum_{p \in P} factory\_warehouse\_transport_{wmp}
+$$
+
+- Całkowity transport produktów z magazynu do punktu sprzedaży detalicznej nie może przekroczyć ładowności ciężarówek transportujących na danej trasie:
+
+$$
+\forall{m \in M, s \in S}: 
+$$
+$$
+\sum_{p \in P} warehouse\_retail\_outlet\_transport_{msp} \le 
+$$
+$$
+SMALL\_TRUCK\_CAPACITY * small\_truck\_count_{ms}
+$$
+
+\newpage
+
+- Koszt transportu od magazynu do punktu sprzedaży detalicznej składa się z dziennego kosztu utrzymania ciężarówek i jednostkowego kosztu transportu produktów:
+
+$$
+\forall{m \in M, s \in S}:
+$$
+$$
+warehouse\_retail\_outlet\_transport\_cost\_{ms} =
+$$
+$$
+small\_truck\_count_{ms} * SMALL\_TRUCK\_BASE\_COST
+$$
+$$
++ WAREHOUSE\_RETAIL\_OUTLET\_UNITARY\_TRANSPORT\_COST_{ms} 
+$$
+$$
+* \sum_{p \in P} warehouse\_retail\_outlet\_transport_{msp}
+$$
+
+- Całkowity koszt składa się z kosztu transportu i magazynowania produktów:
+
+$$
+total\_cost = 
+$$
+$$
+(\sum_{m \in M} warehouse\_cost_{m}) 
+$$
+$$
++\ (\sum_{w \in W, m \in M} factory\_warehouse\_transport\_cost_{wm})
+$$
+$$
++\ (\sum_{m \in M, s \in S} warehouse\_retail\_outlet\_transport\_cost_{ms})
+$$
 
 \newpage
 
@@ -274,13 +407,13 @@ subject to incoming_equal_to_outgoing_constraint{w in WAREHOUSE, p in PRODUCT}:
 	sum{f in FACTORY} factory_warehouse_transport[f, w, p] 
         = sum{r in RETAIL_OUTLET} warehouse_retail_outlet_transport[w, r, p];
 
-# Zapotrzebowanie na produkty powinny być spełnione:
+# Zapotrzebowanie na produkty powinno być spełnione:
 
 subject to retail_outlet_demand_transport_constraint{r in RETAIL_OUTLET, p in PRODUCT}:
 	sum{w in WAREHOUSE} warehouse_retail_outlet_transport[w, r, p] 
         >= RETAIL_OUTLET_DEMAND[r, p];
 
-# Całkowity transport produktów od wytwórcy do magazynu nie może przekroczyć ilości 
+# Całkowity transport produktów od wytwórcy do magazynu nie może przekroczyć ładowności 
 # ciężarówek transportujących na danej trasie:
 
 subject to factory_warehouse_transport_constraint{f in FACTORY, w in WAREHOUSE}:
@@ -297,7 +430,7 @@ subject to factory_warehouse_transport_cost_constraint{f in FACTORY, w in WAREHO
 		= factory_warehouse_transport_cost[f, w];
 
 # Całkowity transport produktów z magazynu do punktu sprzedaży detalicznej 
-# nie może przekroczyć ilości ciężarówek transportujących na danej trasie:
+# nie może przekroczyć ładowności ciężarówek transportujących na danej trasie:
 
 subject to warehouse_retail_outlet_transport_constraint{w in WAREHOUSE, r in RETAIL_OUTLET}:
 	sum{p in PRODUCT} warehouse_retail_outlet_transport[w, r, p] 
