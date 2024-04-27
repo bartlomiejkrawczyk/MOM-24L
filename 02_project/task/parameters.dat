@@ -35,12 +35,12 @@ param SMALL_TRUCK_CAPACITY := 10;
 
 param FACTORY_WAREHOUSE_UNITARY_TRANSPORT_COST
     :    M1     M2     :=
-    W1   9      2
-    W2   6      4;
+    W1   9000   2000
+    W2   6000   4000;
 
 param WAREHOUSE_RETAIL_OUTLET_UNITARY_TRANSPORT_COST
     :    S1     S2     S3    :=
-    M1   10     16     7
-    M2   7      14     3;
+    M1   10000  16000  7000
+    M2   7000   14000  3000;
 
 end;

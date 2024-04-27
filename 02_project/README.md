@@ -184,25 +184,25 @@ P2                            | 31 | 24 | 25
 
 ## Ograniczenia
 
-- Zakład wytwórczy nie może produkować więcej niż pozwalają na to ustalone ograniczenia:
+- Zakład wytwórczy nie może wyprodukować więcej niż pozwalają na to możliwości wytwórcze:
 
 $$
 \forall{w \in W, p \in P}: factory\_production_{wp} \leq FACTORY\_MAX\_PRODUCTION_{wp}
 $$
 
-- Można transportować tylko tyle produktów ile dana fabryka wyprodukowała:
+- Sumaryczny transport produktu na trasach z zakładu wytwórczego nie może przekroczyć ilości wyprodukowanego produktu przez dany zakład:
 
 $$
-\forall{w \in W, p \in P}: \sum_{m \in M} factory\_warehouse\_transport_{wmp} = factory\_production_{wp}
+\forall{w \in W, p \in P}: \sum_{m \in M} factory\_warehouse\_transport_{wmp} \le factory\_production_{wp}
 $$
 
-- Każdy magazyn może być tylko jednego typu:
+- Każdy magazyn może być tylko jednego typu. Zmienna binarna $warehouse\_type_{mt}$ będzie oznaczać jaki typ magazynu zostanie pobudowany:
 
 $$
 \forall{m \in M}: \sum_{t \in T} warehouse\_type_{mt} = 1
 $$
 
-- Pierwszy magazyn już istnieje - nie możemy go zdegradować:
+- Pierwszy magazyn już istnieje i nie możemy go zdegradować:
 
 $$
 warehouse\_type_{M1,NONE} = 0
@@ -210,13 +210,13 @@ $$
 
 \newpage
 
-- Koszt magazynu jest zależny od jego wielkości:
+- Koszt zrealizowanego magazynu jest zależny tylko od jego wielkości. W celu osiągnięcia kosztu magazynu wystarczy zsumować wszystkie możliwe koszty przemnożone przez zmienną binarną wybranego typu:
 
 $$
 \forall{m \in M}: warehouse\_cost_{m} = \sum_{t \in T} warehouse\_type_{mt} * WAREHOUSE\_COST_{mt}
 $$
 
-- Każdy magazyn ma określoną pojemność i nie może przyjąć większego transportu:
+- Każdy magazyn ma określoną pojemność i nie może przyjąć większego transportu. Ilość magazynowanych produktów jest sumą produktów dostarczonych do magazynu:
 
 $$
 \forall{m \in M}: 
@@ -236,13 +236,13 @@ $$
 = \sum_{s \in S} warehouse\_retail\_outlet\_transport_{msp}
 $$
 
-- Zapotrzebowanie na produkty powinno być spełnione:
+- Zapotrzebowanie na produkty powinno być spełnione. Towar dostarczony do danego punktu sprzedaży jest sumą towarów dostarczanych do punktu ze wszystkich tras:
 
 $$
 \forall{s \in S, p \in P}: \sum_{m \in M} warehouse\_retail\_outlet\_transport_{msp} \ge RETAIL\_OUTLET\_DEMAND_{sp}
 $$
 
-- Całkowity transport produktów od wytwórcy do magazynu nie może przekroczyć ładowności ciężarówek transportujących na danej trasie:
+- W ramach ciężarówek możemy przewozić produkty w dowolnych proporcjach. Dopóki transportowany towar nie przekroczy ładowności wszystkich ciężarówek na danej trasie to będzie możliwy podział produktów między tymi ciężarówkami. W szczególności możemy podzielić produkty na kilka ciężarówek wypełnionych w pełni jednym typem produktu oraz maksymalnie jedną ciężarówką, którą transportujemy oba produkty w innych proporcjach. Całkowity transport produktów od wytwórcy do magazynu nie może przekroczyć ładowności ciężarówek transportujących na danej trasie:
 
 $$
 \forall{w \in W, m \in M}: 
@@ -272,7 +272,9 @@ $$
 * \sum_{p \in P} factory\_warehouse\_transport_{wmp}
 $$
 
-- Całkowity transport produktów z magazynu do punktu sprzedaży detalicznej nie może przekroczyć ładowności ciężarówek transportujących na danej trasie:
+\newpage
+
+- Podobnie jak w przypadku dużych ciężarówek, ilość transportowanego towaru jest ograniczona ładownością wszystkich małych ciężarówek na danej trasie. Całkowity transport produktów z magazynu do punktu sprzedaży detalicznej nie może przekroczyć ładowności ciężarówek:
 
 $$
 \forall{m \in M, s \in S}: 
@@ -283,8 +285,6 @@ $$
 $$
 SMALL\_TRUCK\_CAPACITY * small\_truck\_count_{ms}
 $$
-
-\newpage
 
 - Koszt transportu od magazynu do punktu sprzedaży detalicznej składa się z dziennego kosztu utrzymania ciężarówek i jednostkowego kosztu transportu produktów:
 
@@ -364,7 +364,7 @@ $$
 
 # Implementacja modelu
 
-Ograniczenia zostały przeniesione do programu AMPL:
+Ograniczenia zostały przeniesione do programu AMPL.
 
 ```py
 set FACTORY;
@@ -547,15 +547,21 @@ param SMALL_TRUCK_CAPACITY := 10;
 
 param FACTORY_WAREHOUSE_UNITARY_TRANSPORT_COST
     :    M1     M2     :=
-    W1   9      2
-    W2   6      4;
+    W1   9000   2000
+    W2   6000   4000;
 
 param WAREHOUSE_RETAIL_OUTLET_UNITARY_TRANSPORT_COST
     :    S1     S2     S3    :=
-    M1   10     16     7
-    M2   7      14     3;
+    M1   10000  16000  7000
+    M2   7000   14000  3000;
 
 end;
+```
+
+Skrypt można uruchomić w amplide za pomocą komendy:
+
+```
+include task.mod;
 ```
 
 \newpage
@@ -568,23 +574,25 @@ ciężarówek, które mają kursować na poszczególnych trasach tak, aby zagwar
 
 ### Minimalny koszt dystrybucji
 
-W wyniku otrzymujemy minimalny koszt dystrybucji (transportu i magazynowania) produktów równy 823 115 zł.
+W wyniku otrzymujemy minimalny koszt dystrybucji (transportu i magazynowania) produktów równy 2 885 000 zł.
 
 ### Ilości produktów transportowanych na trasach od zakładów wytwórczych do magazynów
 
 | wytwórcy \\ magazyny | M1           | M2          |
 |----------------------|--------------|-------------|
-| W1                   | P1 0\ \ P2 0 | P1 44 P2 40 |
-| W2                   | P1 34\ P2 0  | P1 23 P2 40 |
+| W1                   | P1 0\ \ P2 0 | P1 52 P2 40 |
+| W2                   | P1 26\ P2 0  | P1 23 P2 40 |
 
 ### Ilości produktów transportowanych na trasach od magazynów do punktów sprzedaży detalicznej
 
 | magazyny \\ punkty sprzedaży | S1           | S2            | S3           |
 |------------------------------|--------------|---------------|--------------|
-| M1                           | P1 0\ \ P2 0 | P1 30 P2 0    | P1 4\ \ P2 0 |
-| M2                           | P1 33 P2 31  | P1 2\ \ P2 24 | P1 32 P2 25  |
+| M1                           | P1 0\ \ P2 0 | P1 26 P2 0    | P1 0\ \ P2 0 |
+| M2                           | P1 33 P2 31  | P1 6\ \ P2 24 | P1 36 P2 25  |
 
 ### Optymalna rozbudowa magazynów
+
+Należy pozostawić standardowy magazyn M1 oraz wybudować powiększony magazyn M2.
 
 | magazyny \\ typ | NONE | SMALL | LARGE |
 |-----------------|------|-------|-------|
@@ -595,13 +603,13 @@ W wyniku otrzymujemy minimalny koszt dystrybucji (transportu i magazynowania) pr
 
 | wytwórcy \\ magazyny | M1 | M2 |
 |----------------------|----|----|
-| W1                   | 0  | 4  |
+| W1                   | 0  | 5  |
 | W2                   | 2  | 3  |
 
 ### Liczba małych ciężarówek
 
 | magazyny \\ punkty sprzedaży | S1 | S2 | S3 |
 |------------------------------|----|----|----|
-| M1                           | 0  | 3  | 1  |
-| M2                           | 7  | 3  | 6  |
+| M1                           | 0  | 3  | 0  |
+| M2                           | 7  | 3  | 7  |
 
