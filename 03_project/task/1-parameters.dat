@@ -1,0 +1,16 @@
+data;
+
+set RANGE := utopia nadir;
+
+param BETA := 1e-3;
+param EPSILON := 2e-5;
+
+param OBJECTIVE_RANGE
+	:			utopia		nadir	:=
+	S1			64		    106
+	S2			48          55
+	income		208         134
+	emissions	22          28
+	cost		30          42      ;
+
+end;

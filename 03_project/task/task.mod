@@ -14,6 +14,14 @@ param MIN_INCOME;
 param MAX_EMISSIONS;
 param MAX_COST;
 
+param COMPONENT_USAGE_ASPIRATION{c in COMPONENTS};
+
+param INCOME_ASPIRATION;
+param EMISSIONS_ASPIRATION;
+param COST_ASPIRATION;
+
+param ASPIRATIONS{o in OBJECTIVES};
+
 #############################################################################
 
 var production{p in PRODUCTS} integer >= 0;
@@ -25,6 +33,15 @@ var income;
 var emissions;
 
 var cost;
+
+#############################################################################
+
+var objectives{o in OBJECTIVES};
+s.t. objectives_1: objectives['S1'] = component_usage['S1'];
+s.t. objectives_2: objectives['S2'] = component_usage['S2'];
+s.t. objectives_3: objectives['income'] = income;
+s.t. objectives_4: objectives['emissions'] = emissions;
+s.t. objectives_5: objectives['cost'] = cost;
 
 #############################################################################
 

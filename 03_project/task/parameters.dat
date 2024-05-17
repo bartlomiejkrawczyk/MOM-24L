@@ -2,11 +2,17 @@ data;
 
 set PRODUCTS := P1 P2 P3;
 set COMPONENTS := S1 S2 S3;
+set OBJECTIVES := S1 S2 income emissions cost;
 
 param PRODUCT_INCOME :=
 	P1   9,
 	P2   21,
 	P3   11;
+# TODO: remove me
+#param PRODUCT_INCOME :=
+#	P1   10,
+#	P2   22,
+#	P3   12;
 
 param EMITTED_POLLUTANTS :=
 	P1	1,
@@ -37,5 +43,20 @@ param MINIMAL_PRODUCTION :=
 param MIN_INCOME := 130;
 param MAX_EMISSIONS := 35;
 param MAX_COST := 80;
+
+param COMPONENT_USAGE_ASPIRATION :=
+	S1	100,
+	S2	50;
+
+param INCOME_ASPIRATION := 150;
+param EMISSIONS_ASPIRATION := 30;
+param COST_ASPIRATION := 70;
+
+param ASPIRATIONS :=
+	S1			100,
+	S2			50,
+	income		150,
+	emissions	30,
+	cost		70;
 
 end;

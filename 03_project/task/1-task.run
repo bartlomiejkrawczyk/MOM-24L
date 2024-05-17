@@ -6,8 +6,45 @@ option cplex_options "time=180";
 model task.mod;
 data parameters.dat;
 
+#############################################################################
+
+set RANGE;
+
+param BETA;
+param EPSILON;
+
+param OBJECTIVE_RANGE{o in OBJECTIVES, r in RANGE};
+
+data 1-parameters.dat;
+
+#############################################################################
+
+var alpha{o in OBJECTIVES};
+
+var accomplishment{o in OBJECTIVES};
+
+var lower_bound;
+
+#############################################################################
+
+subject to alpha_calculation_constraint{o in OBJECTIVES}:
+	alpha[o] = 1 / (OBJECTIVE_RANGE[o, 'utopia'] - OBJECTIVE_RANGE[o, 'nadir']);
+	
+subject to lower_bound_constraint{o in OBJECTIVES}:
+	lower_bound <= accomplishment[o];
+
+subject to accomplishment_achieved_constraint{o in OBJECTIVES}:
+	accomplishment[o] <= BETA * alpha[o] * (objectives[o] - ASPIRATIONS[o]);
+
+subject to accomplishment_constraint{o in OBJECTIVES}:
+	accomplishment[o] <= alpha[o] * (objectives[o] - ASPIRATIONS[o]);
+
+#############################################################################
+
 maximize max_constraint:
-	income;
+	lower_bound + EPSILON * sum{o in OBJECTIVES} accomplishment[o];
+
+#############################################################################
 
 solve;
 
@@ -18,5 +55,6 @@ display emissions;
 display cost;
 display production;
 display component_usage;
+display alpha;
 
 #############################################################################

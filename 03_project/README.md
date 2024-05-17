@@ -93,6 +93,16 @@ Dodatkowe parametry wynikające z zadanych ograniczeń:
 - $COMPONENT\_USAGE\_HARD\_LIMIT[c], c \in COMPONENTS$ - maksymalna ilość składnika $c$ jaką można wykorzystać,
 - $MINIMAL\_PRODUCTION[p], p \in PRODUCTS$ - minimalna ilość sztuk produktu $p$ jaką należy wyprodukować,
 
+- $MIN\_INCOME = 130$ - minimalny akceptowalny poziom zarobków,
+- $MAX\_EMISSIONS = 35$ - maksymalny akceptowalny poziom emisji zanieczyszczeń,
+- $MAX\_COST = 80$ - maksymalny akceptowalny koszt wytwarzania wszystkich produktów.
+
+Parametry wynikające z zadanych aspiracji:
+
+- $INCOME\_ASPIRATION = 150$ - dążymy do zarobków na poziomie 150 tyś. PLN,
+- $EMISSIONS\_ASPIRATION = 30$ - dążymy do emisji zanieczyszczeń na poziomie 30 kg,
+- $COST\_ASPIRATION = 70$ - chcielibyśmy, aby koszty nie przekraczały 70 tyś. PLN.
+
 ## Zmienne decyzyjne
 
 - $production[p], p \in PRODUCTS$ - zmienna reprezentująca ilość wyprodukowanych produktów typu $p$,
@@ -140,17 +150,17 @@ $$
 \forall{p \in PRODUCTS}: production[p] >= MINIMAL_PRODUCTION[p]
 $$
 
-- Oczekujemy minimalnych zysków na poziomie 130 tyś PLN:
+- Oczekujemy minimalnych zysków na poziomie $MIN\_INCOME$:
 $$
 income >= MIN\_INCOME
 $$
 
-- Można wyprodukować maksymalnie 35 kg zanieczyszczeń:
+- Można wyprodukować maksymalnie $MAX\_EMISSIONS$ zanieczyszczeń:
 $$
 emissions <= MAX\_EMISSIONS
 $$
 
-- Koszty produkcji nie mogą przekroczyć 80 tyś PLN:
+- Koszty produkcji nie mogą przekroczyć $MAX\_COST$:
 $$
 cost <= MAX\_COST
 $$
