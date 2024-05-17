@@ -73,3 +73,15 @@ produkt [sztuki] \\ koszty produkcji [tyś.PLN/jednostkę] | Kx
 P1                                                       | 1
 P2                                                       | 3
 P3                                                       | 3
+
+# Sformułować i opisać wielokryterialny model planowania produkcji z wykorzystaniem metody punktu odniesienia.
+
+## Zbiory
+
+## Parametry
+
+## Zmienne decyzyjne
+
+## Ograniczenia
+
+## Funkcja oceny

@@ -1,0 +1,22 @@
+reset;
+
+option solver cplex;
+option cplex_options "time=180";
+
+model task.mod;
+data parameters.dat;
+
+maximize max_constraint:
+	income;
+
+solve;
+
+#############################################################################
+
+display income;
+display emissions;
+display cost;
+display production;
+display component_usage;
+
+#############################################################################
