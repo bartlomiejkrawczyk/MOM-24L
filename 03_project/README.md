@@ -74,14 +74,85 @@ P1                                                       | 1
 P2                                                       | 3
 P3                                                       | 3
 
-# Sformułować i opisać wielokryterialny model planowania produkcji z wykorzystaniem metody punktu odniesienia.
+# 1. Sformułować i opisać wielokryterialny model planowania produkcji z wykorzystaniem metody punktu odniesienia.
 
 ## Zbiory
 
+- $PRODUCTS = \{P1, P2, P3\}$ - zbiór możliwych do wyprodukowania produktów,
+- $COMPONENTS = \{S1, S2, S3\}$ - zbiór składników, z których wytwarzane są produkty.
+
 ## Parametry
+
+- $PRODUCT\_INCOME[p], p \in PRODUCTS$ - jednostkowa cena sprzedaży produktów $p$ (tyś.PLN/jednostkę),
+- $EMITTED\_POLLUTANTS[p], p \in PRODUCTS$ - jednostkowy poziom zanieczyszczeń emitowanych dla poszczególnych produktów $p$ (kg/jednostkę),
+- $PRODUCTION\_COST[p], p \in PRODUCTS$ - jednostkowe koszty produkcji produktu $p$ (tyś.PLN/jednostkę),
+- $PRODUCT\_COMPONENTS[p][c], p \in PRODUCTS, c \in COMPONENTS$ - wymagana ilość składnika $c$ do wytworzenia produktu $p$.
+
+Dodatkowe parametry wynikające z zadanych ograniczeń:
+
+- $COMPONENT\_USAGE\_HARD\_LIMIT[c], c \in COMPONENTS$ - maksymalna ilość składnika $c$ jaką można wykorzystać,
+- $MINIMAL\_PRODUCTION[p], p \in PRODUCTS$ - minimalna ilość sztuk produktu $p$ jaką należy wyprodukować,
 
 ## Zmienne decyzyjne
 
+- $production[p], p \in PRODUCTS$ - zmienna reprezentująca ilość wyprodukowanych produktów typu $p$,
+- $component\_usage[c], c \in COMPONENTS$ - reprezentuje całkowite wykorzystanie składnika typu $c$ do produkcji wszystkich produktów,
+- $income$ - zmienna pomocnicza oznaczająca całkowity zysk ze sprzedaży produktów,
+- $emissions$ - całkowite zanieczyszczenia wyemitowane podczas produkcji wszystkich produktów,
+- $cost$ - sumaryczne koszty produkcji wyrobów.
+
 ## Ograniczenia
+
+Ograniczenia wynikające z treści:
+
+- Poszczególne składniki są wykorzystywane do produkcji różnych produktów w różnych proporcjach:
+$$
+\forall{c \in COMPONENTS}:
+$$
+$$
+component\_usage[c] = \sum_{p \in PRODUCTS} PRODUCT\_COMPONENTS[p, c] * production[p]
+$$
+
+- Na całkowity zysk składają się zarobki ze sprzedaży wyprodukowanych wyrobów pomniejszone o koszty produkcji:
+$$
+income = (\sum_{p \in PRODUCTS} PRODUCT\_INCOME[p] * production[p]) - cost
+$$
+
+- Całkowity emisje są rezultatem zanieczyszczeń wytworzonych podczas produkcji poszczególnych produktów:
+$$
+emissions = \sum_{p \in PRODUCTS} EMITTED\_POLLUTANTS[p] * production[p]
+$$
+
+- Całkowite koszty produkcji składają się z kosztów wytworzenia poszczególnych produktów:
+$$
+cost = \sum{p \in PRODUCTS} PRODUCTION\_COST[p] * production[p]
+$$
+
+Ograniczenia wynikające z zadanych ograniczeń:
+
+- Zadane są limity wykorzystania poszczególnych składników, których przekroczenie jest nie akceptowalne:
+$$
+\forall{c \in COMPONENTS}: component\_usage[c] <= COMPONENT\_USAGE\_HARD\_LIMIT[c]
+$$
+
+- Narzucona jest minimalna produkcja poszczególnych produktów:
+$$
+\forall{p \in PRODUCTS}: production[p] >= MINIMAL_PRODUCTION[p]
+$$
+
+- Oczekujemy minimalnych zysków na poziomie 130 tyś PLN:
+$$
+income >= MIN\_INCOME
+$$
+
+- Można wyprodukować maksymalnie 35 kg zanieczyszczeń:
+$$
+emissions <= MAX\_EMISSIONS
+$$
+
+- Koszty produkcji nie mogą przekroczyć 80 tyś PLN:
+$$
+cost <= MAX\_COST
+$$
 
 ## Funkcja oceny

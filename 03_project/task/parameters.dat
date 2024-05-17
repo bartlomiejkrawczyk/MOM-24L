@@ -34,4 +34,8 @@ param MINIMAL_PRODUCTION :=
 	P2	0,
 	P3	5;
 
+param MIN_INCOME := 130;
+param MAX_EMISSIONS := 35;
+param MAX_COST := 80;
+
 end;

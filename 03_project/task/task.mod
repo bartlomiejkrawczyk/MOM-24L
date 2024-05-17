@@ -1,5 +1,6 @@
 set PRODUCTS;
 set COMPONENTS;
+set OBJECTIVES;
 
 param PRODUCT_INCOME{p in PRODUCTS};
 param EMITTED_POLLUTANTS{p in PRODUCTS};
@@ -8,6 +9,10 @@ param PRODUCT_COMPONENTS{p in PRODUCTS, c in COMPONENTS};
 
 param COMPONENT_USAGE_HARD_LIMIT{c in COMPONENTS};
 param MINIMAL_PRODUCTION{p in PRODUCTS};
+
+param MIN_INCOME;
+param MAX_EMISSIONS;
+param MAX_COST;
 
 #############################################################################
 
@@ -42,6 +47,17 @@ subject to component_usage_hard_limit_constraint{c in COMPONENTS}:
 	
 subject to minimal_production_constraint{p in PRODUCTS}:
 	production[p] >= MINIMAL_PRODUCTION[p];
+
+#############################################################################
+
+subject to min_income_constraint:
+	income >= MIN_INCOME;
+
+subject to max_emissions_constraint:
+	emissions <= MAX_EMISSIONS;
+
+subject to max_cost_constraint:
+	cost <= MAX_COST;
 
 #############################################################################
 
