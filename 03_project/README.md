@@ -14,8 +14,8 @@ header-includes:
 
 ## Opis modelowanego problemu:
 
-Przedsiębiorstwo produkuje trzy produkty $P1$, $P2$, $P3$ (sztuki). Każdy z tych produktów potrzebuje trzech różnych składników $S1$, $S2$, $S3$ (kg/jednostkę). Każdy z produktów ma inną ceną jednostkową sprzedaży $C_P1$, $C_P2$, $C_P3$ (tyś.PLN/jednostkę). Firma zwraca uwagę na ekologię i szacuje jednostkowy poziom zanieczyszczeń emitowanych dla poszczególnych produktów $Z_P1$, $Z_P2$, $Z_P3$ (kg/jednostkę). Dostępne
-są również jednostkowe koszty produkcji $K_P1$, $K_P2$, $K_P3$ (tyś.PLN/jednostkę).
+Przedsiębiorstwo produkuje trzy produkty $P1$, $P2$, $P3$ (sztuki). Każdy z tych produktów potrzebuje trzech różnych składników $S1$, $S2$, $S3$ (kg/jednostkę). Każdy z produktów ma inną ceną jednostkową sprzedaży $C_{P1}$, $C_{P2}$, $C_{P3}$ (tyś.PLN/jednostkę). Firma zwraca uwagę na ekologię i szacuje jednostkowy poziom zanieczyszczeń emitowanych dla poszczególnych produktów $Z_{P1}$, $Z_{P2}$, $Z_{P3}$ (kg/jednostkę). Dostępne
+są również jednostkowe koszty produkcji $K_{P1}$, $K_{P2}$, $K_{P3}$ (tyś.PLN/jednostkę).
 
 Ograniczenia:
 
@@ -74,6 +74,8 @@ P1                                                       | 1
 P2                                                       | 3
 P3                                                       | 3
 
+\newpage
+
 # Opracowany domyślny model
 
 Został przygotowany bazowy model na bazie, który w zależności od podpunktu zadania został rozbudowany o dodatkowe zbiory, parametry, zmienne decyzyjne, ograniczenia i funkcje oceny.
@@ -82,11 +84,11 @@ Został przygotowany bazowy model na bazie, który w zależności od podpunktu z
 
 - $PRODUCTS = \{P1, P2, P3\}$ - zbiór możliwych do wyprodukowania produktów,
 - $COMPONENTS = \{S1, S2, S3\}$ - zbiór składników, z których wytwarzane są produkty,
-- $OBJECTIVES = \{S1 S2 income emissions cost\}$ - zbiór nazwanych zmiennych decyzyjnych, dla których ustalone są aspiracje. Tak zdefiniowany zbiór pozwala na uproszczenie zapisu niektórych ograniczeń.
+- $OBJECTIVES = \{S1, S2, income, emissions, cost\}$ - zbiór nazwanych zmiennych decyzyjnych, dla których ustalone są aspiracje. Tak zdefiniowany zbiór pozwala na uproszczenie zapisu niektórych ograniczeń.
 
 ## Parametry
 
-- $PRODUCT\_INCOME[p], p \in PRODUCTS$ - jednostkowa cena sprzedaży produktów $p$ (tyś.PLN/jednostkę),
+- $PRODUCT\_INCOME[p],\ p \in PRODUCTS$ - jednostkowa cena sprzedaży produktów $p$ (tyś.PLN/jednostkę),
 
 $PRODUCTS$ | $PRODUCT\_INCOME[p]$
 -----------|---------------------
@@ -94,7 +96,7 @@ P1         | 9
 P2         | 21
 P3         | 11
 
-- $EMITTED\_POLLUTANTS[p], p \in PRODUCTS$ - jednostkowy poziom zanieczyszczeń emitowanych dla poszczególnych produktów $p$ (kg/jednostkę),
+- $EMITTED\_POLLUTANTS[p],\ p \in PRODUCTS$ - jednostkowy poziom zanieczyszczeń emitowanych dla poszczególnych produktów $p$ (kg/jednostkę),
 
 $PRODUCTS$ | $EMITTED\_POLLUTANTS[p]$
 -----------|-------------------------
@@ -102,7 +104,7 @@ P1         | 1
 P2         | 1
 P3         | 3
 
-- $PRODUCTION\_COST[p], p \in PRODUCTS$ - jednostkowe koszty produkcji produktu $p$ (tyś.PLN/jednostkę),
+- $PRODUCTION\_COST[p],\ p \in PRODUCTS$ - jednostkowe koszty produkcji produktu $p$ (tyś.PLN/jednostkę),
 
 $PRODUCTS$ | $PRODUCTION\_COST[p]$
 -----------|----------------------
@@ -110,7 +112,7 @@ P1         | 1
 P2         | 3
 P3         | 3
 
-- $PRODUCT\_COMPONENTS[p][c], p \in PRODUCTS, c \in COMPONENTS$ - wymagana ilość składnika $c$ do wytworzenia produktu $p$.
+- $PRODUCT\_COMPONENTS[p][c],\ p \in PRODUCTS,\ c \in COMPONENTS$ - wymagana ilość składnika $c$ do wytworzenia produktu $p$.
 
 $PRODUCT\_COMPONENTS[p][c]$ | S1 | S2 | S3
 ----------------------------|----|----|---
@@ -120,7 +122,7 @@ P3                          | 4  | 4  | 2
 
 Dodatkowe parametry wynikające z zadanych ograniczeń:
 
-- $COMPONENT\_USAGE\_HARD\_LIMIT[c], c \in COMPONENTS$ - maksymalna ilość składnika $c$ jaką można wykorzystać,
+- $COMPONENT\_USAGE\_HARD\_LIMIT[c],\ c \in COMPONENTS$ - maksymalna ilość składnika $c$ jaką można wykorzystać,
 
 $COMPONENTS$ | $COMPONENT\_USAGE\_HARD\_LIMIT[c]$
 -------------|-----------------------------------
@@ -128,7 +130,7 @@ S1           | 110
 S2           | 55
 S3           | 50
 
-- $MINIMAL\_PRODUCTION[p], p \in PRODUCTS$ - minimalna ilość sztuk produktu $p$ jaką należy wyprodukować,
+- $MINIMAL\_PRODUCTION[p],\ p \in PRODUCTS$ - minimalna ilość sztuk produktu $p$ jaką należy wyprodukować,
 
 $PRODUCTS$ | $MINIMAL\_PRODUCTION[p]$
 -----------|-------------------------
@@ -143,7 +145,7 @@ P3         | 5
 
 Parametry wynikające z zadanych aspiracji:
 
-- $ASPIRATIONS[o], o \in OBJECTIVES$ - aspiracje ustalone dla poszczególnych zmiennych decyzyjnych.
+- $ASPIRATIONS[o],\ o \in OBJECTIVES$ - aspiracje ustalone dla poszczególnych zmiennych decyzyjnych.
 
 $OBJECTIVES$ | $ASPIRATIONS[o]$
 -------------|-----------------
@@ -155,20 +157,20 @@ cost         | 70
 
 ## Zmienne decyzyjne
 
-- $production[p], p \in PRODUCTS$ - zmienna reprezentująca ilość wyprodukowanych produktów typu $p$,
-- $component\_usage[c], c \in COMPONENTS$ - reprezentuje całkowite wykorzystanie składnika typu $c$ do produkcji wszystkich produktów,
+- $production[p],\ p \in PRODUCTS$ - zmienna reprezentująca ilość wyprodukowanych produktów typu $p$,
+- $component\_usage[c],\ c \in COMPONENTS$ - reprezentuje całkowite wykorzystanie składnika typu $c$ do produkcji wszystkich produktów,
 - $income$ - zmienna pomocnicza oznaczająca całkowity zysk ze sprzedaży produktów,
 - $emissions$ - całkowite zanieczyszczenia wyemitowane podczas produkcji wszystkich produktów,
 - $cost$ - sumaryczne koszty produkcji wyrobów.
 
 W celu prostszego zapisu wzorów na zadane aspiracje został zdefiniowany dodatkowy wektor zmiennych decyzyjnych:
 
-- $objectives[o], o \in OBJECTIVES$ - zmienna agregująca wartości kilku innych zmiennych decyzyjnych. W ramach tej zmiennej zostały także zdefiniowane odpowiednie ograniczenia:
+- $objectives[o],\ o \in OBJECTIVES$ - zmienna agregująca wartości kilku innych zmiennych decyzyjnych. W ramach tej zmiennej zostały także zdefiniowane odpowiednie ograniczenia:
 $$
-objectives[S1] = component_usage[S1]
+objectives[S1] = component\_usage[S1]
 $$
 $$
-objectives[S2] = component_usage[S2]
+objectives[S2] = component\_usage[S2]
 $$
 $$
 objectives[income] = income
@@ -211,33 +213,93 @@ Ograniczenia wynikające z zadanych ograniczeń:
 
 - Zadane są limity wykorzystania poszczególnych składników, których przekroczenie jest nie akceptowalne:
 $$
-\forall{c \in COMPONENTS}: component\_usage[c] <= COMPONENT\_USAGE\_HARD\_LIMIT[c]
+\forall{c \in COMPONENTS}: component\_usage[c] \le COMPONENT\_USAGE\_HARD\_LIMIT[c]
 $$
 
 - Narzucona jest minimalna produkcja poszczególnych produktów:
 $$
-\forall{p \in PRODUCTS}: production[p] >= MINIMAL_PRODUCTION[p]
+\forall{p \in PRODUCTS}: production[p] \ge MINIMAL\_PRODUCTION[p]
 $$
 
 - Oczekujemy minimalnych zysków na poziomie $MIN\_INCOME$:
 $$
-income >= MIN\_INCOME
+income \ge MIN\_INCOME
 $$
 
 - Można wyprodukować maksymalnie $MAX\_EMISSIONS$ zanieczyszczeń:
 $$
-emissions <= MAX\_EMISSIONS
+emissions \le MAX\_EMISSIONS
 $$
 
 - Koszty produkcji nie mogą przekroczyć $MAX\_COST$:
 $$
-cost <= MAX\_COST
+cost \le MAX\_COST
 $$
 
 ## Funkcja oceny
 
 Funkcje oceny, które są optymalizowane będą zdefiniowane oddzielnie w zależności od rozwiązywanego podpunktu.
 
+\newpage
+
 # 1. Sformułować i opisać wielokryterialny model planowania produkcji z wykorzystaniem metody punktu odniesienia.
 
-Model bazuje na przygotowanym modelu podstawowym. W tym rozdziale zostaną jedynie zdefiniowane parametry, ograniczenia, i zmienne decyzyjne, które zostały zdefiniowane, by wykorzystać metodę punktu odniesienia.
+Model bazuje na przygotowanym modelu podstawowym. W tym rozdziale zostaną zdefiniowane jedynie dodatkowe parametry, ograniczenia, i zmienne decyzyjne. Zostały one zdefiniowane, by wykorzystać metodę punktu odniesienia.
+
+## Zbiory
+
+- $RANGE = \{utopia, nadir\}$ - zbiór pozwalający na ustalenie zakresu dla zmiennych celu.
+
+## Parametry
+
+- $\beta = 10^{-3}$ - parametr pozwalający na ograniczenie wzrostu wartości funkcji oceny dla zmiennych decyzyjnych ponad zadany poziom aspiracji. Funkcja oceny dla parametrów, które ten poziom osiągnęły będzie rosła o $\beta$ wolniej, niż dla tych zmiennych, które tego poziomu nie osiągnęły,
+- $\epsilon = 10^{-4} / 5 = 2 * 10^{-5}$ - parametr z wagą jaką będziemy przyjmować dla sumy zmiennych celu. Zapewnia on, że każde otrzymane rozwiązanie będzie efektywne,
+- $OBJECTIVE\_RANGE[o][r],\ o \in OBJECTIVES,\ r \in RANGE$ - wyliczone na podstawie bazowego modelu dla każdej zmiennej celu wartości utopii i nadiru:
+
+$OBJECTIVE\_RANGE[o][r]$ | utopia | nadir
+-------------------------|--------|------
+S1                       | 64     | 106
+S2                       | 48     | 55
+income                   | 208    | 134
+emissions                | 22     | 28
+cost                     | 30     | 42
+
+## Zmienne decyzyjne
+
+- $\lambda[o],\ o \in OBJECTIVES$ - parametry normalizujące zakres zmienności kryteriów. Wyliczone na bazie wartości utopii i nadiru dla poszczególnych celów $o$,
+- $accomplishment[o],\ o \in OBJECTIVES$ - wyznaczony poziom zadowolenia z osiągnięcia poszczególnych wartości zmiennych celu $o$,
+- $lower\_bound$ - dolne ograniczenie wszystkich poziomów zadowolenia z osiągnięcia aspiracji.
+
+## Ograniczenia
+
+- Wyliczamy parametr normalizujący $\lambda$ na bazie wartości utopii i nadiru:
+$$
+\lambda[o] = 1 / (OBJECTIVE\_RANGE[o][utopia] - OBJECTIVE\_RANGE[o][nadir])
+$$
+
+- Wprowadzamy zmienną $lower\_bound$, która będzie mniejsza niż każde z poziomów zadowolenia:
+$$
+\forall{o \in OBJECTIVES}: lower\_bound \le accomplishment[o]
+$$
+
+- Poziom zadowolenia dla wartości przekraczających aspirację będzie pomniejszony o $\beta$:
+$$
+\forall{o \in OBJECTIVES}: accomplishment[o] <= \beta * \lambda[o] * (objectives[o] - ASPIRATIONS[o])
+$$
+
+- Poziom zadowolenia będzie rósł liniowo zgodnie z wartościami celu, do osiągnięcia poziomu aspiracji:
+$$
+\forall{o \in OBJECTIVES}: accomplishment[o] <= \lambda[o] * (objectives[o] - ASPIRATIONS[o])
+$$
+
+## Funkcja oceny
+
+- W pierwszej kolejności maksymalizujemy najmniejszy poziom zadowolenia, a z mniejszą wagą maksymalizujemy całkowite zadowolenie:
+$$
+max(lower\_bound + \epsilon * \sum_{o \in OBJECTIVES} accomplishment[o])
+$$
+
+\newpage
+
+# 2. Sformułować i opisać wielokryterialny model optymalnego planowania produkcji z wykorzystaniem zbiorów rozmytych.
+
