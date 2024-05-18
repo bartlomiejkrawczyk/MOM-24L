@@ -9,7 +9,7 @@ data parameters.dat;
 #############################################################################
 
 var alpha >= 0;
-s.t. alpha_constraint: alpha <= 1;
+# s.t. alpha_constraint: alpha <= 1;
 
 var tolerance{o in OBJECTIVES};
 

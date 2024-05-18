@@ -210,22 +210,22 @@ $$
 \forall{c \in COMPONENTS}:
 $$
 $$
-component\_usage[c] = \sum_{p \in PRODUCTS} PRODUCT\_COMPONENTS[p, c] * production[p]
+component\_usage[c] = \sum_{p \in PRODUCTS} PRODUCT\_COMPONENTS[p, c] \cdot production[p]
 $$
 
 - Na całkowity zysk składają się zarobki ze sprzedaży wyprodukowanych wyrobów pomniejszone o koszty produkcji:
 $$
-income = (\sum_{p \in PRODUCTS} PRODUCT\_INCOME[p] * production[p]) - cost
+income = (\sum_{p \in PRODUCTS} PRODUCT\_INCOME[p] \cdot production[p]) - cost
 $$
 
 - Całkowity emisje są rezultatem zanieczyszczeń wytworzonych podczas produkcji poszczególnych produktów:
 $$
-emissions = \sum_{p \in PRODUCTS} EMITTED\_POLLUTANTS[p] * production[p]
+emissions = \sum_{p \in PRODUCTS} EMITTED\_POLLUTANTS[p] \cdot production[p]
 $$
 
 - Całkowite koszty produkcji składają się z kosztów wytworzenia poszczególnych produktów:
 $$
-cost = \sum{p \in PRODUCTS} PRODUCTION\_COST[p] * production[p]
+cost = \sum{p \in PRODUCTS} PRODUCTION\_COST[p] \cdot production[p]
 $$
 
 Ograniczenia wynikające z zadanych ograniczeń:
@@ -272,7 +272,7 @@ Model bazuje na przygotowanym modelu podstawowym. W tym rozdziale zostaną zdefi
 ## Parametry
 
 - $\beta = 10^{-3}$ - parametr pozwalający na ograniczenie wzrostu wartości funkcji oceny dla zmiennych decyzyjnych ponad zadany poziom aspiracji. Funkcja oceny dla parametrów, które ten poziom osiągnęły będzie rosła o $\beta$ wolniej, niż dla tych zmiennych, które tego poziomu nie osiągnęły,
-- $\varepsilon  = 10^{-4} / 5 = 2 * 10^{-5}$ - parametr z wagą jaką będziemy przyjmować dla sumy zmiennych celu. Zapewnia on, że każde otrzymane rozwiązanie będzie efektywne,
+- $\varepsilon  = 10^{-4} / 5 = 2 \cdot 10^{-5}$ - parametr z wagą jaką będziemy przyjmować dla sumy zmiennych celu. Zapewnia on, że każde otrzymane rozwiązanie będzie efektywne,
 - $OBJECTIVE\_RANGE[o][r],\ o \in OBJECTIVES,\ r \in RANGE$ - wyliczone na podstawie bazowego modelu dla każdej zmiennej celu wartości utopii i nadiru:
 
 $OBJECTIVE\_RANGE[o][r]$ | utopia | nadir
@@ -303,19 +303,19 @@ $$
 
 - Poziom zadowolenia dla wartości przekraczających aspirację będzie pomniejszony o $\beta$:
 $$
-\forall{o \in OBJECTIVES}: accomplishment[o] <= \beta * \lambda[o] * (objectives[o] - ASPIRATIONS[o])
+\forall{o \in OBJECTIVES}: accomplishment[o] \le \beta \cdot \lambda[o] \cdot (objectives[o] - ASPIRATIONS[o])
 $$
 
 - Poziom zadowolenia będzie rósł liniowo zgodnie z wartościami celu, do osiągnięcia poziomu aspiracji:
 $$
-\forall{o \in OBJECTIVES}: accomplishment[o] <= \lambda[o] * (objectives[o] - ASPIRATIONS[o])
+\forall{o \in OBJECTIVES}: accomplishment[o] \le \lambda[o] \cdot (objectives[o] - ASPIRATIONS[o])
 $$
 
 ## Funkcja oceny
 
 - W pierwszej kolejności maksymalizujemy najmniejszy poziom zadowolenia, a z mniejszą wagą maksymalizujemy całkowite zadowolenie:
 $$
-max(lower\_bound + \varepsilon  * \sum_{o \in OBJECTIVES} accomplishment[o])
+max(lower\_bound + \varepsilon  \cdot \sum_{o \in OBJECTIVES} accomplishment[o])
 $$
 
 \newpage
@@ -326,7 +326,7 @@ Model bazuje na przygotowanym modelu podstawowym. W tym rozdziale zostaną zdefi
 
 ## Zmienne decyzyjne
 
-- $tolerance[o], o \in OBJECTIVES$ - zmienna reprezentująca tolerancję dla rozmytych ograniczeń. Zostało przyjęte, że dla zmiennych z górnym nieakceptowalnym ograniczeniem tolerancja jest dodatnia, a z dolnym ograniczeniem tolerancja ujemna.
+- $tolerance[o], o \in OBJECTIVES$ - zmienna reprezentująca rozmycie ograniczeń (wartość stała). Zostało przyjęte, że dla zmiennych z górnym nieakceptowalnym ograniczeniem wartość jest dodatnia, a z dolnym ograniczeniem wartość ujemna.
 
 ## Ograniczenia
 
@@ -339,32 +339,101 @@ $$
 
 - Nie powinniśmy wykorzystać więcej składnika $S1$ niż zadany poziom aspiracji z poziomem tolerancji równym $|tolerance[S1]|$:
 $$
-component\_usage[S1] \lesssim ASPIRATIONS[S1]
+component\_usage[S1] \underset{\sim}{\le} ASPIRATIONS[S1]
 $$
 
 - Nie powinniśmy wykorzystać więcej składnika $S2$ niż zadany poziom aspiracji z poziomem tolerancji równym $|tolerance[S2]|$:
 $$
-component\_usage[S2] \lesssim ASPIRATIONS[S2]
+component\_usage[S2] \underset{\sim}{\le} ASPIRATIONS[S2]
 $$
 
 ## Cele rozmyte
 
 - Celujemy by zysk przekroczył poziom aspiracji z poziomem tolerancji równym $|tolerance[income]|$:
 $$
-income \gtrsim ASPIRATIONS[income]
+income \underset{\sim}{\le} ASPIRATIONS[income]
 $$
 
 - Celujemy by emisja zanieczyszczeń była mniejsza niż zadany poziom aspiracji z poziomem tolerancji równym $|tolerance[emissions]|$:
 $$
-emissions \lesssim ASPIRATIONS[emissions]
+emissions \underset{\sim}{\le} ASPIRATIONS[emissions]
 $$
 
 - Celujemy by całkowite koszty były mniejsze niż zadany poziom aspiracji z poziomem tolerancji równym $|tolerance[cost]|$:
 $$
-cost \lesssim ASPIRATIONS[cost]
+cost \underset{\sim}{\le} ASPIRATIONS[cost]
 $$
 
 \newpage
 
 # 3. Sformułować równoważne zadanie optymalizacji dla zadania 2 z wykorzystaniem zbiorów rozmytych adaptując podejście Zimmermana dla więcej niż jednego kryterium.
 
+Model bazuje na przygotowanym modelu podstawowym. W tym rozdziale zostaną zdefiniowane jedynie dodatkowe parametry, ograniczenia, zmienne decyzyjne i funkcje oceny. Zostały one zdefiniowane, by wykorzystać metodę zbiorów rozmytych z podejściem Zimmermana dla więcej niż jednego kryterium.
+
+## Zmienne decyzyjne
+
+- $\alpha$ - zmienna decyzyjna dla $\alpha$-przekrojów,
+
+- $tolerance[o], o \in OBJECTIVES$ - zmienna reprezentująca rozmycie ograniczeń (wartość stała). Zostało przyjęte, że dla zmiennych z górnym nieakceptowalnym ograniczeniem wartość jest dodatnia, a z dolnym ograniczeniem wartość ujemna.
+
+## Ograniczenia
+
+- Zmienna $\alpha$ może przyjmować wartości z zakresu [0; 1]. Warto tutaj zwrócić uwagę, że przez narzucone górne ograniczenie na wartość $\alpha$ w efekcie możemy otrzymać rozwiązanie, które nie będzie najlepszym jeśli byśmy brali pod uwagę także inne kryteria:
+$$
+0 \le \alpha \le 1
+$$
+
+- Przyjęty poziom tolerancji możemy osiągnąć poprzez odjęcie od ustalonych nieprzekraczalnych limitów naszych aspiracji:
+$$
+\forall{o \in OBJECTIVES}: tolerance[o] = hard\_limits[o] - ASPIRATIONS[o]
+$$
+
+Definiujemy rozmyte ograniczenia:
+
+- Ograniczenia dla celów, które maksymalizujemy (znak dla $tolerance[o]$ zależy od przyjętych założeń):
+$$
+\forall{o \in OBJECTIVES,\ tolerance[o] <= 0}:
+$$
+$$
+objectives[o] \ge ASPIRATIONS[o] + tolerance[o] \cdot (1 - \alpha)
+$$
+
+- Ograniczenia dla celów, które minimalizujemy (znak dla $tolerance[o]$ zależy od przyjętych założeń):
+$$
+\forall{o \in OBJECTIVES,\ tolerance[o] >= 0}:
+$$
+$$
+objectives[o] \le ASPIRATIONS[o] + tolerance[o] \cdot (1 - \alpha)
+$$
+
+\newpage
+
+# Przygotowany bazowy model
+
+\newpage
+
+# 4. Zapisz zadanie/zadania sformułowane w punkcie 1 w postaci do rozwiązania z wykorzystaniem wybranego narzędzia implementacji (np. AMPL, AIMMS) i rozwiąż to zadanie/zadania. W przypadku niedopuszczalności zadania zaproponuj zmianę celów i/lub innych parametrów.
+
+\newpage
+
+# 5. Zapisz zadania sformułowane w punkcie 3 w postaci do rozwiązania z wykorzystaniem wybranego narzędzia implementacji (np. AMPL, AIMMS) i rozwiąż te zadania. W przypadku niedopuszczalności zadania zaproponuj zmianę celów i/lub innych parametrów.
+
+\newpage
+
+# 6. Porównaj rozwiązania zadań z poprzednich dwóch punktów.
+
+\newpage
+
+# 7. Rozwiąż zadanie z punktu 2 za pomoca pakietu R – FuzzyLP. Należy w obliczeniach rozpatrywać niezależnie każde z kryteriów.
+
+\newpage
+
+# 8. Zaproponuj i zastosuj graficzną formę analizy rozwiązań.
+
+\newpage
+
+# 9. Opisz zalety i wady modelowania opisanego problemu z wykorzystaniem zbiorów rozmytych.
+
+Zalety | Wady
+-------|-----
+TODO   | TODO
