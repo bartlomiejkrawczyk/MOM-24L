@@ -182,6 +182,25 @@ $$
 objectives[cost] = cost
 $$
 
+W celu prostszego zapisu wzorów na zadane nieakceptowalne poziomy został zdefiniowany dodatkowy wektor zmiennych decyzyjnych:
+
+- $hard\_limits[o],\ o \in OBJECTIVES$ - zmienna agregująca wartości kilku innych parametrów. W ramach tej zmiennej zostały także zdefiniowane odpowiednie ograniczenia:
+$$
+hard\_limits[S1] = COMPONENT\_USAGE\_HARD\_LIMIT[S1];
+$$
+$$
+hard\_limits[S2] = COMPONENT\_USAGE\_HARD\_LIMIT[S2];
+$$
+$$
+hard\_limits[income] = MIN\_INCOME;
+$$
+$$
+hard\_limits[emissions] = MAX\_EMISSIONS;
+$$
+$$
+hard\_limits[cost] = MAX\_COST;
+$$
+
 ## Ograniczenia
 
 Ograniczenia wynikające z treści:
@@ -211,7 +230,7 @@ $$
 
 Ograniczenia wynikające z zadanych ograniczeń:
 
-- Zadane są limity wykorzystania poszczególnych składników, których przekroczenie jest nie akceptowalne:
+- Zadane są limity wykorzystania poszczególnych składników, których przekroczenie jest nieakceptowalne:
 $$
 \forall{c \in COMPONENTS}: component\_usage[c] \le COMPONENT\_USAGE\_HARD\_LIMIT[c]
 $$
@@ -253,7 +272,7 @@ Model bazuje na przygotowanym modelu podstawowym. W tym rozdziale zostaną zdefi
 ## Parametry
 
 - $\beta = 10^{-3}$ - parametr pozwalający na ograniczenie wzrostu wartości funkcji oceny dla zmiennych decyzyjnych ponad zadany poziom aspiracji. Funkcja oceny dla parametrów, które ten poziom osiągnęły będzie rosła o $\beta$ wolniej, niż dla tych zmiennych, które tego poziomu nie osiągnęły,
-- $\epsilon = 10^{-4} / 5 = 2 * 10^{-5}$ - parametr z wagą jaką będziemy przyjmować dla sumy zmiennych celu. Zapewnia on, że każde otrzymane rozwiązanie będzie efektywne,
+- $\varepsilon  = 10^{-4} / 5 = 2 * 10^{-5}$ - parametr z wagą jaką będziemy przyjmować dla sumy zmiennych celu. Zapewnia on, że każde otrzymane rozwiązanie będzie efektywne,
 - $OBJECTIVE\_RANGE[o][r],\ o \in OBJECTIVES,\ r \in RANGE$ - wyliczone na podstawie bazowego modelu dla każdej zmiennej celu wartości utopii i nadiru:
 
 $OBJECTIVE\_RANGE[o][r]$ | utopia | nadir
@@ -296,10 +315,56 @@ $$
 
 - W pierwszej kolejności maksymalizujemy najmniejszy poziom zadowolenia, a z mniejszą wagą maksymalizujemy całkowite zadowolenie:
 $$
-max(lower\_bound + \epsilon * \sum_{o \in OBJECTIVES} accomplishment[o])
+max(lower\_bound + \varepsilon  * \sum_{o \in OBJECTIVES} accomplishment[o])
 $$
 
 \newpage
 
 # 2. Sformułować i opisać wielokryterialny model optymalnego planowania produkcji z wykorzystaniem zbiorów rozmytych.
+
+Model bazuje na przygotowanym modelu podstawowym. W tym rozdziale zostaną zdefiniowane jedynie dodatkowe parametry, ograniczenia, ograniczenia rozmyte, zmienne decyzyjne i cele rozmyte. Zostały one zdefiniowane, by wykorzystać metodę zbiorów rozmytych.
+
+## Zmienne decyzyjne
+
+- $tolerance[o], o \in OBJECTIVES$ - zmienna reprezentująca tolerancję dla rozmytych ograniczeń. Zostało przyjęte, że dla zmiennych z górnym ograniczeniem tolerancja jest dodatnia, a z dolnym ograniczeniem tolerancja ujemna.
+
+## Ograniczenia
+
+- Przyjęty poziom tolerancji możemy osiągnąć poprzez odjęcie od ustalonych nieprzekraczalnych limitów naszych aspiracji:
+$$
+\forall{o \in OBJECTIVES}: tolerance[o] = hard\_limits[o] - ASPIRATIONS[o]
+$$
+
+## Ograniczenia rozmyte
+
+- Nie powinniśmy wykorzystać więcej składnika $S1$ niż zadany poziom aspiracji z poziomem tolerancji równym $|tolerance[S1]|$:
+$$
+component\_usage[S1] \lesssim ASPIRATIONS[S1]
+$$
+
+- Nie powinniśmy wykorzystać więcej składnika $S2$ niż zadany poziom aspiracji z poziomem tolerancji równym $|tolerance[S2]|$:
+$$
+component\_usage[S2] \lesssim ASPIRATIONS[S2]
+$$
+
+## Cele rozmyte
+
+- Celujemy by zysk przekroczył poziom aspiracji z poziomem tolerancji równym $|tolerance[income]|$:
+$$
+income \gtrsim ASPIRATIONS[income]
+$$
+
+- Celujemy by emisja zanieczyszczeń była mniejsza niż zadany poziom aspiracji z poziomem tolerancji równym $|tolerance[emissions]|$:
+$$
+emissions \lesssim ASPIRATIONS[emissions]
+$$
+
+- Celujemy by całkowite koszty były mniejsze niż zadany poziom aspiracji z poziomem tolerancji równym $|tolerance[cost]|$:
+$$
+cost \lesssim ASPIRATIONS[cost]
+$$
+
+\newpage
+
+# 3. Sformułować równoważne zadanie optymalizacji dla zadania 2 z wykorzystaniem zbiorów rozmytych adaptując podejście Zimmermana dla więcej niż jednego kryterium.
 

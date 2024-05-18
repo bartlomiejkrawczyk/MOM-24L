@@ -39,6 +39,15 @@ s.t. objectives_5: objectives['cost'] = cost;
 
 #############################################################################
 
+var hard_limits{o in OBJECTIVES};
+s.t. hard_limits_1: hard_limits['S1'] = COMPONENT_USAGE_HARD_LIMIT['S1'];
+s.t. hard_limits_2: hard_limits['S2'] = COMPONENT_USAGE_HARD_LIMIT['S2'];
+s.t. hard_limits_3: hard_limits['income'] = MIN_INCOME;
+s.t. hard_limits_4: hard_limits['emissions'] = MAX_EMISSIONS;
+s.t. hard_limits_5: hard_limits['cost'] = MAX_COST;
+
+#############################################################################
+
 subject to component_usage_constraint{c in COMPONENTS}:
 	component_usage[c] = sum{p in PRODUCTS} PRODUCT_COMPONENTS[p, c] * production[p];
 
