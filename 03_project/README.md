@@ -326,7 +326,7 @@ Model bazuje na przygotowanym modelu podstawowym. W tym rozdziale zostaną zdefi
 
 ## Zmienne decyzyjne
 
-- $tolerance[o], o \in OBJECTIVES$ - zmienna reprezentująca tolerancję dla rozmytych ograniczeń. Zostało przyjęte, że dla zmiennych z górnym ograniczeniem tolerancja jest dodatnia, a z dolnym ograniczeniem tolerancja ujemna.
+- $tolerance[o], o \in OBJECTIVES$ - zmienna reprezentująca tolerancję dla rozmytych ograniczeń. Zostało przyjęte, że dla zmiennych z górnym nieakceptowalnym ograniczeniem tolerancja jest dodatnia, a z dolnym ograniczeniem tolerancja ujemna.
 
 ## Ograniczenia
 

@@ -1,0 +1,46 @@
+reset;
+
+option solver cplex;
+option cplex_options "time=180";
+
+model task.mod;
+data parameters.dat;
+
+#############################################################################
+
+var alpha >= 0;
+s.t. alpha_constraint: alpha <= 1;
+
+var tolerance{o in OBJECTIVES};
+
+#############################################################################
+
+subject to tolerance_constraint{o in OBJECTIVES}:
+	tolerance[o] = hard_limits[o] - ASPIRATIONS[o];
+
+subject to zimmerman_greater_constraint{o in OBJECTIVES}: tolerance[o] < 0 ==>
+	objectives[o] >= ASPIRATIONS[o] + tolerance[o] * (1 - alpha);
+
+subject to zimmerman_lower_constraint{o in OBJECTIVES}: tolerance[o] > 0 ==>
+	objectives[o] <= ASPIRATIONS[o] + tolerance[o] * (1 - alpha);
+
+#############################################################################
+
+maximize max_constraint:
+	alpha;
+
+#############################################################################
+
+solve;
+
+#############################################################################
+
+display income;
+display emissions;
+display cost;
+display production;
+display component_usage;
+display alpha;
+display tolerance;
+
+#############################################################################

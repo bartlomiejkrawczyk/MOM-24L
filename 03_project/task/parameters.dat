@@ -4,15 +4,15 @@ set PRODUCTS := P1 P2 P3;
 set COMPONENTS := S1 S2 S3;
 set OBJECTIVES := S1 S2 income emissions cost;
 
-param PRODUCT_INCOME :=
-	P1   9,
-	P2   21,
-	P3   11;
-# TODO: remove me
 #param PRODUCT_INCOME :=
-#	P1   10,
-#	P2   22,
-#	P3   12;
+#	P1   9,
+#	P2   21,
+#	P3   11;
+# TODO: remove me
+param PRODUCT_INCOME :=
+	P1   10,
+	P2   22,
+	P3   12;
 
 param EMITTED_POLLUTANTS :=
 	P1	1,
