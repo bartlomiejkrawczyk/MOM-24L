@@ -3,6 +3,8 @@ data;
 set PRODUCTS := P1 P2 P3;
 set COMPONENTS := S1 S2 S3;
 set OBJECTIVES := S1 S2 income emissions cost;
+set MAX_OBJECTIVES := income;
+set MIN_OBJECTIVES := S1 S2 emissions cost;
 
 param PRODUCT_INCOME :=
 	P1   9,

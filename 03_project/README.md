@@ -84,7 +84,9 @@ Został przygotowany bazowy model na bazie, który w zależności od podpunktu z
 
 - $PRODUCTS = \{P1, P2, P3\}$ - zbiór możliwych do wyprodukowania produktów,
 - $COMPONENTS = \{S1, S2, S3\}$ - zbiór składników, z których wytwarzane są produkty,
-- $OBJECTIVES = \{S1, S2, income, emissions, cost\}$ - zbiór nazwanych zmiennych decyzyjnych, dla których ustalone są aspiracje. Tak zdefiniowany zbiór pozwala na uproszczenie zapisu niektórych ograniczeń.
+- $OBJECTIVES = \{S1, S2, income, emissions, cost\}$ - zbiór nazwanych zmiennych decyzyjnych, dla których ustalone są aspiracje. Tak zdefiniowany zbiór pozwala na uproszczenie zapisu niektórych ograniczeń,
+- $MAX\_OBJECTIVES = \{income\}$ - dodatkowy zbiór zmiennych decyzyjnych, które należy maksymalizować,
+- $MIN\_OBJECTIVES = \{S1, S2, emissions, cost\}$ - zbiór zmiennych decyzyjnych, które należy minimalizować.
 
 ## Parametry
 
@@ -392,7 +394,7 @@ Definiujemy rozmyte ograniczenia:
 
 - Ograniczenia dla celów, które maksymalizujemy (znak dla $tolerance[o]$ zależy od przyjętych założeń):
 $$
-\forall{o \in OBJECTIVES,\ tolerance[o] <= 0}:
+\forall{o \in MAX\_OBJECTIVES}:
 $$
 $$
 objectives[o] \ge ASPIRATIONS[o] + tolerance[o] \cdot (1 - \alpha)
@@ -400,7 +402,7 @@ $$
 
 - Ograniczenia dla celów, które minimalizujemy (znak dla $tolerance[o]$ zależy od przyjętych założeń):
 $$
-\forall{o \in OBJECTIVES,\ tolerance[o] >= 0}:
+\forall{o \in MIN\_OBJECTIVES}:
 $$
 $$
 objectives[o] \le ASPIRATIONS[o] + tolerance[o] \cdot (1 - \alpha)

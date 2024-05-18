@@ -18,10 +18,10 @@ var tolerance{o in OBJECTIVES};
 subject to tolerance_constraint{o in OBJECTIVES}:
 	tolerance[o] = hard_limits[o] - ASPIRATIONS[o];
 
-subject to zimmerman_greater_constraint{o in OBJECTIVES}: tolerance[o] < 0 ==>
+subject to zimmerman_greater_constraint{o in MAX_OBJECTIVES}:
 	objectives[o] >= ASPIRATIONS[o] + tolerance[o] * (1 - alpha);
 
-subject to zimmerman_lower_constraint{o in OBJECTIVES}: tolerance[o] > 0 ==>
+subject to zimmerman_lower_constraint{o in MIN_OBJECTIVES}: tolerance[o] > 0 ==>
 	objectives[o] <= ASPIRATIONS[o] + tolerance[o] * (1 - alpha);
 
 #############################################################################
