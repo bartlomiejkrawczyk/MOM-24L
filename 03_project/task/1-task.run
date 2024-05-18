@@ -19,7 +19,7 @@ data 1-parameters.dat;
 
 #############################################################################
 
-var alpha{o in OBJECTIVES};
+var lambda{o in OBJECTIVES};
 
 var accomplishment{o in OBJECTIVES};
 
@@ -27,17 +27,17 @@ var lower_bound;
 
 #############################################################################
 
-subject to alpha_calculation_constraint{o in OBJECTIVES}:
-	alpha[o] = 1 / (OBJECTIVE_RANGE[o, 'utopia'] - OBJECTIVE_RANGE[o, 'nadir']);
+subject to lambda_calculation_constraint{o in OBJECTIVES}:
+	lambda[o] = 1 / (OBJECTIVE_RANGE[o, 'utopia'] - OBJECTIVE_RANGE[o, 'nadir']);
 	
 subject to lower_bound_constraint{o in OBJECTIVES}:
 	lower_bound <= accomplishment[o];
 
 subject to accomplishment_achieved_constraint{o in OBJECTIVES}:
-	accomplishment[o] <= BETA * alpha[o] * (objectives[o] - ASPIRATIONS[o]);
+	accomplishment[o] <= BETA * lambda[o] * (objectives[o] - ASPIRATIONS[o]);
 
 subject to accomplishment_constraint{o in OBJECTIVES}:
-	accomplishment[o] <= alpha[o] * (objectives[o] - ASPIRATIONS[o]);
+	accomplishment[o] <= lambda[o] * (objectives[o] - ASPIRATIONS[o]);
 
 #############################################################################
 
@@ -55,6 +55,6 @@ display emissions;
 display cost;
 display production;
 display component_usage;
-display alpha;
+display lambda;
 
 #############################################################################

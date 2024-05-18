@@ -74,24 +74,68 @@ P1                                                       | 1
 P2                                                       | 3
 P3                                                       | 3
 
-# 1. Sformułować i opisać wielokryterialny model planowania produkcji z wykorzystaniem metody punktu odniesienia.
+# Opracowany domyślny model
+
+Został przygotowany bazowy model na bazie, który w zależności od podpunktu zadania został rozbudowany o dodatkowe zbiory, parametry, zmienne decyzyjne, ograniczenia i funkcje oceny.
 
 ## Zbiory
 
 - $PRODUCTS = \{P1, P2, P3\}$ - zbiór możliwych do wyprodukowania produktów,
-- $COMPONENTS = \{S1, S2, S3\}$ - zbiór składników, z których wytwarzane są produkty.
+- $COMPONENTS = \{S1, S2, S3\}$ - zbiór składników, z których wytwarzane są produkty,
+- $OBJECTIVES = \{S1 S2 income emissions cost\}$ - zbiór nazwanych zmiennych decyzyjnych, dla których ustalone są aspiracje. Tak zdefiniowany zbiór pozwala na uproszczenie zapisu niektórych ograniczeń.
 
 ## Parametry
 
 - $PRODUCT\_INCOME[p], p \in PRODUCTS$ - jednostkowa cena sprzedaży produktów $p$ (tyś.PLN/jednostkę),
+
+$PRODUCTS$ | $PRODUCT\_INCOME[p]$
+-----------|---------------------
+P1         | 9
+P2         | 21
+P3         | 11
+
 - $EMITTED\_POLLUTANTS[p], p \in PRODUCTS$ - jednostkowy poziom zanieczyszczeń emitowanych dla poszczególnych produktów $p$ (kg/jednostkę),
+
+$PRODUCTS$ | $EMITTED\_POLLUTANTS[p]$
+-----------|-------------------------
+P1         | 1
+P2         | 1
+P3         | 3
+
 - $PRODUCTION\_COST[p], p \in PRODUCTS$ - jednostkowe koszty produkcji produktu $p$ (tyś.PLN/jednostkę),
+
+$PRODUCTS$ | $PRODUCTION\_COST[p]$
+-----------|----------------------
+P1         | 1
+P2         | 3
+P3         | 3
+
 - $PRODUCT\_COMPONENTS[p][c], p \in PRODUCTS, c \in COMPONENTS$ - wymagana ilość składnika $c$ do wytworzenia produktu $p$.
+
+$PRODUCT\_COMPONENTS[p][c]$ | S1 | S2 | S3
+----------------------------|----|----|---
+P1                          | 2  | 8  | 4
+P2                          | 10 | 1  | 0
+P3                          | 4  | 4  | 2
 
 Dodatkowe parametry wynikające z zadanych ograniczeń:
 
 - $COMPONENT\_USAGE\_HARD\_LIMIT[c], c \in COMPONENTS$ - maksymalna ilość składnika $c$ jaką można wykorzystać,
+
+$COMPONENTS$ | $COMPONENT\_USAGE\_HARD\_LIMIT[c]$
+-------------|-----------------------------------
+S1           | 110
+S2           | 55
+S3           | 50
+
 - $MINIMAL\_PRODUCTION[p], p \in PRODUCTS$ - minimalna ilość sztuk produktu $p$ jaką należy wyprodukować,
+
+$PRODUCTS$ | $MINIMAL\_PRODUCTION[p]$
+-----------|-------------------------
+P1         | 3
+P2         | 0
+P3         | 5
+
 
 - $MIN\_INCOME = 130$ - minimalny akceptowalny poziom zarobków,
 - $MAX\_EMISSIONS = 35$ - maksymalny akceptowalny poziom emisji zanieczyszczeń,
@@ -99,9 +143,15 @@ Dodatkowe parametry wynikające z zadanych ograniczeń:
 
 Parametry wynikające z zadanych aspiracji:
 
-- $INCOME\_ASPIRATION = 150$ - dążymy do zarobków na poziomie 150 tyś. PLN,
-- $EMISSIONS\_ASPIRATION = 30$ - dążymy do emisji zanieczyszczeń na poziomie 30 kg,
-- $COST\_ASPIRATION = 70$ - chcielibyśmy, aby koszty nie przekraczały 70 tyś. PLN.
+- $ASPIRATIONS[o], o \in OBJECTIVES$ - aspiracje ustalone dla poszczególnych zmiennych decyzyjnych.
+
+$OBJECTIVES$ | $ASPIRATIONS[o]$
+-------------|-----------------
+S1           | 100
+S2           | 50
+income       | 150
+emissions    | 30
+cost         | 70
 
 ## Zmienne decyzyjne
 
@@ -110,6 +160,25 @@ Parametry wynikające z zadanych aspiracji:
 - $income$ - zmienna pomocnicza oznaczająca całkowity zysk ze sprzedaży produktów,
 - $emissions$ - całkowite zanieczyszczenia wyemitowane podczas produkcji wszystkich produktów,
 - $cost$ - sumaryczne koszty produkcji wyrobów.
+
+W celu prostszego zapisu wzorów na zadane aspiracje został zdefiniowany dodatkowy wektor zmiennych decyzyjnych:
+
+- $objectives[o], o \in OBJECTIVES$ - zmienna agregująca wartości kilku innych zmiennych decyzyjnych. W ramach tej zmiennej zostały także zdefiniowane odpowiednie ograniczenia:
+$$
+objectives[S1] = component_usage[S1]
+$$
+$$
+objectives[S2] = component_usage[S2]
+$$
+$$
+objectives[income] = income
+$$
+$$
+objectives[emissions] = emissions
+$$
+$$
+objectives[cost] = cost
+$$
 
 ## Ograniczenia
 
@@ -166,3 +235,9 @@ cost <= MAX\_COST
 $$
 
 ## Funkcja oceny
+
+Funkcje oceny, które są optymalizowane będą zdefiniowane oddzielnie w zależności od rozwiązywanego podpunktu.
+
+# 1. Sformułować i opisać wielokryterialny model planowania produkcji z wykorzystaniem metody punktu odniesienia.
+
+Model bazuje na przygotowanym modelu podstawowym. W tym rozdziale zostaną jedynie zdefiniowane parametry, ograniczenia, i zmienne decyzyjne, które zostały zdefiniowane, by wykorzystać metodę punktu odniesienia.

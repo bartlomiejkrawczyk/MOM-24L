@@ -14,12 +14,6 @@ param MIN_INCOME;
 param MAX_EMISSIONS;
 param MAX_COST;
 
-param COMPONENT_USAGE_ASPIRATION{c in COMPONENTS};
-
-param INCOME_ASPIRATION;
-param EMISSIONS_ASPIRATION;
-param COST_ASPIRATION;
-
 param ASPIRATIONS{o in OBJECTIVES};
 
 #############################################################################
