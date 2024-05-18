@@ -227,7 +227,7 @@ $$
 
 - Całkowite koszty produkcji składają się z kosztów wytworzenia poszczególnych produktów:
 $$
-cost = \sum{p \in PRODUCTS} PRODUCTION\_COST[p] \cdot production[p]
+cost = \sum_{p \in PRODUCTS} PRODUCTION\_COST[p] \cdot production[p]
 $$
 
 Ograniczenia wynikające z zadanych ograniczeń:
