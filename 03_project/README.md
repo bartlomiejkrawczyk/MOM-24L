@@ -647,6 +647,26 @@ display component_usage;
 display lambda;
 ```
 
+## Wyniki
+
+Zysk (tyś.PLN) | Poziom emisji (kg) | Koszty (tys.PLN)
+---------------|--------------------|-----------------
+154            | 23                 | 33
+
+Produkt | Ilość wytworzonych sztuk
+--------|-------------------------
+P1      | 3
+P2      | 5
+P3      | 5
+
+Materiał | Wykorzystanie (kg)
+---------|-------------------
+S1       | 76
+S2       | 49
+S3       | 22
+
+Wszystkie ograniczenia zostały spełnione, a także wszystkie aspiracje zostały osiągnięte.
+
 \newpage
 
 # 5. Zapisz zadania sformułowane w punkcie 3 w postaci do rozwiązania z wykorzystaniem wybranego narzędzia implementacji (np. AMPL, AIMMS) i rozwiąż te zadania. W przypadku niedopuszczalności zadania zaproponuj zmianę celów i/lub innych parametrów.
@@ -702,9 +722,52 @@ display alpha;
 display tolerance;
 ```
 
+## Wyniki
+
+Zysk (tyś.PLN) | Poziom emisji (kg) | Koszty (tys.PLN)
+---------------|--------------------|-----------------
+154            | 23                 | 33
+
+Produkt | Ilość wytworzonych sztuk
+--------|-------------------------
+P1      | 3
+P2      | 5
+P3      | 5
+
+Materiał | Wykorzystanie (kg)
+---------|-------------------
+S1       | 76
+S2       | 49
+S3       | 22
+
+Wszystkie ograniczenia zostały spełnione, a także wszystkie aspiracje zostały osiągnięte.
+
 \newpage
 
 # 6. Porównaj rozwiązania zadań z poprzednich dwóch punktów.
+
+Model                                  | Zysk (tyś.PLN) | Poziom emisji (kg) | Koszty (tys.PLN)
+---------------------------------------|----------------|--------------------|-----------------
+metoda punktu odniesienia              | 154            | 23                 | 33
+zbiory rozmyte z podejściem Zimmermana | 154            | 23                 | 33
+
+Produkt | metoda punktu odniesienia | zbiory rozmyte z podejściem Zimmermana
+--------|---------------------------|---------------------------------------
+P1      | 3                         | 3
+P2      | 5                         | 5
+P3      | 5                         | 5
+
+Materiał | metoda punktu odniesienia | zbiory rozmyte z podejściem Zimmermana
+---------|---------------------------|---------------------------------------
+S1       | 76                        | 76
+S2       | 49                        | 49
+S3       | 22                        | 22
+
+Oba modele uzyskały dokładnie takie same wyniki.
+
+Uzyskane wyniki są bardzo pozytywne. Wszystkie aspiracje zostały spełnione.
+
+Zostało zauważone, że w przypadku podejścia Zimmermana ograniczenie $\alpha \le 1$ mogło prowadzić do rozwiązania, które byłoby zdominowane (pod względem zysku, poziomu emisji lub kosztów). Dla podanych parametrów, po usunięciu tego górnego ograniczenia maksymalna osiągnięta wartość zmiennej $\alpha$ jaką udało się uzyskać to 1.2. Tak uzyskane rozwiązanie okazuje się być jednakowe jak rozwiązanie z tym ograniczeniem, jednak przy maksymalizacji ograniczonej do wartości 1, nie mielibyśmy pewności czy tak jest na pewno.
 
 \newpage
 
