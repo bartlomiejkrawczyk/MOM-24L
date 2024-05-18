@@ -412,13 +412,295 @@ $$
 
 # Przygotowany bazowy model
 
+W celu minimalizacji ilości kopiowanego kodu został przygotowany model bazowy, który następnie został wykorzystany w obu przygotowanych modelach.
+
+Plik zawierający zdefiniowane parametry - parameters.dat:
+
+```py
+data;
+
+set PRODUCTS := P1 P2 P3;
+set COMPONENTS := S1 S2 S3;
+set OBJECTIVES := S1 S2 income emissions cost;
+set MAX_OBJECTIVES := income;
+set MIN_OBJECTIVES := S1 S2 emissions cost;
+
+param PRODUCT_INCOME :=
+	P1   9,
+	P2   21,
+	P3   11;
+
+param EMITTED_POLLUTANTS :=
+	P1	1,
+	P2  1,
+	P3  3;
+
+param PRODUCTION_COST :=
+	P1	1,
+	P2	3,
+	P3	3;
+
+param PRODUCT_COMPONENTS 
+	:	S1	S2	S3	:=
+	P1  2   8   4
+	P2  10  1   0
+	P3  4   4   2	;
+
+param COMPONENT_USAGE_HARD_LIMIT :=
+	S1	110,
+	S2	55,
+	S3	50;
+
+param MINIMAL_PRODUCTION :=
+	P1	3,
+	P2	0,
+	P3	5;
+
+param MIN_INCOME := 130;
+param MAX_EMISSIONS := 35;
+param MAX_COST := 80;
+
+param ASPIRATIONS :=
+	S1			100,
+	S2			50,
+	income		150,
+	emissions	30,
+	cost		70;
+
+end;
+```
+
+Bazowy plik z modelem - task.mod:
+
+```py
+set PRODUCTS;
+set COMPONENTS;
+set OBJECTIVES;
+set MAX_OBJECTIVES;
+set MIN_OBJECTIVES;
+
+param PRODUCT_INCOME{p in PRODUCTS};
+param EMITTED_POLLUTANTS{p in PRODUCTS};
+param PRODUCTION_COST{p in PRODUCTS};
+param PRODUCT_COMPONENTS{p in PRODUCTS, c in COMPONENTS};
+
+param COMPONENT_USAGE_HARD_LIMIT{c in COMPONENTS};
+param MINIMAL_PRODUCTION{p in PRODUCTS};
+
+param MIN_INCOME;
+param MAX_EMISSIONS;
+param MAX_COST;
+
+param ASPIRATIONS{o in OBJECTIVES};
+
+#############################################################################
+
+var production{p in PRODUCTS} integer >= 0;
+
+var component_usage{c in COMPONENTS};
+
+var income;
+
+var emissions;
+
+var cost;
+
+#############################################################################
+
+var objectives{o in OBJECTIVES};
+s.t. objectives_1: objectives['S1'] = component_usage['S1'];
+s.t. objectives_2: objectives['S2'] = component_usage['S2'];
+s.t. objectives_3: objectives['income'] = income;
+s.t. objectives_4: objectives['emissions'] = emissions;
+s.t. objectives_5: objectives['cost'] = cost;
+
+#############################################################################
+
+var hard_limits{o in OBJECTIVES};
+s.t. hard_limits_1: hard_limits['S1'] = COMPONENT_USAGE_HARD_LIMIT['S1'];
+s.t. hard_limits_2: hard_limits['S2'] = COMPONENT_USAGE_HARD_LIMIT['S2'];
+s.t. hard_limits_3: hard_limits['income'] = MIN_INCOME;
+s.t. hard_limits_4: hard_limits['emissions'] = MAX_EMISSIONS;
+s.t. hard_limits_5: hard_limits['cost'] = MAX_COST;
+
+#############################################################################
+
+subject to component_usage_constraint{c in COMPONENTS}:
+	component_usage[c] = sum{p in PRODUCTS} PRODUCT_COMPONENTS[p, c] * production[p];
+
+subject to income_constraint:
+	income = (sum{p in PRODUCTS} PRODUCT_INCOME[p] * production[p]) - cost;
+
+subject to emissions_constraint:
+	emissions = sum{p in PRODUCTS} EMITTED_POLLUTANTS[p] * production[p];
+	
+subject to cost_constraint:
+	cost = sum{p in PRODUCTS} PRODUCTION_COST[p] * production[p];
+
+#############################################################################
+
+subject to component_usage_hard_limit_constraint{c in COMPONENTS}:
+	component_usage[c] <= COMPONENT_USAGE_HARD_LIMIT[c];
+	
+subject to minimal_production_constraint{p in PRODUCTS}:
+	production[p] >= MINIMAL_PRODUCTION[p];
+
+#############################################################################
+
+subject to min_income_constraint:
+	income >= MIN_INCOME;
+
+subject to max_emissions_constraint:
+	emissions <= MAX_EMISSIONS;
+
+subject to max_cost_constraint:
+	cost <= MAX_COST;
+```
+
 \newpage
 
 # 4. Zapisz zadanie/zadania sformułowane w punkcie 1 w postaci do rozwiązania z wykorzystaniem wybranego narzędzia implementacji (np. AMPL, AIMMS) i rozwiąż to zadanie/zadania. W przypadku niedopuszczalności zadania zaproponuj zmianę celów i/lub innych parametrów.
 
+Przygotowany model jest rozszerzeniem modelu bazowego opisanego w rozdziale poprzednim.
+
+Dodatkowo zostały zdefiniowane kolejne zbiory i parametry - 1-parameters.dat:
+
+```py
+data;
+
+set RANGE := utopia nadir;
+
+param BETA := 1e-3;
+param EPSILON := 2e-5;
+
+param OBJECTIVE_RANGE
+	:			utopia		nadir	:=
+	S1			64		    106
+	S2			48          55
+	income		208         134
+	emissions	22          28
+	cost		30          42      ;
+
+end;
+```
+
+Następnie zmienne decyzyjne, ograniczenia i funkcje oceny zostały zdefiniowane w skrypcie do uruchomienia - 1-task.run:
+
+```py
+reset;
+
+option solver cplex;
+option cplex_options "time=180";
+
+model task.mod;
+data parameters.dat;
+
+#############################################################################
+
+set RANGE;
+
+param BETA;
+param EPSILON;
+
+param OBJECTIVE_RANGE{o in OBJECTIVES, r in RANGE};
+
+data 1-parameters.dat;
+
+#############################################################################
+
+var lambda{o in OBJECTIVES};
+
+var accomplishment{o in OBJECTIVES};
+
+var lower_bound;
+
+#############################################################################
+
+subject to lambda_calculation_constraint{o in OBJECTIVES}:
+	lambda[o] = 1 / (OBJECTIVE_RANGE[o, 'utopia'] - OBJECTIVE_RANGE[o, 'nadir']);
+	
+subject to lower_bound_constraint{o in OBJECTIVES}:
+	lower_bound <= accomplishment[o];
+
+subject to accomplishment_achieved_constraint{o in OBJECTIVES}:
+	accomplishment[o] <= BETA * lambda[o] * (objectives[o] - ASPIRATIONS[o]);
+
+subject to accomplishment_constraint{o in OBJECTIVES}:
+	accomplishment[o] <= lambda[o] * (objectives[o] - ASPIRATIONS[o]);
+
+#############################################################################
+
+maximize max_constraint:
+	lower_bound + EPSILON * sum{o in OBJECTIVES} accomplishment[o];
+
+#############################################################################
+
+solve;
+
+#############################################################################
+
+display income;
+display emissions;
+display cost;
+display production;
+display component_usage;
+display lambda;
+```
+
 \newpage
 
 # 5. Zapisz zadania sformułowane w punkcie 3 w postaci do rozwiązania z wykorzystaniem wybranego narzędzia implementacji (np. AMPL, AIMMS) i rozwiąż te zadania. W przypadku niedopuszczalności zadania zaproponuj zmianę celów i/lub innych parametrów.
+
+Przygotowany model jest rozszerzeniem modelu bazowego opisanego w jednym z poprzednich rozdziałów.
+
+W pliku 3-task.run zostały zdefiniowane dodatkowe zmienne decyzyjne, ograniczenia i funkcje oceny:
+
+```py
+reset;
+
+option solver cplex;
+option cplex_options "time=180";
+
+model task.mod;
+data parameters.dat;
+
+#############################################################################
+
+var alpha >= 0;
+s.t. alpha_constraint: alpha <= 1;
+
+var tolerance{o in OBJECTIVES};
+
+#############################################################################
+
+subject to tolerance_constraint{o in OBJECTIVES}:
+	tolerance[o] = hard_limits[o] - ASPIRATIONS[o];
+
+subject to zimmerman_greater_constraint{o in MAX_OBJECTIVES}:
+	objectives[o] >= ASPIRATIONS[o] + tolerance[o] * (1 - alpha);
+
+subject to zimmerman_lower_constraint{o in MIN_OBJECTIVES}:
+	objectives[o] <= ASPIRATIONS[o] + tolerance[o] * (1 - alpha);
+
+#############################################################################
+
+maximize max_constraint:
+	alpha;
+
+#############################################################################
+
+solve;
+
+#############################################################################
+
+display income;
+display emissions;
+display cost;
+display production;
+display component_usage;
+display alpha;
+display tolerance;
+```
 
 \newpage
 
