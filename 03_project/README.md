@@ -781,6 +781,16 @@ Zostało zauważone, że w przypadku podejścia Zimmermana ograniczenie $\alpha 
 
 # 9. Opisz zalety i wady modelowania opisanego problemu z wykorzystaniem zbiorów rozmytych.
 
-Zalety | Wady
--------|-----
-TODO   | TODO
+## Zalety
+
+1. Umożliwienie uwzględnienia niepewności i nieprecyzyjności - przykładowo, zamiast sztywnego ograniczenia na poziom zanieczyszczeń, można zastosować rozmyte ograniczenie, które lepiej odzwierciedla rzeczywiste warunki produkcyjne.
+2. Elastyczność w formułowaniu ograniczeń - na przykład, zamiast ustalać sztywne limity zużycia składników, można zdefiniować preferowane zakresy.
+3. Lepsze odwzorowanie preferencji decydentów - zbiory rozmyte umożliwiają lepsze odwzorowanie subiektywnych preferencji i celów decydentów.
+4. Zwiększenie tolerancji na zmienność danych - dzięki rozmytym ograniczeniom i celom, model staje się bardziej odporny na zmienność danych wejściowych. Nawet jeśli dokładne wartości kosztów, zysków czy emisji są trudne do przewidzenia, modelowanie rozmyte pozwala na uwzględnienie tej zmienności bez utraty dokładności wyników.
+
+## Wady
+
+1. Złożoność modelu - modele z ograniczeniami rozmytymi są bardziej skomplikowane niż te bazujące na klasycznych ograniczeniach.
+2. Trudności w interpretacji wyników.
+3. Subiektywność w definiowaniu funkcji przynależności - proces definiowania funkcji przynależności może być subiektywny i zależeć od wiedzy oraz doświadczenia osoby modelującej.
+4. Wyniki modelu z ograniczeniami rozmytymi może mieć wyniki obarczone większą niepewnością.
