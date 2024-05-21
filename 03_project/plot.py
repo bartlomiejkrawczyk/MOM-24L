@@ -1,0 +1,45 @@
+# pyright: basic
+import matplotlib.pyplot as plt
+
+plt.subplot(3, 2, 1)
+plt.plot([125, 130, 150, 160], [0, 0, 1, 1])
+plt.plot(154, 1, 'ro')
+plt.title('Funkcja przynależności - zysk')
+plt.xlabel('wartość funkcji celu dla zysku')
+plt.ylabel('µ_I(x)')
+plt.grid(visible=True)
+
+plt.subplot(3, 2, 2)
+plt.plot([20, 30, 35, 36], [1, 1, 0, 0])
+plt.plot(23, 1, 'ro')
+plt.title('Funkcja przynależności - poziom zanieczyszczeń')
+plt.xlabel('wartość funkcji celu dla poziomu zanieczyszczeń')
+plt.ylabel('µ_E(x)')
+plt.grid(visible=True)
+
+plt.subplot(3, 2, 3)
+plt.plot([30, 70, 80, 90], [1, 1, 0, 0])
+plt.plot(33, 1, 'ro')
+plt.title('Funkcja przynależności - koszt')
+plt.xlabel('wartość funkcji celu dla kosztów')
+plt.ylabel('µ_C(x)')
+plt.grid(visible=True)
+
+plt.subplot(3, 2, 5)
+plt.plot([75, 100, 110], [1, 1, 0])
+plt.plot(76, 1, 'ro')
+plt.title('Funkcja przynależności - ograniczenie na zużycie S1')
+plt.xlabel('ograniczenie component_usage[S1] <= 100 z tolerancją 10')
+plt.ylabel('µ_S1(x)')
+plt.grid(visible=True)
+
+plt.subplot(3, 2, 6)
+plt.plot([45, 50, 55, 56], [1, 1, 0, 0])
+plt.plot(49, 1, 'ro')
+plt.title('Funkcja przynależności - ograniczenie na zużycie S2')
+plt.xlabel('ograniczenie component_usage[S2] <= 50 z tolerancją 5')
+plt.ylabel('µ_S2(x)')
+plt.grid(visible=True)
+
+plt.tight_layout()
+plt.show()
