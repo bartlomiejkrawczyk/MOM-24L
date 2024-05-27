@@ -56,18 +56,7 @@ objective_income <- c(9, 19, 9)
 objective_emissions <- c(1, 1, 3)
 objective_cost <- c(1, 3, 3)
 
-cat("Maximizing/Minimizing only the objective\n\n")
-
-result <- calculate(objective_income, 250, 20, TRUE)
-show_results(result, "income")
-
-result <- calculate(objective_emissions, 20, 2, FALSE)
-show_results(result, "emissions")
-
-result <- calculate(objective_cost, 26, 2, FALSE)
-show_results(result, "cost")
-
-cat("\n\nTrying only to reach the aspirations\n\n")
+cat("\nResults:\n\n")
 
 result <- calculate(objective_income, 150, 20, TRUE)
 show_results(result, "income")

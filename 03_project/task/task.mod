@@ -20,7 +20,7 @@ param ASPIRATIONS{o in OBJECTIVES};
 
 #############################################################################
 
-var production{p in PRODUCTS} integer >= 0;
+var production{p in PRODUCTS} >= 0;
 
 var component_usage{c in COMPONENTS};
 
@@ -80,6 +80,3 @@ subject to max_emissions_constraint:
 
 subject to max_cost_constraint:
 	cost <= MAX_COST;
-
-#############################################################################
-

@@ -257,11 +257,9 @@ $$
 cost \le MAX\_COST
 $$
 
-Ograniczenia wynikające z faktu nie podzielności produktów:
-
-- Produkcja musi być liczbą naturalną (nieujemną liczbą całkowitą):
+- Produkcja musi być liczbą nieujemną:
 $$
-\forall{p \in PRODUCTS}: production[p] \in \mathbb{N}
+\forall{p \in PRODUCTS}: production[p] \ge 0
 $$
 
 ## Funkcja oceny
@@ -284,13 +282,13 @@ Model bazuje na przygotowanym modelu podstawowym. W tym rozdziale zostaną zdefi
 - $\varepsilon  = 10^{-4} / 5 = 2 \cdot 10^{-5}$ - parametr z wagą jaką będziemy przyjmować dla sumy zmiennych celu. Zapewnia on, że każde otrzymane rozwiązanie będzie efektywne,
 - $OBJECTIVE\_RANGE[o][r],\ o \in OBJECTIVES,\ r \in RANGE$ - wyliczone na podstawie bazowego modelu dla każdej zmiennej celu wartości utopii i nadiru:
 
-$OBJECTIVE\_RANGE[o][r]$ | utopia | nadir
--------------------------|--------|------
-S1                       | 64     | 106
-S2                       | 48     | 55
-income                   | 208    | 134
-emissions                | 22     | 28
-cost                     | 30     | 42
+$OBJECTIVE\_RANGE[o][r]$ | utopia  | nadir
+-------------------------|---------|--------
+S1                       | 60.2941 | 110
+S2                       | 47.6667 | 55
+income                   | 216.667 | 130
+emissions                | 21.6667 | 28.2778
+cost                     | 28.6765 | 44.5
 
 ## Zmienne decyzyjne
 
@@ -502,7 +500,7 @@ param ASPIRATIONS{o in OBJECTIVES};
 
 #############################################################################
 
-var production{p in PRODUCTS} integer >= 0;
+var production{p in PRODUCTS} >= 0;
 
 var component_usage{c in COMPONENTS};
 
@@ -582,11 +580,11 @@ param EPSILON := 2e-5;
 
 param OBJECTIVE_RANGE
 	:			utopia		nadir	:=
-	S1			64		    106
-	S2			48          55
-	income		208         134
-	emissions	22          28
-	cost		30          42      ;
+	S1			60.2941     110
+	S2			47.6667     55
+	income		216.667     130
+	emissions	21.6667     28.2778
+	cost		28.6765     44.5    ;
 
 end;
 ```
@@ -658,18 +656,18 @@ display lambda;
 
 Zysk (tyś.PLN) | Poziom emisji (kg) | Koszty (tys.PLN)
 ---------------|--------------------|-----------------
-154            | 23                 | 33
+158.72         | 23.2622            | 33.7866
 
 Produkt | Ilość wytworzonych sztuk
 --------|-------------------------
 P1      | 3
-P2      | 5
+P2      | 5.2622
 P3      | 5
 
 Materiał | Wykorzystanie (kg)
 ---------|-------------------
-S1       | 76
-S2       | 49
+S1       | 78.622
+S2       | 49.2622
 S3       | 22
 
 Wszystkie ograniczenia zostały spełnione, a także wszystkie aspiracje zostały osiągnięte.
@@ -733,18 +731,18 @@ display tolerance;
 
 Zysk (tyś.PLN) | Poziom emisji (kg) | Koszty (tys.PLN)
 ---------------|--------------------|-----------------
-154            | 23                 | 33
+150            | 22.7778            | 32.3333
 
 Produkt | Ilość wytworzonych sztuk
 --------|-------------------------
 P1      | 3
-P2      | 5
+P2      | 4.77778
 P3      | 5
 
 Materiał | Wykorzystanie (kg)
 ---------|-------------------
-S1       | 76
-S2       | 49
+S1       | 73.7778
+S2       | 48.7778
 S3       | 22
 
 Wszystkie ograniczenia zostały spełnione, a także wszystkie aspiracje zostały osiągnięte.
@@ -755,26 +753,32 @@ Wszystkie ograniczenia zostały spełnione, a także wszystkie aspiracje został
 
 Model                                  | Zysk (tyś.PLN) | Poziom emisji (kg) | Koszty (tys.PLN)
 ---------------------------------------|----------------|--------------------|-----------------
-metoda punktu odniesienia              | 154            | 23                 | 33
-zbiory rozmyte z podejściem Zimmermana | 154            | 23                 | 33
+metoda punktu odniesienia              | 158.72         | 23.2622            | 33.7866
+zbiory rozmyte z podejściem Zimmermana | 150            | 22.7778            | 32.3333
 
 Produkt | metoda punktu odniesienia | zbiory rozmyte z podejściem Zimmermana
 --------|---------------------------|---------------------------------------
 P1      | 3                         | 3
-P2      | 5                         | 5
+P2      | 5.2622                    | 4.77778
 P3      | 5                         | 5
 
 Materiał | metoda punktu odniesienia | zbiory rozmyte z podejściem Zimmermana
 ---------|---------------------------|---------------------------------------
-S1       | 76                        | 76
-S2       | 49                        | 49
+S1       | 78.622                    | 73.7778
+S2       | 49.2622                   | 48.7778
 S3       | 22                        | 22
-
-Oba modele uzyskały dokładnie takie same wyniki.
 
 Uzyskane wyniki są bardzo pozytywne. Wszystkie aspiracje zostały spełnione.
 
-Zostało zauważone, że w przypadku podejścia Zimmermana ograniczenie $\alpha \le 1$ mogło prowadzić do rozwiązania, które byłoby zdominowane (pod względem zysku, poziomu emisji lub kosztów). Dla podanych parametrów, po usunięciu tego górnego ograniczenia maksymalna osiągnięta wartość zmiennej $\alpha$ jaką udało się uzyskać to 1.2. Tak uzyskane rozwiązanie okazuje się być jednakowe jak rozwiązanie z tym ograniczeniem, jednak przy maksymalizacji ograniczonej do wartości 1, nie mielibyśmy pewności czy tak jest na pewno.
+Metoda punktu odniesienia uzyskała rozwiązanie, które jest lepsze pod względem kosztów od rozwiązania otrzymanego za pomocą zbiorów rozmytych z podejściem Zimmermana.
+
+Zostało zauważone, że w przypadku podejścia Zimmermana ograniczenie $\alpha \le 1$ mogło prowadzić do rozwiązania, które spełnia wszystkie aspiracje, ale mogłoby być zdominowane przez inne lepsze rozwiązanie. Dla podanych parametrów, po usunięciu tego górnego ograniczenia maksymalna osiągnięta wartość zmiennej $\alpha$ jaką udało się uzyskać to 1.2. Tak uzyskane rozwiązanie jest bardziej zrównoważone względem obu podejść:
+
+Model                                                     | Zysk (tyś.PLN) | Poziom emisji (kg) | Koszty (tys.PLN)
+----------------------------------------------------------|----------------|--------------------|-----------------
+podejście Zimmermana bez górnego ograniczenia na $\alpha$ | 154            | 23                 | 33
+
+Rozwiązanie prowadzi do większych zysków, jednak jest gorsze od poprzedniego rozwiązania pod względem kosztów i poziomu emisji.
 
 \newpage
 
@@ -841,18 +845,7 @@ objective_income <- c(9, 19, 9)
 objective_emissions <- c(1, 1, 3)
 objective_cost <- c(1, 3, 3)
 
-cat("Maximizing/Minimizing only the objective\n\n")
-
-result <- calculate(objective_income, 250, 20, TRUE)
-show_results(result, "income")
-
-result <- calculate(objective_emissions, 20, 2, FALSE)
-show_results(result, "emissions")
-
-result <- calculate(objective_cost, 26, 2, FALSE)
-show_results(result, "cost")
-
-cat("\n\nTrying only to reach the aspirations\n\n")
+cat("\nResults:\n\n")
 
 result <- calculate(objective_income, 150, 20, TRUE)
 show_results(result, "income")
@@ -867,38 +860,7 @@ show_results(result, "cost")
 W rezultacie wywołania programu otrzymujemy następujące wyniki:
 
 ```
-Maximizing/Minimizing only the objective
-
-Bound reached, FCLP.fixedBeta with beta = 0.08 may obtain better results.
-objective = income 
-income = 231.6 
-emissions = 26.55385 
-cost = 43.07692 
-S1_component_usage = 109.2 
-S2_component_usage = 54.6 
-S3_component_usage = 23.16923 
-
-Bound reached, FCLP.fixedBeta with beta = 0.3103448 may obtain better results.
-objective = emissions 
-income = 136.2069 
-emissions = 21.37931 
-cost = 28.13793 
-S1_component_usage = 59.7931 
-S2_component_usage = 47.37931 
-S3_component_usage = 22 
-
-Bound reached, FCLP.fixedBeta with beta = 0.2340967 may obtain better results.
-objective = cost 
-income = 134.6819 
-emissions = 21.75573 
-cost = 27.53181 
-S1_component_usage = 56.61578 
-S2_component_usage = 53.82952 
-S3_component_usage = 25.47074 
-
-
-
-Trying only to reach the aspirations
+Results:
 
 Bound reached, FCLP.fixedBeta with beta = 1 may obtain better results.
 objective = income 
@@ -928,7 +890,16 @@ S2_component_usage = 48.10526
 S3_component_usage = 22
 ```
 
-Tym razem nie udało się wymusić całkowitoliczbowych wyników, ponieważ biblioteka FuzzyLP nie posiada wsparcia dla tego typu zadań. Otrzymane wyniki spełniają ograniczenia oraz wszystkie aspiracje.
+Otrzymane wyniki podobnie jak w poprzednich zadaniach spełniają ograniczenia oraz wszystkie aspiracje.
+
+Model                                                     | Zysk (tyś.PLN) | Poziom emisji (kg) | Koszty (tys.PLN)
+----------------------------------------------------------|----------------|--------------------|-----------------
+metoda punktu odniesienia                                 | 158.72         | 23.2622            | 33.7866
+zbiory rozmyte z podejściem Zimmermana                    | 150            | 22.7778            | 32.3333
+podejście Zimmermana bez górnego ograniczenia na $\alpha$ | 154            | 23                 | 33
+zbiory rozmyte z biblioteką FuzzyLP                       | 150            | 22.10526           | 30.31579
+
+Okazuje się, że rozwiązanie otrzymane z wykorzystaniem podejścia Zimmermana prowadzi do rezultatu, który jest zdominowany przez rozwiązanie otrzymane biblioteką FuzzyLP. Najprawdopodobniej wynika to z faktu, że podejście Zimmermana może zwrócić dowolne rozwiązanie, które spełnia wszystkie aspiracje (takie, dla którego $\alpha = 1$).
 
 \newpage
 

@@ -7,10 +7,10 @@ param EPSILON := 2e-5;
 
 param OBJECTIVE_RANGE
 	:			utopia		nadir	:=
-	S1			64		    106
-	S2			48          55
-	income		208         134
-	emissions	22          28
-	cost		30          42      ;
+	S1			60.2941     110
+	S2			47.6667     55
+	income		216.667     130
+	emissions	21.6667     28.2778
+	cost		28.6765     44.5    ;
 
 end;
