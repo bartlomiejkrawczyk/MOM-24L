@@ -905,7 +905,11 @@ Okazuje się, że rozwiązanie otrzymane z wykorzystaniem podejścia Zimmermana 
 
 # 8. Zaproponuj i zastosuj graficzną formę analizy rozwiązań.
 
-W ramach graficznej analizy rozwiązania została przygotowana seria wykresów zawierających funkcje przynależności dla poszczególnych celów.
+Wyniki dla metody Zimmermana wyznaczane poprzez ustalenie poziomu alpha zostały zaprezentowane na wykresie:
+
+![Rozwiązanie graficzne](./img/mom_result_2.png)
+
+W ramach graficznej analizy rozwiązania została dodatkowo przygotowana seria wykresów zawierających funkcje przynależności dla poszczególnych celów. Rozwiązania z obu modeli zostały oznaczone czerwonym kolorem (metoda punktu odniesienia) i zielonym kolorem (podejście Zimmermana).
 
 ![Funkcje przynależności](./img/mom_result.png)
 
@@ -926,3 +930,4 @@ W ramach graficznej analizy rozwiązania została przygotowana seria wykresów z
 2. Trudności w interpretacji wyników.
 3. Subiektywność w definiowaniu funkcji przynależności - proces definiowania funkcji przynależności może być subiektywny i zależeć od wiedzy oraz doświadczenia osoby modelującej.
 4. Wyniki modelu z ograniczeniami rozmytymi może mieć wyniki obarczone większą niepewnością.
+5. Każde rozwiązanie spełniające aspiracje jest traktowane jednakowo.
