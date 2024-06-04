@@ -930,4 +930,4 @@ W ramach graficznej analizy rozwiązania została dodatkowo przygotowana seria w
 2. Trudności w interpretacji wyników.
 3. Subiektywność w definiowaniu funkcji przynależności - proces definiowania funkcji przynależności może być subiektywny i zależeć od wiedzy oraz doświadczenia osoby modelującej.
 4. Wyniki modelu z ograniczeniami rozmytymi może mieć wyniki obarczone większą niepewnością.
-5. Każde rozwiązanie spełniające aspiracje jest traktowane jednakowo.
+5. W przypadku spełnienia aspiracji każde rozwiązanie spełniające nasze aspiracje jest traktowane jednakowo.
